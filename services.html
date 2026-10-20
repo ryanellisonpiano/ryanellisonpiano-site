@@ -31,7 +31,66 @@
 <section class="wrap prose">
 <table class="prices">
 <thead><tr><th>Service</th><th>What it covers</th><th>Price</th></tr></thead>
-<tbody><tr><th scope="row">Minimum Ear Tuning</th><td class="what">Basic tuning for everyday playing, or pianos that can&#x27;t hold concert pitch</td><td class="price">$99</td></tr><tr><th scope="row">Full Ear Tuning</th><td class="what">Fine tuning at concert pitch</td><td class="price"><span data-price="full">$199</span></td></tr><tr><th scope="row">Pin setting add-on</th><td class="what">Re-tensions loose or low tuning pins</td><td class="price"><span data-price="pin">+$70</span></td></tr><tr><th scope="row">Repeat customer discount</th><td class="what">Full Ear Tuning within 18 months of your last tuning</td><td class="price">−$40</td></tr><tr><th scope="row">New Piano Initial Prep</th><td class="what">Pin setting, fine tuning and minimum regulation for a new piano</td><td class="price"><span data-price="prep">$495</span></td></tr><tr><th scope="row">Minimum Regulation</th><td class="what">Action regulation to performance level</td><td class="price"><span data-price="reg">$165</span></td></tr><tr><th scope="row">D.S.H. Maintenance</th><td class="what">Calibration and adjustments. Paid in full by credit card when you book</td><td class="price"><span data-price="dsh">$179</span></td></tr><tr><th scope="row">Repairs</th><td class="what">Sticky keys, broken strings and other acoustic repairs</td><td class="price">from $79</td></tr><tr><th scope="row">Other work</th><td class="what">Full regulation, voicing, hammer mating and bigger projects</td><td class="price">Quote on request</td></tr></tbody></table><p>Disklavier, Silent or Hybrid? See <a href="disklavier-silent-hybrid.html">D.S.H. service</a>.</p>
+<tbody><tr><th scope="row">Minimum Ear Tuning</th><td class="what">Basic tuning for everyday playing, or pianos that can&#x27;t hold concert pitch</td><td class="price">$99</td></tr><tr><th scope="row">Full Ear Tuning</th><td class="what">Fine tuning at concert pitch</td><td class="price"><span data-price="full">$199</span></td></tr><tr><th scope="row">Pin setting add-on</th><td class="what">Re-tensions loose or low tuning pins</td><td class="price"><span data-price="pin">+$70</span></td></tr><tr><th scope="row">Repeat customer discount</th><td class="what">Full Ear Tuning within 18 months of your last tuning</td><td class="price">−$40</td></tr><tr><th scope="row">New Piano Initial Prep</th><td class="what">Pin setting, fine tuning and minimum regulation for a new piano</td><td class="price"><span data-price="prep">$495</span></td></tr><tr><th scope="row">Minimum Regulation</th><td class="what">Action regulation to performance level</td><td class="price"><span data-price="reg">$165</span></td></tr><tr><th scope="row">D.S.H. Maintenance</th><td class="what">Calibration and adjustments. Paid in full by credit card when you book</td><td class="price"><span data-price="dsh">$179</span></td></tr><tr><th scope="row">Repairs</th><td class="what">Sticky keys, broken strings and other acoustic repairs</td><td class="price">from $79</td></tr><tr><th scope="row">Other work</th><td class="what">Full regulation, voicing, hammer mating and bigger projects</td><td class="price">Quote on request</td></tr></tbody></table>
+<section id="cal-section" hidden>
+<h2>Pick your day</h2>
+<p>Choose your area. Green days are when I am already working near you, so they are the easiest to book. Tap a day to see its price.</p>
+<div class="cal-tabs" id="cal-tabs" role="tablist">
+<button type="button" data-a="la" class="on">Cerritos &amp; LA</button>
+<button type="button" data-a="oc">Irvine &amp; Orange County</button>
+<button type="button" data-a="far">Riverside &amp; beyond</button>
+</div>
+<div class="cal-key"><span><i class="gr"></i>Best day</span><span><i class="ye"></i>Open</span><span><i class="or"></i>Limited</span><span><i class="na"></i>Closed</span></div>
+<div id="cal"></div>
+<div id="cal-info" aria-live="polite">Select a day.</div>
+<p><a class="btn primary" href="https://gazelleapp.io/scheduling/p1CPJwKXWzDxfFYGpxzMSb9p">Book online</a></p>
+</section>
+<script>
+(function () {
+  var S = {"2026-11-02": {"min": 99, "full": 199, "pin": 70, "disc": -40, "prep": 495, "reg": 165, "dsh": 179}, "2026-11-09": {"min": 99, "full": 199, "pin": 70, "disc": -40, "prep": 505, "reg": 165, "dsh": 179}, "2026-11-16": {"min": 99, "full": 209, "pin": 75, "disc": -40, "prep": 515, "reg": 175, "dsh": 189}, "2026-11-23": {"min": 99, "full": 209, "pin": 75, "disc": -40, "prep": 525, "reg": 175, "dsh": 189}, "2026-11-30": {"min": 99, "full": 219, "pin": 75, "disc": -40, "prep": 535, "reg": 175, "dsh": 189}, "2026-12-07": {"min": 99, "full": 219, "pin": 75, "disc": -40, "prep": 545, "reg": 185, "dsh": 199}, "2026-12-14": {"min": 99, "full": 219, "pin": 80, "disc": -40, "prep": 555, "reg": 185, "dsh": 199}, "2026-12-21": {"min": 99, "full": 229, "pin": 80, "disc": -40, "prep": 565, "reg": 185, "dsh": 209}, "2026-12-28": {"min": 99, "full": 199, "pin": 70, "disc": -40, "prep": 495, "reg": 165, "dsh": 179}, "2027-01-04": {"min": 99, "full": 199, "pin": 70, "disc": -40, "prep": 495, "reg": 165, "dsh": 179}, "2027-01-11": {"min": 99, "full": 199, "pin": 70, "disc": -40, "prep": 495, "reg": 165, "dsh": 179}, "2027-01-18": {"min": 99, "full": 199, "pin": 70, "disc": -40, "prep": 495, "reg": 165, "dsh": 179}, "2027-01-25": {"min": 99, "full": 199, "pin": 70, "disc": -40, "prep": 495, "reg": 165, "dsh": 179}, "base": {"min": 99, "full": 199, "pin": 70, "disc": -40, "prep": 495, "reg": 165, "dsh": 179}}, keys = Object.keys(S).filter(function (k) { return k !== 'base'; }).sort();
+  var area = 'la', NEAR = [4, 5, 6], FAR = [1, 2], END = new Date(2026, 11, 24);
+  var now = new Date(), today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  if (today > END) return;
+  document.getElementById('cal-section').hidden = false;
+  function iso(d) { return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+  function wk(d) { var t = new Date(d); t.setDate(t.getDate() - ((t.getDay() + 6) % 7)); var m = iso(t), c = null; keys.forEach(function (k) { if (k <= m) c = k; }); return c; }
+  function cls(d) { var w = d.getDay(); if (w === 0) return 'na'; if (w === 3) return 'ye'; return (area === 'far' ? FAR : NEAR).indexOf(w) > -1 ? 'gr' : 'or'; }
+  function draw() {
+    var out = '', y = today.getFullYear(), m = today.getMonth();
+    while (new Date(y, m, 1) <= END) {
+      var first = new Date(y, m, 1), n = new Date(y, m + 1, 0).getDate();
+      out += '<div class="cal-m"><h3>' + first.toLocaleString('en', { month: 'long' }) + ' ' + y + '</h3><div class="cal-g">';
+      'MTWTFSS'.split('').forEach(function (x) { out += '<div class="cd hd">' + x + '</div>'; });
+      for (var i = 0; i < (first.getDay() + 6) % 7; i++) out += '<div class="cd xx"></div>';
+      for (var d = 1; d <= n; d++) {
+        var dt = new Date(y, m, d);
+        if (dt < today || dt > END) { out += '<div class="cd xx"></div>'; continue; }
+        var c = cls(dt);
+        out += '<div class="cd ' + c + '" data-d="' + iso(dt) + '" data-c="' + c + '" role="button" tabindex="0">' + d + '</div>';
+      }
+      out += '</div></div>';
+      m++; if (m > 11) { m = 0; y++; }
+    }
+    document.getElementById('cal').innerHTML = out;
+  }
+  function pick(t) {
+    if (!t || !t.dataset.d || t.dataset.c === 'na') return;
+    document.querySelectorAll('.cd.sel').forEach(function (x) { x.classList.remove('sel'); });
+    t.classList.add('sel');
+    var d = new Date(t.dataset.d + 'T12:00'), k = wk(d), P = k ? S[k] : S.base;
+    var msg = { gr: 'Best day for your area.', ye: 'Open.', or: 'Limited in your area. Call or text to ask.' }[t.dataset.c];
+    document.getElementById('cal-info').innerHTML = '<b>' + d.toLocaleDateString('en', { weekday: 'long', month: 'long', day: 'numeric' }) + '</b><br>' + msg + '<br>Full Ear Tuning $' + P.full + ' &middot; Pin setting +$' + P.pin;
+  }
+  document.getElementById('cal-tabs').addEventListener('click', function (e) {
+    if (!e.target.dataset.a) return; area = e.target.dataset.a;
+    document.querySelectorAll('#cal-tabs button').forEach(function (b) { b.classList.toggle('on', b === e.target); });
+    draw(); document.getElementById('cal-info').textContent = 'Select a day.';
+  });
+  document.getElementById('cal').addEventListener('click', function (e) { pick(e.target.closest('.cd')); });
+  document.getElementById('cal').addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(e.target.closest('.cd')); } });
+  draw();
+})();
+</script><p>Disklavier, Silent or Hybrid? See <a href="disklavier-silent-hybrid.html">D.S.H. service</a>.</p>
 </section><section class="cta"><div class="wrap">
 <p>Ready to book? Pick a time online or call (657) 438-4984.</p>
 <p class="actions"><a class="btn primary" href="https://gazelleapp.io/scheduling/p1CPJwKXWzDxfFYGpxzMSb9p">Book online</a>

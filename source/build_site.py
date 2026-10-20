@@ -267,6 +267,68 @@ def price_table():
 <tbody>{rows}</tbody></table>"""
 
 
+CAL_HTML = """
+<section id="cal-section" hidden>
+<h2>Pick your day</h2>
+<p>Choose your area. Green days are when I am already working near you, so they are the easiest to book. Tap a day to see its price.</p>
+<div class="cal-tabs" id="cal-tabs" role="tablist">
+<button type="button" data-a="la" class="on">Cerritos &amp; LA</button>
+<button type="button" data-a="oc">Irvine &amp; Orange County</button>
+<button type="button" data-a="far">Riverside &amp; beyond</button>
+</div>
+<div class="cal-key"><span><i class="gr"></i>Best day</span><span><i class="ye"></i>Open</span><span><i class="or"></i>Limited</span><span><i class="na"></i>Closed</span></div>
+<div id="cal"></div>
+<div id="cal-info" aria-live="polite">Select a day.</div>
+<p><a class="btn primary" href="__BOOK__">Book online</a></p>
+</section>
+<script>
+(function () {
+  var S = __SCHEDULE__, keys = Object.keys(S).filter(function (k) { return k !== 'base'; }).sort();
+  var area = 'la', NEAR = [4, 5, 6], FAR = [1, 2], END = new Date(2026, 11, 24);
+  var now = new Date(), today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+  if (today > END) return;
+  document.getElementById('cal-section').hidden = false;
+  function iso(d) { return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+  function wk(d) { var t = new Date(d); t.setDate(t.getDate() - ((t.getDay() + 6) % 7)); var m = iso(t), c = null; keys.forEach(function (k) { if (k <= m) c = k; }); return c; }
+  function cls(d) { var w = d.getDay(); if (w === 0) return 'na'; if (w === 3) return 'ye'; return (area === 'far' ? FAR : NEAR).indexOf(w) > -1 ? 'gr' : 'or'; }
+  function draw() {
+    var out = '', y = today.getFullYear(), m = today.getMonth();
+    while (new Date(y, m, 1) <= END) {
+      var first = new Date(y, m, 1), n = new Date(y, m + 1, 0).getDate();
+      out += '<div class="cal-m"><h3>' + first.toLocaleString('en', { month: 'long' }) + ' ' + y + '</h3><div class="cal-g">';
+      'MTWTFSS'.split('').forEach(function (x) { out += '<div class="cd hd">' + x + '</div>'; });
+      for (var i = 0; i < (first.getDay() + 6) % 7; i++) out += '<div class="cd xx"></div>';
+      for (var d = 1; d <= n; d++) {
+        var dt = new Date(y, m, d);
+        if (dt < today || dt > END) { out += '<div class="cd xx"></div>'; continue; }
+        var c = cls(dt);
+        out += '<div class="cd ' + c + '" data-d="' + iso(dt) + '" data-c="' + c + '" role="button" tabindex="0">' + d + '</div>';
+      }
+      out += '</div></div>';
+      m++; if (m > 11) { m = 0; y++; }
+    }
+    document.getElementById('cal').innerHTML = out;
+  }
+  function pick(t) {
+    if (!t || !t.dataset.d || t.dataset.c === 'na') return;
+    document.querySelectorAll('.cd.sel').forEach(function (x) { x.classList.remove('sel'); });
+    t.classList.add('sel');
+    var d = new Date(t.dataset.d + 'T12:00'), k = wk(d), P = k ? S[k] : S.base;
+    var msg = { gr: 'Best day for your area.', ye: 'Open.', or: 'Limited in your area. Call or text to ask.' }[t.dataset.c];
+    document.getElementById('cal-info').innerHTML = '<b>' + d.toLocaleDateString('en', { weekday: 'long', month: 'long', day: 'numeric' }) + '</b><br>' + msg + '<br>Full Ear Tuning $' + P.full + ' &middot; Pin setting +$' + P.pin;
+  }
+  document.getElementById('cal-tabs').addEventListener('click', function (e) {
+    if (!e.target.dataset.a) return; area = e.target.dataset.a;
+    document.querySelectorAll('#cal-tabs button').forEach(function (b) { b.classList.toggle('on', b === e.target); });
+    draw(); document.getElementById('cal-info').textContent = 'Select a day.';
+  });
+  document.getElementById('cal').addEventListener('click', function (e) { pick(e.target.closest('.cd')); });
+  document.getElementById('cal').addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(e.target.closest('.cd')); } });
+  draw();
+})();
+</script>""".replace("__SCHEDULE__", json.dumps(SCHEDULE)).replace("__BOOK__", SITE["book"])
+
+
 def schedule_table():
     cols = [("full", "Full Ear Tuning"), ("pin", "Pin setting"), ("prep", "New piano prep"), ("reg", "Min. regulation"), ("dsh", "D.S.H.")]
     head = "".join(f"<th>{e(n)}</th>" for _, n in cols)
@@ -485,6 +547,7 @@ PAGES["services.html"] = (
         "Services and prices",
         "Flat rates for the services below, updated weekly. Anything else is $99 an hour, with a $99 minimum service call. Payment is due at the time of service.",
         price_table()
+        + CAL_HTML
         + '<p>Disklavier, Silent or Hybrid? See <a href="disklavier-silent-hybrid.html">D.S.H. service</a>.</p>',
     )
     + cta(),
@@ -804,6 +867,13 @@ a:hover{color:var(--brass-d)}
 .prose h3+p{margin-top:0}
 ul.plain{list-style:none;padding:0}ul.plain li{margin:.8em 0}
 .areas.three h3{margin-top:.2em}
+.cal-tabs{display:flex;gap:6px;margin:10px 0}.cal-tabs button{flex:1;padding:10px 4px;border-radius:10px;border:1px solid var(--rule);background:#fff;color:var(--felt);font:600 .9rem var(--display);cursor:pointer}.cal-tabs button.on{background:var(--felt);color:#fff}
+.cal-key{display:flex;flex-wrap:wrap;gap:12px;font-size:.9rem;margin-bottom:10px}.cal-key i{display:inline-block;width:14px;height:14px;border-radius:4px;margin-right:5px;vertical-align:-2px}
+.cal-m{background:var(--felt-d);border-radius:14px;padding:14px;margin-bottom:14px}.cal-m h3{margin:0 0 8px;color:var(--brass);font:700 1.05rem var(--display)}
+.cal-g{display:grid;grid-template-columns:repeat(7,1fr);gap:4px}.cd{aspect-ratio:1;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:600;color:#10142b;cursor:pointer;border:2px solid transparent}
+.cd.hd{aspect-ratio:auto;color:#aab2d0;font-weight:400;font-size:.8rem;cursor:default}.cd.xx{cursor:default}
+.gr{background:#5fd18b}.ye{background:#f2cf4f}.or{background:#f0a24a}.na{background:#2a3266;color:#8890b8;cursor:default}.cd.sel{border-color:#fff}
+#cal-info{background:var(--steel);border-radius:12px;padding:14px;margin:0 0 14px}
 .sched-wrap{overflow-x:auto;margin:8px 0 12px}
 .sched{width:100%;min-width:520px;border-collapse:collapse}
 .sched th,.sched td{padding:9px 10px;text-align:right;border-bottom:1px solid #cfd4d1}

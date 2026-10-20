@@ -536,26 +536,26 @@ PAGES["bellharp.html"] = (
         "The Bellharp",
         "My ideas on achieving bell-like tone in the modern grand piano. #hammerbellharp #bellharp",
         """<h2>A golden age of piano technology</h2>
-<p>Modern grand pianos are in a class of their own compared with those of just a few decades ago: more powerful yet more subtle, with faster keyboards made from better materials. In my opinion, they have moved so far past their predecessors that the instrument is on the verge of being redefined.</p>
+<p>Modern grand pianos are in a class of their own: more powerful yet more subtle, with faster keyboards and better materials. In my opinion, the instrument is on the verge of being redefined.</p>
 
 <h2>My Bellharp concept</h2>
-<p>I believe a bell-like essence is built into the grand piano's design, like a seed lying dormant.</p>
+<p>I believe a bell-like essence is built into the grand piano's design.</p>
 <blockquote class="quote"><p>To play the piano is to play a chromatic keyed bell.</p></blockquote>
-<p>So how do I draw out that bell tone? By focusing the instrument's energy through tuning and regulation.</p>
+<p>I draw it out through tuning and regulation.</p>
 
 <h2>Tuning</h2>
-<p>Aural tuning is a key principle of bell tone. I start from an external pitch, a Japanese tuning fork, matched to the piano's A4. Then I build the tuning note by note, like a cell dividing, each note derived from the one before it.</p>
+<p>Aural tuning is key to bell tone. I start from a Japanese tuning fork matched to A4, then build the tuning note by note, each derived from the one before it.</p>
 <h3>The temperament, the heart of the piano</h3>
-<p>The 12-note temperament, tuned in the third and fourth octaves, sets the width of the twelve base tones. I tune it in a circular pattern so every note relates to its neighbors, then tune the octaves above and below by ear. This fully aural method brings out the bell characteristics already in the frame.</p>
+<p>I tune the 12-note temperament in a circular pattern so every note relates to its neighbors, then tune the octaves above and below by ear. This brings out the bell characteristics already in the frame.</p>
 
 <h2>Tensioning the bell frame</h2>
-<p>Because I believe the frame is a major part of piano sound, I tension it firmly. If a tuning pin is lax, the string doesn't pull on the frame as it should, and the sound suffers.</p>
+<p>I tension the frame firmly. If a tuning pin is lax, the string doesn't pull on the frame as it should, and the sound suffers.</p>
 
 <h2>How I picture the piano</h2>
-<p>I picture the grand piano as a tetrahedron, a shape that holds the sound like a vessel, with the cast-iron frame, the real bellharp, at its center.</p>
+<p>I picture the grand piano as a tetrahedron that holds sound like a vessel, with the cast-iron frame, the real bellharp, at its center.</p>
 
 <h2>The action, regulated by ear</h2>
-<p>If the piano is a chromatic keyed bell, the modern double-escapement action is its clapper: a sophisticated hammer mechanism that strikes the bell and sets it resonating. Every small deviation from specification costs some beauty of sound, so I regulate by listening, judging how the touch affects what the musician hears. I bed the keyboard solidly, then use my ear to find the ratio of key depth to striking distance that gives the liveliest bell tone. Every piano is unique.</p>
+<p>If the piano is a keyed bell, the double-escapement action is its clapper. I regulate by listening, judging how the touch affects what the musician hears, and I use my ear to find the ratio of key depth to striking distance that gives the liveliest bell tone.</p>
 
 <p class="big">Then I sit back and enjoy. Let the piano do its magic under your fingers.</p>""",
     )

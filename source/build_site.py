@@ -187,8 +187,8 @@ def price_table():
 
 
 # ---------- Playable keyboard (hero) ----------
-# Keyboard range: F3 to E4 (MIDI 53 to 64)
-FIRST, LAST = 53, 64
+# Keyboard range: F3 to E5 (MIDI 53 to 76)
+FIRST, LAST = 53, 76
 NOTE_NAMES = ["C", "C sharp", "D", "D sharp", "E", "F", "F sharp", "G", "G sharp", "A", "A sharp", "B"]
 BLACK_PCS = {1, 3, 6, 8, 10}
 
@@ -209,7 +209,7 @@ def keyboard():
                 f'<button class="bk" type="button" data-midi="{bm}" aria-label="{bname}" '
                 f'style="left:{left:.3f}%;width:{w * 0.6:.3f}%"></button>'
             )
-    return f'<div class="keys" role="group" aria-label="Piano keyboard from F3 to E4, tap to play">{"".join(keys)}{"".join(blacks)}</div>'
+    return f'<div class="keys" role="group" aria-label="Piano keyboard from F3 to E5, tap to play">{"".join(keys)}{"".join(blacks)}</div>'
 
 
 KEY_JS = """
@@ -534,7 +534,7 @@ a:hover{color:var(--brass-d)}
 .hero{padding:56px 0 44px}
 .hero .lead{font-size:1.3rem;max-width:44ch;margin-top:1.2em;color:#2b3038}
 .keybed{background:var(--felt);padding:26px 0 22px;border-bottom:6px solid var(--brass)}
-.keys{position:relative;display:flex;max-width:620px;height:clamp(120px,22vw,190px);background:var(--ebony);padding:0 2px 3px;border-radius:0 0 8px 8px;user-select:none;-webkit-user-select:none;touch-action:manipulation}
+.keys{position:relative;display:flex;height:clamp(120px,22vw,190px);background:var(--ebony);padding:0 2px 3px;border-radius:0 0 8px 8px;user-select:none;-webkit-user-select:none;touch-action:manipulation}
 .wk{flex:1;border:0;border-right:1px solid #9aa09c;background:linear-gradient(#fff,#f3f2ec 85%,#d9d6c8);border-radius:0 0 5px 5px;padding:0;cursor:pointer;margin:0 .5px}
 .wk:last-of-type{border-right:0}
 .bk{position:absolute;top:0;height:62%;border:0;border-radius:0 0 4px 4px;background:linear-gradient(#34373d,#0f1013);cursor:pointer;padding:0;z-index:2;box-shadow:0 2px 3px rgba(0,0,0,.5)}

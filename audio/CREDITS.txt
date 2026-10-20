@@ -1,0 +1,3 @@
+Piano sounds: Salamander Grand Piano V2 by Alexander Holm.
+Licensed under Creative Commons Attribution 3.0 (CC BY 3.0): http://creativecommons.org/licenses/by/3.0/
+Samples were used as recorded; playback speed is adjusted slightly to reach neighboring notes.

@@ -135,7 +135,7 @@ def layout(fname, title, desc, body, schema=False, script=""):
       <a href="faq.html">Questions</a>
     </div>
   </div>
-  <div class="wrap fine">&copy; 2026 {e(SITE['name'])}, a service of {e(SITE['legal'])}. Registered Piano Technician, Piano Technicians Guild.</div>
+  <div class="wrap fine">&copy; 2026 {e(SITE['name'])}, a service of {e(SITE['legal'])}. Registered Piano Technician, Piano Technicians Guild.<br>Piano sounds: Salamander Grand Piano by Alexander Holm, <a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</div>
 </footer>
 <div class="mobilebar">
   <a class="btn" href="tel:{SITE['tel']}">Call</a>
@@ -216,22 +216,55 @@ KEY_JS = """
 <script>
 (function () {
   var ctx = null;
+  // Recorded piano samples (CC BY 3.0, see audio/CREDITS.txt). Key = MIDI note of the recording.
+  var SAMPLES = {54:'Fs3', 57:'A3', 60:'C4', 63:'Ds4', 66:'Fs4', 69:'A4', 72:'C5', 75:'Ds5', 78:'Fs5'};
+  var raw = {}, bufs = {};
   function audio() {
     if (!ctx) { var C = window.AudioContext || window.webkitAudioContext; if (!C) return null; ctx = new C(); }
     if (ctx.state === 'suspended') ctx.resume();
     return ctx;
   }
-  function hz(m) { return 440 * Math.pow(2, (m - 69) / 12); }
-  function tone(f, dur, peak, type) {
-    var c = audio(); if (!c) return;
-    var t = c.currentTime, o = c.createOscillator(), g = c.createGain();
-    o.type = type; o.frequency.value = f;
-    g.gain.setValueAtTime(0.0001, t);
-    g.gain.exponentialRampToValueAtTime(peak, t + 0.01);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
-    o.connect(g); g.connect(c.destination); o.start(t); o.stop(t + dur + 0.05);
+  function preload() {
+    Object.keys(SAMPLES).forEach(function (m) {
+      fetch('audio/' + SAMPLES[m] + '.mp3').then(function (r) { return r.arrayBuffer(); })
+        .then(function (b) { raw[m] = b; }).catch(function () {});
+    });
   }
-  function note(m) { var f = hz(m); tone(f, 1.8, 0.22, 'triangle'); tone(f * 2, 1.0, 0.05, 'sine'); }
+  if (document.readyState === 'complete') preload(); else window.addEventListener('load', preload);
+  function nearest(m) {
+    var best = null;
+    Object.keys(SAMPLES).forEach(function (r) { if (best === null || Math.abs(r - m) < Math.abs(best - m)) best = +r; });
+    return best;
+  }
+  function withBuf(root, cb) {
+    if (bufs[root]) return cb(bufs[root]);
+    if (!raw[root]) return cb(null);
+    ctx.decodeAudioData(raw[root].slice(0), function (b) { bufs[root] = b; cb(b); }, function () { cb(null); });
+  }
+  function synth(f, dur) {
+    var t = ctx.currentTime, o = ctx.createOscillator(), g = ctx.createGain();
+    o.type = 'triangle'; o.frequency.value = f;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.2, t + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(ctx.destination); o.start(t); o.stop(t + dur + 0.05);
+  }
+  function note(m, hold) {
+    var c = audio(); if (!c) return;
+    hold = hold || 2.6;
+    var root = nearest(m);
+    withBuf(root, function (b) {
+      if (!b) { synth(440 * Math.pow(2, (m - 69) / 12), hold); return; }
+      var t = c.currentTime, src = c.createBufferSource(), g = c.createGain();
+      src.buffer = b;
+      src.playbackRate.value = Math.pow(2, (m - root) / 12);
+      g.gain.setValueAtTime(0.9, t);
+      g.gain.setValueAtTime(0.9, t + hold - 0.9);
+      g.gain.linearRampToValueAtTime(0.0001, t + hold);
+      src.connect(g); g.connect(c.destination);
+      src.start(t); src.stop(t + hold + 0.05);
+    });
+  }
   var keys = document.querySelectorAll('.keys button');
   var status = document.getElementById('pitch-status');
   function down(el) { el.classList.add('down'); }
@@ -247,7 +280,7 @@ KEY_JS = """
   });
   var a = document.getElementById('play-a');
   if (a) a.addEventListener('click', function () {
-    tone(440, 3.5, 0.25, 'sine');
+    note(69, 4.5);
     var key = document.querySelector('.keys [data-midi="69"]');
     if (key) { key.classList.add('down'); setTimeout(function () { key.classList.remove('down'); }, 600); }
     if (status) status.textContent = 'Playing concert A at 440 Hz';
@@ -649,6 +682,7 @@ def main():
         script = page[4] if len(page) > 4 else ""
         with open(os.path.join(OUT, fname), "w", encoding="utf-8") as f:
             f.write(layout(fname, title, desc, body, schema, script))
+    shutil.copytree(os.path.join(HERE, "audio_src"), os.path.join(OUT, "audio"))
     with open(os.path.join(OUT, "style.css"), "w", encoding="utf-8") as f:
         f.write(CSS.strip() + "\n")
     urls = "".join(

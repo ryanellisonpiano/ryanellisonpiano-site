@@ -30,9 +30,10 @@ SITE = {
 }
 
 NAV = [
-    ("services.html", "Services and prices"),
+    ("services.html", "Services"),
     ("disklavier-silent-hybrid.html", "Disklavier, Silent, Hybrid"),
     ("bosendorfer.html", "Bösendorfer"),
+    ("bellharp.html", "Bellharp"),
     ("service-area.html", "Service area"),
     ("about.html", "About"),
     ("faq.html", "FAQ"),
@@ -527,6 +528,47 @@ PAGES["about.html"] = (
     + cta(),
 )
 
+# ---------------- Bellharp ----------------
+PAGES["bellharp.html"] = (
+    "The Bellharp: Bell-Like Piano Tone",
+    "My ideas on achieving bell-like tone in the modern grand piano through aural tuning and regulation by ear.",
+    inner(
+        "The Bellharp",
+        "My ideas on achieving bell-like tone in the modern grand piano. #bellharp #hammerbellharp",
+        """<h2>A golden age of piano technology</h2>
+<p>Musicians today live in a golden age of piano technology. Modern grand pianos are in a class of their own compared with their forebears of just a few decades ago. They are more powerful yet more subtle, and their keyboards respond faster and are built from better materials that resist wear and the environment.</p>
+<p>In my opinion, modern grands have moved so far past their predecessors, and past today's keyboard counterparts, that the instrument is on the verge of being redefined.</p>
+
+<h2>Introducing the Bellharp</h2>
+<p>At the heart of every modern grand piano, I believe, lies something greater than the sum of its parts, like a seed lying dormant. My assertion is that a bell-like essence is built into the grand piano's design.</p>
+<blockquote class="quote"><p>To play the piano is to play a chromatic keyed bell.</p></blockquote>
+<p>A new kind of instrument needs a new kind of approach. So how do I draw out that bell-like tone? In short, by focusing the instrument's bell energy through tuning and regulation.</p>
+
+<h2>Tuning</h2>
+<p>Aural tuning is a key principle of bell tone. I tune the old-fashioned way, starting from an external pitch: a tuning fork. My fine Japanese forks give an excellent pitch source, and I match the fork to the piano's A4 to begin. Then I build the tuning note by note, much as a cell divides one copy at a time. From first to last, each note is derived from the one before it.</p>
+<h3>The temperament, the heart of the piano</h3>
+<p>The 12-note temperament, tuned in the third and fourth octaves, sets the width of the twelve base tones. I tune it in a circular pattern, so every note relates to its neighbors around the circle. Then I tune the four octaves above and the three below, matching each to the one before it by ear. This fully aural method brings out the bell characteristics already present in the frame.</p>
+
+<h2>Tensioning the Bellharp so it sings</h2>
+<p>Modern grand piano harps are designed to hold enormous tension. Because I believe the frame is a major part of piano sound, I tension the bell-frame firmly, anchoring the bell in the position that best brings out its tone. If a tuning pin is lax, the string doesn't pull on the frame as it should, and the sound suffers.</p>
+
+<h2>How I picture the piano</h2>
+<p>I like to picture the grand piano as a tetrahedron, standing on three legs with four sides, a shape that holds the sound like a vessel. Inside it sits the cast-iron frame, the real bellharp, where the tonal center and basic scale design of the bell, drawn on a flat plane, take on a three-dimensional shape.</p>
+
+<h2>The modern grand action</h2>
+<p>After the frame and the sound structure, I turn to the modern double-escapement grand action. If the piano is a chromatic keyed bell, it needs a clapper: the part that strikes the bell and sets it resonating. In a modern grand, the action is a sophisticated chromatic hammer mechanism that does the clapper's job.</p>
+<h3>Regulating by ear</h3>
+<p>In today's modern pianos, every small deviation from specification has an audible cost to the beauty of the sound. It is as easy for a piano to resonate with ugly, forced sounds as with beautiful ones. That's why I listen to the piano and judge how the touch affects what the musician hears.</p>
+<h3>A solid foundation</h3>
+<p>The keyboard is bedded strongly enough to withstand the player's fortissimo blows. I stabilize the action like a cable-stayed bridge with several pylons, giving the piano a solid structure to strike from.</p>
+<h3>Key depth and striking distance</h3>
+<p>There is a narrow but workable "magic" ratio of key depth to striking distance that produces the liveliest bell tone. Every piano is unique, so I use my ear to find the best ratio for each one.</p>
+
+<p class="big">After putting these pieces together, I sit back and enjoy. Let the piano do its magic under your fingers.</p>""",
+    )
+    + cta("Curious what this could do for your piano? Call " + SITE["phone"] + " or book online."),
+)
+
 # ---------------- FAQ ----------------
 FAQ = [
     ("How often should I tune my piano?", "Twice a year for most pianos, and at least once a year. New or recently moved pianos need it more often in the first year."),
@@ -707,6 +749,12 @@ table.prices .price{grid-column:2;grid-row:1/3;align-self:center;font:700 1.5rem
   .work a{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:40px;align-items:baseline}
   .hero{padding:84px 0 64px}
   .pagehead{padding:72px 0 96px}
+}
+@media(min-width:900px) and (max-width:1219px){
+  .nav{display:none;width:100%;flex-direction:column;order:5;padding:6px 0 10px;gap:0}
+  .menu-toggle:checked ~ .nav{display:flex}
+  .nav a{border-top:1px solid #e3e6e4;padding:10px 0;font-size:1rem}
+  .menu-btn{display:inline-block}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 """

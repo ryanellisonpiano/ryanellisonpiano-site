@@ -9,7 +9,10 @@
 <meta property="og:title" content="Piano Tuner in Orange County and Cerritos">
 <meta property="og:description" content="Tuning and service for Bösendorfer, Yamaha, Disklavier, Silent and Hybrid pianos. Book online or call (657) 438-4984.">
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#1f2a37">
+<meta name="theme-color" content="#21423b">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap">
 <link rel="stylesheet" href="style.css">
 <script type="application/ld+json">
 {
@@ -46,56 +49,134 @@
 <header class="site-header">
   <div class="wrap bar">
     <a class="brand" href="index.html">Ryan Ellison Piano<small>Registered Piano Technician</small></a>
-    <input type="checkbox" id="menu" class="menu-toggle" aria-label="Toggle menu">
-    <label for="menu" class="menu-btn" aria-hidden="true">Menu</label>
-    <nav class="nav" aria-label="Main"><a href="index.html" aria-current="page">Home</a><a href="services.html">Services &amp; prices</a><a href="disklavier-silent-hybrid.html">Disklavier / Silent / Hybrid</a><a href="bosendorfer.html">Bösendorfer</a><a href="service-area.html">Service area</a><a href="about.html">About</a><a href="faq.html">FAQ</a><a href="contact.html">Contact</a></nav>
-    <a class="btn call" href="tel:+16574384984">Call (657) 438-4984</a>
+    <input type="checkbox" id="menu" class="menu-toggle" aria-label="Open menu">
+    <label for="menu" class="menu-btn">Menu</label>
+    <nav class="nav" aria-label="Main"><a href="services.html">Services and prices</a><a href="disklavier-silent-hybrid.html">Disklavier, Silent, Hybrid</a><a href="bosendorfer.html">Bösendorfer</a><a href="service-area.html">Service area</a><a href="about.html">About</a><a href="faq.html">FAQ</a><a href="contact.html">Contact</a></nav>
+    <a class="phone" href="tel:+16574384984">(657) 438-4984</a>
   </div>
 </header>
 <main id="main">
 <section class="hero"><div class="wrap">
 <h1>Piano tuning and service for Bösendorfer, Yamaha, Disklavier, Silent and Hybrid pianos</h1>
 <p class="lead">I'm Ryan Ellison, RPT. After ten years working on Yamaha pianos, I now serve homes, schools and churches across Orange County, Riverside and the Gateway Cities.</p>
-<p><a class="btn primary" href="https://gazelleapp.io/scheduling/p1CPJwKXWzDxfFYGpxzMSb9p">Book online</a>
+<p class="actions"><a class="btn primary" href="https://gazelleapp.io/scheduling/p1CPJwKXWzDxfFYGpxzMSb9p">Book online</a>
 <a class="btn" href="tel:+16574384984">Call or text (657) 438-4984</a></p>
-<p class="trust">Registered Piano Technician (RPT), Piano Technicians Guild.</p>
 </div></section>
+<section class="keybed" aria-label="Playable keyboard">
+<div class="wrap">
+<div class="keys" role="group" aria-label="Piano keyboard, tap to play"><button class="wk" type="button" data-midi="60" aria-label="C 4"></button><button class="wk" type="button" data-midi="62" aria-label="D 4"></button><button class="wk" type="button" data-midi="64" aria-label="E 4"></button><button class="wk" type="button" data-midi="65" aria-label="F 4"></button><button class="wk" type="button" data-midi="67" aria-label="G 4"></button><button class="wk" type="button" data-midi="69" aria-label="A 4"></button><button class="wk" type="button" data-midi="71" aria-label="B 4"></button><button class="wk" type="button" data-midi="72" aria-label="C 5"></button><button class="wk" type="button" data-midi="74" aria-label="D 5"></button><button class="wk" type="button" data-midi="76" aria-label="E 5"></button><button class="wk" type="button" data-midi="77" aria-label="F 5"></button><button class="wk" type="button" data-midi="79" aria-label="G 5"></button><button class="wk" type="button" data-midi="81" aria-label="A 5"></button><button class="wk" type="button" data-midi="83" aria-label="B 5"></button><button class="bk" type="button" data-midi="61" aria-label="C sharp 4" style="left:5.000%;width:4.286%"></button><button class="bk" type="button" data-midi="63" aria-label="D sharp 4" style="left:12.143%;width:4.286%"></button><button class="bk" type="button" data-midi="66" aria-label="F sharp 4" style="left:26.429%;width:4.286%"></button><button class="bk" type="button" data-midi="68" aria-label="G sharp 4" style="left:33.571%;width:4.286%"></button><button class="bk" type="button" data-midi="70" aria-label="A sharp 4" style="left:40.714%;width:4.286%"></button><button class="bk" type="button" data-midi="73" aria-label="C sharp 5" style="left:55.000%;width:4.286%"></button><button class="bk" type="button" data-midi="75" aria-label="D sharp 5" style="left:62.143%;width:4.286%"></button><button class="bk" type="button" data-midi="78" aria-label="F sharp 5" style="left:76.429%;width:4.286%"></button><button class="bk" type="button" data-midi="80" aria-label="G sharp 5" style="left:83.571%;width:4.286%"></button><button class="bk" type="button" data-midi="82" aria-label="A sharp 5" style="left:90.714%;width:4.286%"></button></div>
+<p class="keyhint"><button id="play-a" type="button" class="btn ghost small">Hear concert A (440 Hz)</button>
+<span id="pitch-status" role="status">Tap the keys to play.</span></p>
+</div>
+</section>
 <section class="wrap block">
+<h2>What I work on</h2>
+<ul class="work">
+<li><a href="bosendorfer.html"><span class="name">Bösendorfer</span><span class="desc">Tuning, regulation and service, from a family upright to a high-end grand.</span></a></li>
+<li><a href="disklavier-silent-hybrid.html"><span class="name">Disklavier, Silent and Hybrid</span><span class="desc">Calibration and repairs for the acoustic piano and the electronics built into it.</span></a></li>
+<li><a href="services.html"><span class="name">Yamaha grands and uprights</span><span class="desc">Ten years of daily work on Yamaha pianos.</span></a></li>
+</ul>
+</section>
+<section class="reasons"><div class="wrap">
 <h2>Three reasons to choose me</h2>
-<div class="cards">
-<div class="card"><h3>Experience with pianos most tuners avoid</h3>
+<div class="three">
+<div><h3>Experience with pianos most tuners avoid</h3>
 <p>Bösendorfer, Disklavier, Silent and Hybrid pianos need a technician who understands the acoustic instrument and the electronics. I do both.</p></div>
-<div class="card"><h3>One technician, start to finish</h3>
+<div><h3>One technician, start to finish</h3>
 <p>You deal with me, not a dispatcher. I tune, adjust and repair your piano myself.</p></div>
-<div class="card"><h3>Clear pricing before I arrive</h3>
+<div><h3>Clear pricing before I arrive</h3>
 <p>I confirm the price when you book, so there are no surprises at the door.</p></div>
 </div>
-<p><a href="services.html">See services and prices</a> · <a href="service-area.html">See where I work</a></p>
+</div></section>
+<!-- REVIEWS: add one or two real Google/Yelp reviews here with the reviewer's permission. -->
+<section class="wrap block">
+<h2>Prices</h2>
+<dl class="quick">
+<div><dt>Minimum Ear Tuning</dt><dd>$99</dd></div>
+<div><dt>Full Ear Tuning</dt><dd>$199</dd></div>
+<div><dt>D.S.H. Maintenance</dt><dd>$179</dd></div>
+</dl>
+<p><a href="services.html">See all services and prices</a></p>
 </section>
-<!-- REVIEWS STRIP: add one or two real Google/Yelp reviews here with the reviewer's permission. -->
+<section class="wrap block areas">
+<h2>Where I work</h2>
+<div class="three">
+<div><h3><a href="orange-county.html">Orange County</a></h3><p>Irvine, Newport Beach, Huntington Beach, Fullerton, Mission Viejo and more</p></div>
+<div><h3><a href="riverside-county.html">Riverside County</a></h3><p>Riverside and Corona</p></div>
+<div><h3><a href="cerritos-la-county.html">Cerritos and LA County</a></h3><p>Cerritos, Norwalk, Artesia, La Mirada, Downey, Long Beach</p></div>
+</div>
+</section>
 <section class="cta"><div class="wrap">
 <p>Ready to book? Choose a time online or call (657) 438-4984.</p>
-<p><a class="btn primary" href="https://gazelleapp.io/scheduling/p1CPJwKXWzDxfFYGpxzMSb9p">Book online</a>
-<a class="btn" href="tel:+16574384984">Call or text (657) 438-4984</a></p>
+<p class="actions"><a class="btn primary" href="https://gazelleapp.io/scheduling/p1CPJwKXWzDxfFYGpxzMSb9p">Book online</a>
+<a class="btn ghost" href="tel:+16574384984">Call or text (657) 438-4984</a></p>
 </div></section>
 </main>
 <footer class="site-footer">
   <div class="wrap cols">
     <div>
-      <strong>Ryan Ellison Piano</strong><br>Cerritos Piano Tuner LLC<br>
+      <strong>Ryan Ellison Piano</strong>
+      Cerritos Piano Tuner LLC<br>
       13337 South St. #110<br>Cerritos, CA 90703<br>
       <a href="tel:+16574384984">(657) 438-4984</a>
     </div>
     <div>
-      Mon, Tue, Thu, Fri, Sat<br>9:00 am – 5:00 pm<br>Closed Wednesday and Sunday
+      <strong>Hours</strong>
+      Monday, Tuesday, Thursday, Friday, Saturday<br>9:00 am to 5:00 pm<br>Closed Wednesday and Sunday
     </div>
     <div>
+      <strong>Book</strong>
       <a href="https://gazelleapp.io/scheduling/p1CPJwKXWzDxfFYGpxzMSb9p">Book online</a><br>
       <a href="services.html">Prices</a><br>
-      <a href="faq.html">FAQ</a>
+      <a href="faq.html">Questions</a>
     </div>
   </div>
   <div class="wrap fine">&copy; 2026 Ryan Ellison Piano, a service of Cerritos Piano Tuner LLC. Registered Piano Technician, Piano Technicians Guild.</div>
 </footer>
+<div class="mobilebar">
+  <a class="btn" href="tel:+16574384984">Call</a>
+  <a class="btn primary" href="https://gazelleapp.io/scheduling/p1CPJwKXWzDxfFYGpxzMSb9p">Book online</a>
+</div>
+<script>
+(function () {
+  var ctx = null;
+  function audio() {
+    if (!ctx) { var C = window.AudioContext || window.webkitAudioContext; if (!C) return null; ctx = new C(); }
+    if (ctx.state === 'suspended') ctx.resume();
+    return ctx;
+  }
+  function hz(m) { return 440 * Math.pow(2, (m - 69) / 12); }
+  function tone(f, dur, peak, type) {
+    var c = audio(); if (!c) return;
+    var t = c.currentTime, o = c.createOscillator(), g = c.createGain();
+    o.type = type; o.frequency.value = f;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(peak, t + 0.01);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g); g.connect(c.destination); o.start(t); o.stop(t + dur + 0.05);
+  }
+  function note(m) { var f = hz(m); tone(f, 1.8, 0.22, 'triangle'); tone(f * 2, 1.0, 0.05, 'sine'); }
+  var keys = document.querySelectorAll('.keys button');
+  var status = document.getElementById('pitch-status');
+  function down(el) { el.classList.add('down'); }
+  function up(el) { el.classList.remove('down'); }
+  keys.forEach(function (k) {
+    var m = +k.dataset.midi;
+    k.addEventListener('pointerdown', function (ev) { ev.preventDefault(); down(k); note(m); });
+    ['pointerup', 'pointerleave', 'pointercancel', 'blur'].forEach(function (n) { k.addEventListener(n, function () { up(k); }); });
+    k.addEventListener('keydown', function (ev) {
+      if ((ev.key === 'Enter' || ev.key === ' ') && !ev.repeat) { ev.preventDefault(); down(k); note(m); }
+    });
+    k.addEventListener('keyup', function () { up(k); });
+  });
+  var a = document.getElementById('play-a');
+  if (a) a.addEventListener('click', function () {
+    tone(440, 3.5, 0.25, 'sine');
+    var key = document.querySelector('.keys [data-midi="69"]');
+    key.classList.add('down'); setTimeout(function () { key.classList.remove('down'); }, 600);
+    if (status) status.textContent = 'Playing concert A at 440 Hz';
+  });
+})();
+</script>
 </body>
 </html>

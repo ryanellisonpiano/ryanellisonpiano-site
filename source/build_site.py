@@ -146,7 +146,7 @@ def layout(fname, title, desc, body, schema=False, script=""):
 """
 
 
-def cta(text="Ready to book? Choose a time online or call " + SITE["phone"] + "."):
+def cta(text="Ready to book? Pick a time online, or call or text me at " + SITE["phone"] + "."):
     return f"""<section class="cta"><div class="wrap">
 <p>{e(text)}</p>
 <p class="actions"><a class="btn primary" href="{SITE['book']}">Book online</a>
@@ -164,15 +164,15 @@ def inner(h1, lead, body):
 
 
 PRICES = [
-    ("Minimum Ear Tuning", "Basic tuning for everyday use, or for pianos that cannot hold concert pitch", "$99"),
-    ("Full Ear Tuning", "Fine tuning at concert pitch", "$199"),
-    ("Pin setting add-on", "Re-tensions loose or low tuning pins", "+$70"),
+    ("Minimum Ear Tuning", "A basic tuning for everyday playing, or for pianos that can't hold concert pitch", "$99"),
+    ("Full Ear Tuning", "A fine tuning at concert pitch", "$199"),
+    ("Pin setting add-on", "Re-tensions loose or low tuning pins so the tuning lasts", "+$70"),
     ("Repeat customer discount", "Full Ear Tuning, within 18 months of your last tuning", "−$40"),
     ("New Piano Initial Prep", "Pin setting, fine tuning and minimum regulation for a newly delivered piano", "$495"),
-    ("Minimum Regulation", "Action regulation to the level needed for performance", "$165"),
-    ("D.S.H. Maintenance", "Disklavier, Silent and Hybrid calibration and adjustments. Prepaid by credit card when you book", "$179"),
+    ("Minimum Regulation", "Regulating the action to the level needed for performance", "$165"),
+    ("D.S.H. Maintenance", "Calibration and adjustments for Disklavier, Silent and Hybrid pianos. Paid in full by credit card when you book", "$179"),
     ("Repairs", "Sticky keys, broken strings and other acoustic repairs", "from $79"),
-    ("Other work", "Full regulation, voicing, hammer mating and larger projects", "Quote on request"),
+    ("Other work", "Full regulation, voicing, hammer mating and bigger projects", "Quote on request"),
 ]
 
 
@@ -264,7 +264,7 @@ PAGES["index.html"] = (
     "Tuning and service for Bösendorfer, Yamaha, Disklavier, Silent and Hybrid pianos. Book online or call (657) 438-4984.",
     f"""<section class="hero"><div class="wrap">
 <h1>Piano tuning and service for Bösendorfer, Yamaha, Disklavier, Silent and Hybrid pianos</h1>
-<p class="lead">I'm Ryan Ellison, RPT. After ten years working on Yamaha pianos, I now serve homes, schools and churches across Orange County, Riverside and the Gateway Cities.</p>
+<p class="lead">I'm Ryan Ellison, a Registered Piano Technician. I spent ten years working on Yamaha pianos, and now I tune and care for pianos in homes, schools and churches across Orange County, Riverside and the Gateway Cities.</p>
 <p class="actions"><a class="btn primary" href="{SITE['book']}">Book online</a>
 <a class="btn" href="tel:{SITE['tel']}">Call or text {e(SITE['phone'])}</a></p>
 </div></section>
@@ -278,20 +278,20 @@ PAGES["index.html"] = (
 <section class="wrap block">
 <h2>What I work on</h2>
 <ul class="work">
-<li><a href="bosendorfer.html"><span class="name">Bösendorfer</span><span class="desc">Tuning, regulation and service, from a family upright to a high-end grand.</span></a></li>
-<li><a href="disklavier-silent-hybrid.html"><span class="name">Disklavier, Silent and Hybrid</span><span class="desc">Calibration and repairs for the acoustic piano and the electronics built into it.</span></a></li>
-<li><a href="services.html"><span class="name">Yamaha grands and uprights</span><span class="desc">Ten years of daily work on Yamaha pianos.</span></a></li>
+<li><a href="bosendorfer.html"><span class="name">Bösendorfer</span><span class="desc">Tuning, regulation and service, with the care a Bösendorfer deserves.</span></a></li>
+<li><a href="disklavier-silent-hybrid.html"><span class="name">Disklavier, Silent and Hybrid</span><span class="desc">Calibration and repairs for the acoustic piano and the electronics built into it. I'm comfortable with both.</span></a></li>
+<li><a href="services.html"><span class="name">Yamaha grands and uprights</span><span class="desc">Ten years of daily work on Yamaha grands and uprights.</span></a></li>
 </ul>
 </section>
 <section class="reasons"><div class="wrap">
-<h2>Three reasons to choose me</h2>
+<h2>Why book with me</h2>
 <div class="three">
-<div><h3>Experience with pianos most tuners avoid</h3>
-<p>Bösendorfer, Disklavier, Silent and Hybrid pianos need a technician who understands the acoustic instrument and the electronics. I do both.</p></div>
-<div><h3>One technician, start to finish</h3>
-<p>You deal with me, not a dispatcher. I tune, adjust and repair your piano myself.</p></div>
-<div><h3>Clear pricing before I arrive</h3>
-<p>I confirm the price when you book, so there are no surprises at the door.</p></div>
+<div><h3>I'm at home with the tricky ones</h3>
+<p>Bösendorfer, Disklavier, Silent and Hybrid pianos take someone who understands both the acoustic piano and the electronics. I do, and I enjoy both.</p></div>
+<div><h3>You get me, start to finish</h3>
+<p>No dispatcher, no handoff. I tune, adjust and repair your piano myself.</p></div>
+<div><h3>You'll know the price up front</h3>
+<p>I confirm the price when you book, so there are no surprises when I walk in.</p></div>
 </div>
 </div></section>
 <!-- REVIEWS: add one or two real Google/Yelp reviews here with the reviewer's permission. -->
@@ -323,9 +323,9 @@ PAGES["services.html"] = (
     "Ear tuning from $99, regulation, repairs and new piano prep. See prices and book online.",
     inner(
         "Services and prices",
-        "Other work is billed at $99 per hour, with a $99 minimum service call. Payment is due at the time of service.",
+        "The services below are flat rates. Anything else is $99 an hour, with a $99 minimum service call. Payment is due at the time of service.",
         price_table()
-        + '<p>Disklavier, Silent and Hybrid owners: see <a href="disklavier-silent-hybrid.html">D.S.H. service</a> for what is included and how prepayment works.</p>',
+        + '<p>Got a Disklavier, Silent or Hybrid piano? Here is <a href="disklavier-silent-hybrid.html">what D.S.H. service includes</a> and how prepayment works.</p>',
     )
     + cta(),
 )
@@ -336,17 +336,17 @@ PAGES["disklavier-silent-hybrid.html"] = (
     "Calibration and repair for Disklavier, Silent and Hybrid pianos by a registered piano technician.",
     inner(
         "Service for Disklavier, Silent and Hybrid pianos",
-        "These pianos combine an acoustic piano with sensors, solenoids and electronics. Many tuners are not comfortable working on them. After ten years working on Yamaha pianos, this is what I do every day.",
+        "A Disklavier, Silent or Hybrid piano is an acoustic piano with sensors, solenoids and electronics built in, and a lot of tuners aren't comfortable working on them. After ten years with Yamaha pianos, this is what I do every day.",
         """<h2>What is included in D.S.H. Maintenance ($179)</h2>
 <ul>
 <li>Calibration and table updates for the Disklavier, Silent or Hybrid system</li>
-<li>Adjustments to the system so playback, recording and silent mode respond correctly</li>
-<li>A check of the connected hardware that the piano depends on</li>
+<li>Adjustments so playback, recording and silent mode respond the way they should</li>
+<li>A check of the connected hardware the piano relies on</li>
 </ul>
-<p><strong>Repairs</strong> start at $79. Larger electronic or mechanical problems are quoted before work begins.</p>
-<p><strong>Tuning is billed separately.</strong> Most owners book an ear tuning and D.S.H. Maintenance in the same visit, so the piano sounds right and plays right. D.S.H. Maintenance is paid in full by credit card when you book.</p>""",
+<p><strong>Repairs</strong> start at $79. For bigger electronic or mechanical problems, I'll give you a quote before I start.</p>
+<p><strong>Tuning is a separate charge.</strong> Most people book an ear tuning along with D.S.H. Maintenance in the same visit, so the piano sounds right and plays right. D.S.H. Maintenance is paid in full by credit card when you book.</p>""",
     )
-    + cta("Not sure what your piano needs? Call " + SITE["phone"] + " or book online and describe the model. I will tell you what to expect before I arrive."),
+    + cta("Not sure what your piano needs? Call me at " + SITE["phone"] + " or book online and tell me the model. I'll let you know what to expect before I arrive."),
 )
 
 # ---------------- Bösendorfer ----------------
@@ -355,13 +355,13 @@ PAGES["bosendorfer.html"] = (
     "Tuning, regulation and service for Bösendorfer pianos by a Registered Piano Technician. Book online or call (657) 438-4984.",
     inner(
         "Bösendorfer piano tuning and service",
-        "A Bösendorfer deserves a technician who treats it as the fine instrument it is. I tune, regulate and service Bösendorfer pianos across Orange County, Riverside County and southeast Los Angeles County.",
+        "A Bösendorfer deserves a technician who treats it like the fine instrument it is. I tune, regulate and service Bösendorfers across Orange County, Riverside County and southeast Los Angeles County.",
         """<ul>
 <li>Full Ear Tuning at concert pitch ($199)</li>
-<li>Regulation and other action work, quoted before I begin</li>
-<li>Repairs and condition assessment, with a plain explanation of what the piano needs</li>
+<li>Regulation and other action work, with a quote before I start</li>
+<li>Repairs and condition checks, with a plain explanation of what your piano needs</li>
 </ul>
-<p>See all <a href="services.html">services and prices</a>. If you're not sure what your piano needs, call or book online and tell me the model.</p>
+<p>Here are all my <a href="services.html">services and prices</a>. Not sure what your piano needs? Call or book online and tell me the model.</p>
 <!-- TODO (Ryan): add the Bösendorfer models and the kinds of work you have done on them, if you want to name them. -->""",
     )
     + cta(),
@@ -373,19 +373,19 @@ PAGES["service-area.html"] = (
     "Piano tuning across Orange County, Riverside County and southeast Los Angeles County. Book online or call (657) 438-4984.",
     inner(
         "Piano tuning in Orange County, Riverside County and southeast Los Angeles County",
-        "I travel to your home, studio or school.",
+        "I come to you, whether that's your home, studio or school.",
         f"""<div class="three areas">
 <div><h3><a href="orange-county.html">Orange County</a></h3><p>Irvine, Newport Beach, Huntington Beach, Buena Park, Yorba Linda, Fullerton and more</p></div>
 <div><h3><a href="riverside-county.html">Riverside County</a></h3><p>Riverside, Corona</p></div>
 <div><h3><a href="cerritos-la-county.html">Cerritos and LA County</a></h3><p>Cerritos, Norwalk, Artesia, La Mirada, Downey, Long Beach</p></div>
 </div>
-<p>Don't see your city? Call {e(SITE['phone'])}. I may still be able to schedule you, especially if neighbors are booking the same week.</p>""",
+<p>Don't see your city? Give me a call at {e(SITE['phone'])}. I can often still fit you in, especially if your neighbors are booking the same week.</p>""",
     )
     + cta(),
 )
 
 AREA_NOTE = (
-    f"<p>Don't see your city? Call {e(SITE['phone'])}. I may still be able to schedule you, especially if neighbors are booking the same week.</p>"
+    f"<p>Don't see your city? Give me a call at {e(SITE['phone'])}. I can often still fit you in, especially if your neighbors are booking the same week.</p>"
     '<p><a href="services.html">Services and prices</a><br><a href="disklavier-silent-hybrid.html">Disklavier, Silent and Hybrid</a></p>'
 )
 
@@ -394,7 +394,7 @@ PAGES["orange-county.html"] = (
     "Piano tuning in Irvine, Newport Beach, Huntington Beach, Fullerton and nearby. Book online.",
     inner(
         "Piano tuner in Orange County",
-        "I travel to your home, studio or school. Areas I serve regularly:",
+        "I come to you, whether that's your home, studio or school. Areas I serve regularly:",
         "<p>Irvine, Newport Beach, Huntington Beach, Buena Park, Yorba Linda, Fullerton, La Habra, Mission Viejo, Laguna Hills, San Clemente, Costa Mesa</p>"
         + AREA_NOTE,
     )
@@ -406,7 +406,7 @@ PAGES["riverside-county.html"] = (
     "Piano tuning and service in Riverside and Corona. Book online or call (657) 438-4984.",
     inner(
         "Piano tuner in Riverside and Corona",
-        "I travel to your home, studio or school. Areas I serve regularly: Riverside and Corona.",
+        "I come to you, whether that's your home, studio or school. Areas I serve regularly: Riverside and Corona.",
         AREA_NOTE,
     )
     + cta(),
@@ -417,7 +417,7 @@ PAGES["cerritos-la-county.html"] = (
     "Piano tuning in Cerritos, Norwalk, Artesia, La Mirada, Downey and Long Beach.",
     inner(
         "Piano tuner in Cerritos, Norwalk and southeast LA County",
-        "I travel to your home, studio or school. Areas I serve regularly:",
+        "I come to you, whether that's your home, studio or school. Areas I serve regularly:",
         "<p>Cerritos, Norwalk, Artesia, La Mirada, Downey, Long Beach</p>" + AREA_NOTE,
     )
     + cta(),
@@ -431,8 +431,33 @@ PAGES["about.html"] = (
         "Meet Ryan Ellison, RPT",
         "",
         """<!-- PHOTO: add a clear photo of yourself at work. -->
-<p class="big">I've spent more than ten years working on pianos for a living, including Yamaha grands and uprights, Disklavier, Silent and Hybrid pianos, and Bösendorfer. I started Ryan Ellison Piano to give local piano owners the same careful, technical service on every instrument, from a family upright to a high-end grand.</p>
-<p><strong>Specialties:</strong> Yamaha grand and upright pianos, Disklavier, Silent and Hybrid pianos, and Bösendorfer pianos.</p>
+<h2>A musical family</h2>
+<p class="big">I like to think my journey into piano technology started at my birth. I was born to two musical parents, both high-school orchestra directors and conductors, and talented musicians in their own right. Our home videos are full of me singing songs, or singing a duet with my dad.</p>
+<p>I like to say I had "no choice" about becoming a musician. In my family, practicing music was a requirement from about the age of eight. I joined a children's choir and took piano lessons through elementary school.</p>
+<p>When I was about twelve, I decided to follow in my father's footsteps and play the string bass. It started at a summer music camp, and I kept at it through junior high, high school and college. I played in orchestras, jazz bands and just about every kind of ensemble under the sun. If there was a group, chances are I was in it as the bassist.</p>
+<p>After fifteen years of studying and performing music, I decided to go in a different direction.</p>
+
+<h2>Finding piano tuning</h2>
+<p>After college I landed a job at a music store in north Denver, where I was lucky enough to learn several instrument repair trades: woodwinds, brass, guitars, string instruments and electronics. Then the years after the 2008 financial crisis caught up with Main Street, and by 2010 the store was downsizing, ready or not.</p>
+<p>That's when I took a leap of faith and chased a curiosity I'd had for a while: piano tuning. Pianos were one of the few instruments the store didn't service at all. We were constantly fielding calls for tuning and referring people to local piano technicians. While I was looking for technicians to send our customers to, I ran into the Piano Technicians Guild, and something clicked. I thought, "I bet I can do this."</p>
+<p>I picked up the family piano from my grandparents' home, along with an amateur set of tuning tools my father owned (yes, that technically makes me a second-generation tuner). With the tools, a digital guitar tuner and a YouTube video, I set out to tune my family's Baldwin Hamilton console. Nope! I remember it so vividly: "This is SO difficult!" I had no idea what was happening when I put the tuning lever on the pin, and the piano ended up far worse than when I started. That's when I realized you can't learn to tune a piano without formal training.</p>
+
+<h2>Chicago</h2>
+<p>The Guild's website listed a few piano technology schools in the US. After one very important phone call to the director of the Chicago School for Piano Technology, I was convinced, and I enrolled in the one-year basic piano technology program, starting in August 2011.</p>
+<p>At 26, I left my path as a musician and moved to Chicago. The school was on the second floor of a historic warehouse in Ukrainian Village. It was a rigorous four-semester certificate program, with over 1,100 hours of classwork and skills testing in aural tuning, regulation and repair, and it met or exceeded the Guild's own testing standards. After that year, I was ready to start tuning pianos out in the world.</p>
+
+<h2>Starting out in Denver</h2>
+<p>I came home to Denver with my tuning lever in my pocket and launched my first piano tuning business in October 2012. I was sure I'd get plenty of business from my old musician circles in Denver and northern Colorado. Wrong! I knew tons of guitarists from the rock scene, and horn players and drummers from the jazz scene, and I knew zero pianists. So I started the way every tuner does: pounding the pavement, putting up Craigslist ads and calling piano stores.</p>
+<p>Then a local piano store owner gave me a chance. I'm sure he still wonders what he was thinking when I showed up with long hair to "tune" a piano for him, and I'm very grateful he did. His shop sold fine new European pianos and new Yamahas, and it had a full rebuilding shop where a number of large Steinway and Baldwin grands were completely remanufactured during my three years there. Slowly, but surely, I also built up a small private clientele of about 300 pianos in the Denver area by 2015.</p>
+
+<h2>West to Los Angeles, and Yamaha</h2>
+<p>The winds of change were blowing again, this time to the west. By late 2015 I had decided to move to the West Coast. After building my own small business over three hard-fought years, I didn't feel enthusiastic about doing it all over again, and the number of piano technicians and Guild luminaries in the LA area intimidated me. The competition looked severe, so I contacted piano stores looking for a job. After two job-hunting trips to LA, I still didn't have a solid piano job.</p>
+<p>My last appointment on the last day of my last trip was with a Yamaha dealer in Van Nuys. He told me Yamaha was hiring and suggested I call the company about the job. That call was another one I'm so glad I made. In December 2015, I started my first day at Yamaha in Buena Park, California.</p>
+<p>In my first years at Yamaha I was surrounded by longtime staff who carried a long oral history of the standards, the processes and the goals of piano technology in piano sales. In 2016 I took Yamaha's Performance Piano Service Seminar from a consultant, and the company's liaison manager at the time was a marvelous technician from Osaka who brought the special technique of projection piano tuning to the US.</p>
+<p>Under his guidance I went through the very humbling process of starting over in my piano technical skills. Or rather, of un-learning many unproductive habits I'd picked up and replacing them with proven Yamaha method skills. I learned the Yamaha Piano Technical Academy style of instruction from the beginning: unison, octave, fifth, fourth, and how to work with a slow-beating fourths-and-fifths temperament. His pianos always sounded calm and powerful at the same time, and I had to rethink, and hear differently, aspects of piano sound I thought I already knew.</p>
+<p>That's the road that brought me here. Today I put all of it to work for you: the musician's ear, the repair-shop curiosity, the Chicago training and ten years of Yamaha methods, one piano at a time.</p>
+<!-- CLOSING: confirm or replace the last paragraph; your draft ended at the Yamaha years. -->
+
 <h2>Training and credentials</h2>
 <ul>
 <li>Registered Piano Technician, Piano Technicians Guild (2017)</li>
@@ -441,20 +466,21 @@ PAGES["about.html"] = (
 <li>Chicago School for Piano Technology (2011)</li>
 <li>Bachelor of Music (2007)</li>
 </ul>
-<p><strong>What I care about:</strong> A piano that holds its tuning, feels even under the fingers, and sounds the way it should. I'll tell you plainly what your piano needs and what it doesn't.</p>
-<!-- PERSONAL SENTENCE: add one line on what first drew you to pianos. -->""",
+<p><strong>Specialties:</strong> Yamaha grand and upright pianos, Disklavier, Silent and Hybrid pianos, and Bösendorfer pianos.</p>
+<p><strong>What I care about:</strong> A piano that holds its tuning, feels even under the fingers, and sounds the way it should. I'll tell you plainly what your piano needs, and what it doesn't.</p>""",
     )
     + cta(),
 )
 
 # ---------------- FAQ ----------------
 FAQ = [
-    ("How often should I tune my piano?", "Twice a year for most pianos, and at least once a year. New pianos and pianos that have been moved need more frequent tuning in the first year."),
+    ("How often should I tune my piano?", "Twice a year for most pianos, and at least once a year. A brand-new piano, or one that's just been moved, needs tuning more often in its first year."),
     ("How long does a tuning take?", "A Full Ear Tuning usually takes about two hours. A Minimum Ear Tuning takes about an hour."),
-    ("What is the difference between Minimum and Full Ear Tuning?", "A Full Ear Tuning brings the piano to concert pitch. A Minimum Ear Tuning is a basic tuning for everyday playing, or for older pianos that cannot safely hold concert pitch."),
-    ("What if my piano has not been tuned in years?", "It may be flat and need a pin setting add-on (+$70) to bring it up to pitch and make the tuning last. I will tell you what I find before I go ahead."),
-    ("Can tuning damage an old piano?", "Pianos are under very high string tension, and aged parts can fail during tuning. I explain the risks before I start, and I will repair what I can on the spot. The service form lists these terms in full."),
-    ("How do I pay?", "Cash, check, Zelle, Venmo or card. The price is the same whichever you use. The exception is D.S.H. Maintenance for Disklavier, Silent and Hybrid pianos, which is prepaid by credit card when you book and applied to your final bill."),
+    ("Can I tune my piano myself?", "I tried it on my family's piano with a guitar tuner and a YouTube video, and I made it worse. Tuning takes real training and the right tools. I'd rather you call me."),
+    ("What is the difference between Minimum and Full Ear Tuning?", "A Full Ear Tuning brings your piano to concert pitch. A Minimum Ear Tuning is a basic tuning for everyday playing, or for older pianos that can't safely be brought up to pitch."),
+    ("What if my piano has not been tuned in years?", "It has probably gone flat, and it may need the pin setting add-on (+$70) to get up to pitch and hold the tuning. I'll tell you what I find before I go ahead."),
+    ("Can tuning damage an old piano?", "Pianos are under very high string tension, and old parts can fail during tuning. I'll explain the risks before I start, and I'll repair what I can on the spot. The service form lists the full terms."),
+    ("How do I pay?", "Cash, check, Zelle, Venmo or card. The price is the same whichever you use. The one exception is D.S.H. Maintenance for Disklavier, Silent and Hybrid pianos, which is paid in full by credit card when you book and applied to your final bill."),
 ]
 faq_html = "".join(f"<h3>{e(q)}</h3><p>{e(a)}</p>" for q, a in FAQ)
 faq_ld = ",".join(

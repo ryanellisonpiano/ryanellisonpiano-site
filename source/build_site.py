@@ -141,7 +141,7 @@ def layout(fname, title, desc, body, schema=False, script=""):
 <div class="mobilebar">
   <a class="btn" href="tel:{SITE['tel']}">Call</a>
   <a class="btn primary" href="{SITE['book']}">Book online</a>
-</div>{script}
+</div>{script}{PRICE_JS}
 </body>
 </html>
 """
@@ -164,27 +164,124 @@ def inner(h1, lead, body):
 </section>"""
 
 
+# ---------- Pricing: one schedule drives every price on the site ----------
+import datetime as dt
+import math
+
+BASE = {"min": 99, "full": 199, "pin": 70, "disc": -40, "prep": 495, "reg": 165, "dsh": 179}
+ADJ = ["full", "pin", "prep", "reg", "dsh"]          # prices that move with the holiday ramp and demand
+RAMP_START, RAMP_END = dt.date(2026, 11, 1), dt.date(2026, 12, 24)
+RAMP_PCT, POST_PCT, ROUND_TO = 0.15, 0.0, 5          # keep in sync with the Pricing_Tracker_2026 Settings tab
+MAX_CHANGE, MIN_CHANGE = 0.25, -0.15
+# Weekly demand overrides, keyed by the Monday of the week: {dt.date(2026, 11, 9): -0.10}
+DEMAND = {}
+
+
+# Rounding style per service: "nine" ends in 9 ($199, $209), "five" ends in 5 ($495, $505), "step" is a multiple of $5.
+STYLE = {"full": "nine", "dsh": "nine", "prep": "five", "reg": "five", "pin": "step"}
+
+
+def rnd(x):
+    return int(math.floor(x + 0.5))
+
+
+def mround(x, style):
+    if style == "nine":
+        return rnd((x - 9) / 10) * 10 + 9
+    if style == "five":
+        return rnd((x - 5) / 10) * 10 + 5
+    return rnd(x / ROUND_TO) * ROUND_TO
+
+
+def ramp_pct(d):
+    if d > RAMP_END:
+        return POST_PCT
+    return max(0.0, min(1.0, (d - RAMP_START).days / (RAMP_END - RAMP_START).days)) * RAMP_PCT
+
+
+def week_prices(monday):
+    total = min(MAX_CHANGE, max(MIN_CHANGE, ramp_pct(monday) + DEMAND.get(monday, 0.0)))
+    return {k: (mround(BASE[k] * (1 + total), STYLE[k]) if k in ADJ else BASE[k]) for k in BASE}
+
+
+def monday_of(d):
+    return d - dt.timedelta(days=d.weekday())
+
+
+FIRST_WEEK = dt.date(2026, 11, 2)
+WEEKS = [FIRST_WEEK + dt.timedelta(days=7 * i) for i in range(13)]   # Nov 2 to Jan 25
+SCHEDULE = {w.isoformat(): week_prices(w) for w in WEEKS}
+SCHEDULE["base"] = dict(BASE)
+NOW = week_prices(monday_of(dt.date.today()))               # static fallback; the page script updates it by visitor date
+
+
+def money(k, v):
+    return ("+" if k == "pin" and v >= 0 else "") + ("\u2212$%d" % abs(v) if v < 0 else "$%d" % v)
+
+
+def ps(key):
+    """A price that the page script keeps current."""
+    return f'<span data-price="{key}">{money(key, NOW[key])}</span>'
+
+
+PRICE_JS = """
+<script>
+(function () {
+  var S = __SCHEDULE__;
+  var keys = Object.keys(S).filter(function (k) { return k !== 'base'; }).sort();
+  function iso(d) { return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+  var t = new Date(); t = new Date(t.getFullYear(), t.getMonth(), t.getDate());
+  t.setDate(t.getDate() - ((t.getDay() + 6) % 7));
+  var m = iso(t), cur = null;
+  keys.forEach(function (k) { if (k <= m) cur = k; });
+  var P = cur ? S[cur] : S.base;
+  document.querySelectorAll('[data-price]').forEach(function (el) {
+    var k = el.dataset.price; if (P[k] == null) return;
+    el.textContent = (k === 'pin' ? '+' : '') + '$' + P[k];
+  });
+  var row = cur && document.querySelector('tr[data-week="' + cur + '"]');
+  if (row) row.classList.add('now');
+})();
+</script>""".replace("__SCHEDULE__", json.dumps(SCHEDULE))
+
 PRICES = [
-    ("Minimum Ear Tuning", "Basic tuning for everyday playing, or pianos that can't hold concert pitch", "$99"),
-    ("Full Ear Tuning", "A fine tuning at concert pitch", "$199"),
-    ("Pin setting add-on", "Re-tensions loose or low tuning pins", "+$70"),
-    ("Repeat customer discount", "Full Ear Tuning within 18 months of your last tuning", "−$40"),
-    ("New Piano Initial Prep", "Pin setting, fine tuning and minimum regulation for a new piano", "$495"),
-    ("Minimum Regulation", "Action regulation to performance level", "$165"),
-    ("D.S.H. Maintenance", "Calibration and adjustments. Paid in full by credit card when you book", "$179"),
+    ("Minimum Ear Tuning", "Basic tuning for everyday playing, or pianos that can't hold concert pitch", "min"),
+    ("Full Ear Tuning", "Fine tuning at concert pitch", "full"),
+    ("Pin setting add-on", "Re-tensions loose or low tuning pins", "pin"),
+    ("Repeat customer discount", "Full Ear Tuning within 18 months of your last tuning", "disc"),
+    ("New Piano Initial Prep", "Pin setting, fine tuning and minimum regulation for a new piano", "prep"),
+    ("Minimum Regulation", "Action regulation to performance level", "reg"),
+    ("D.S.H. Maintenance", "Calibration and adjustments. Paid in full by credit card when you book", "dsh"),
     ("Repairs", "Sticky keys, broken strings and other acoustic repairs", "from $79"),
     ("Other work", "Full regulation, voicing, hammer mating and bigger projects", "Quote on request"),
 ]
 
 
 def price_table():
-    rows = "".join(
-        f"<tr><th scope=\"row\">{e(a)}</th><td class=\"what\">{e(b)}</td><td class=\"price\">{e(c)}</td></tr>"
-        for a, b, c in PRICES
-    )
+    rows = ""
+    for name, desc, key in PRICES:
+        cell = ps(key) if key in BASE and key not in ("min", "disc") else (money(key, BASE[key]) if key in BASE else key)
+        rows += f"<tr><th scope=\"row\">{e(name)}</th><td class=\"what\">{e(desc)}</td><td class=\"price\">{cell}</td></tr>"
     return f"""<table class="prices">
 <thead><tr><th>Service</th><th>What it covers</th><th>Price</th></tr></thead>
 <tbody>{rows}</tbody></table>"""
+
+
+def schedule_table():
+    cols = [("full", "Full Ear Tuning"), ("pin", "Pin setting"), ("prep", "New piano prep"), ("reg", "Min. regulation"), ("dsh", "D.S.H.")]
+    head = "".join(f"<th>{e(n)}</th>" for _, n in cols)
+    rows = ""
+    holiday = [w for w in WEEKS if w <= dt.date(2026, 12, 21)]
+    for w in holiday:
+        pr = SCHEDULE[w.isoformat()]
+        label = "Week of " + w.strftime("%b ") + str(w.day)
+        rows += f'<tr data-week="{w.isoformat()}"><td>{label}</td>' + "".join(f"<td>{money(k, pr[k])}</td>" for k, _ in cols) + "</tr>"
+    after = SCHEDULE[dt.date(2026, 12, 28).isoformat()]
+    rows += '<tr data-week="2026-12-28"><td>Dec 28 onward</td>' + "".join(f"<td>{money(k, after[k])}</td>" for k, _ in cols) + "</tr>"
+    return f"""<h2>Book early, pay less</h2>
+<p>Holiday prices rise a little each week until Dec 24, then return to standard. The price I confirm when you book is the price you pay.</p>
+<div class="sched-wrap"><table class="sched"><thead><tr><th>Week</th>{head}</tr></thead><tbody>{rows}</tbody></table></div>
+<p>The Minimum Ear Tuning stays $99 all season.</p>"""
 
 
 # ---------- Playable keyboard (hero) ----------
@@ -362,10 +459,10 @@ PAGES["index.html"] = (
 <h2>Prices</h2>
 <dl class="quick">
 <div><dt>Minimum Ear Tuning</dt><dd>$99</dd></div>
-<div><dt>Full Ear Tuning</dt><dd>$199</dd></div>
-<div><dt>D.S.H. Maintenance</dt><dd>$179</dd></div>
+<div><dt>Full Ear Tuning</dt><dd>{ps("full")}</dd></div>
+<div><dt>D.S.H. Maintenance</dt><dd>{ps("dsh")}</dd></div>
 </dl>
-<p><a href="services.html">See all services and prices</a></p>
+<p>Holiday prices rise a little each week, so booking early costs less.<br><a href="services.html">See all services and prices</a></p>
 </section>
 <section class="wrap block areas">
 <h2>Where I work</h2>
@@ -386,8 +483,9 @@ PAGES["services.html"] = (
     "Ear tuning from $99, regulation, repairs and new piano prep. See prices and book online.",
     inner(
         "Services and prices",
-        "Flat rates for the services below. Anything else is $99 an hour, with a $99 minimum service call. Payment is due at the time of service.",
+        "Flat rates for the services below, updated weekly. Anything else is $99 an hour, with a $99 minimum service call. Payment is due at the time of service.",
         price_table()
+        + schedule_table()
         + '<p>Disklavier, Silent or Hybrid? See <a href="disklavier-silent-hybrid.html">D.S.H. service</a>.</p>',
     )
     + cta(),
@@ -400,7 +498,7 @@ PAGES["disklavier-silent-hybrid.html"] = (
     inner(
         "Service for Disklavier, Silent and Hybrid pianos",
         "These pianos add sensors, solenoids and electronics to an acoustic piano, and many tuners avoid them. After ten years with Yamaha pianos, this is what I do every day.",
-        """<h2>What D.S.H. Maintenance includes ($179)</h2>
+        "<h2>What D.S.H. Maintenance includes (" + ps("dsh") + """)</h2>
 <ul>
 <li>Calibration and table updates for the Disklavier, Silent or Hybrid system</li>
 <li>Adjustments so playback, recording and silent mode work as they should</li>
@@ -419,8 +517,7 @@ PAGES["bosendorfer.html"] = (
     inner(
         "Bösendorfer piano tuning and service",
         "A Bösendorfer deserves a technician who treats it like the fine instrument it is. I tune, regulate and service Bösendorfers across Orange County, Riverside County and southeast LA County.",
-        """<ul>
-<li>Full Ear Tuning at concert pitch ($199)</li>
+        "<ul>\n<li>Full Ear Tuning at concert pitch (" + ps("full") + """)</li>
 <li>Regulation and other action work, quoted before I start</li>
 <li>Repairs and condition checks, with a plain explanation</li>
 </ul>
@@ -568,7 +665,7 @@ FAQ = [
     ("How long does a tuning take?", "A Full Ear Tuning usually takes about two hours. A Minimum Ear Tuning takes about an hour."),
     ("Can I tune my piano myself?", "I tried it with a guitar tuner and a YouTube video, and made my family's piano worse. Tuning takes training and the right tools. Call me instead."),
     ("What is the difference between Minimum and Full Ear Tuning?", "Full brings your piano to concert pitch. Minimum is a basic tuning for everyday playing, or for older pianos that can't safely be brought up to pitch."),
-    ("What if my piano has not been tuned in years?", "It has probably gone flat and may need the pin setting add-on (+$70) to hold a tuning. I'll tell you what I find before I start."),
+    ("What if my piano has not been tuned in years?", "It has probably gone flat and may need the pin setting add-on to hold a tuning. I'll tell you what I find before I start."),
     ("Can tuning damage an old piano?", "Pianos are under very high string tension, and old parts can fail during tuning. I explain the risks first and repair what I can on the spot. The service form has the full terms."),
     ("How do I pay?", "Cash, check, Zelle, Venmo or card, all at the same price. The exception is D.S.H. Maintenance, which is paid in full by credit card when you book and applied to your final bill."),
 ]
@@ -708,6 +805,12 @@ a:hover{color:var(--brass-d)}
 .prose h3+p{margin-top:0}
 ul.plain{list-style:none;padding:0}ul.plain li{margin:.8em 0}
 .areas.three h3{margin-top:.2em}
+.sched-wrap{overflow-x:auto;margin:8px 0 12px}
+.sched{width:100%;min-width:520px;border-collapse:collapse}
+.sched th,.sched td{padding:9px 10px;text-align:right;border-bottom:1px solid #cfd4d1}
+.sched th:first-child,.sched td:first-child{text-align:left;white-space:nowrap}
+.sched thead th{font:700 .9rem var(--display);background:var(--steel)}
+.sched tr.now td{background:#fff3cf;font-weight:700}
 table.prices{width:100%;border-collapse:collapse;margin:8px 0 24px}
 table.prices thead{position:absolute;left:-9999px}
 table.prices tr{display:grid;grid-template-columns:1fr auto;gap:0 16px;padding:16px 0;border-bottom:1px solid #cfd4d1}

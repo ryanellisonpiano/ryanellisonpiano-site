@@ -103,6 +103,12 @@ a:hover{color:var(--brass-d)}
 .prose h3+p{margin-top:0}
 ul.plain{list-style:none;padding:0}ul.plain li{margin:.8em 0}
 .areas.three h3{margin-top:.2em}
+.sched-wrap{overflow-x:auto;margin:8px 0 12px}
+.sched{width:100%;min-width:520px;border-collapse:collapse}
+.sched th,.sched td{padding:9px 10px;text-align:right;border-bottom:1px solid #cfd4d1}
+.sched th:first-child,.sched td:first-child{text-align:left;white-space:nowrap}
+.sched thead th{font:700 .9rem var(--display);background:var(--steel)}
+.sched tr.now td{background:#fff3cf;font-weight:700}
 table.prices{width:100%;border-collapse:collapse;margin:8px 0 24px}
 table.prices thead{position:absolute;left:-9999px}
 table.prices tr{display:grid;grid-template-columns:1fr auto;gap:0 16px;padding:16px 0;border-bottom:1px solid #cfd4d1}

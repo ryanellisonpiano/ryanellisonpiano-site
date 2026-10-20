@@ -29,7 +29,7 @@
 <main id="main">
 <section class="pagehead"><div class="wrap"><h1>Service for Disklavier, Silent and Hybrid pianos</h1><p class="lead">These pianos add sensors, solenoids and electronics to an acoustic piano, and many tuners avoid them. After ten years with Yamaha pianos, this is what I do every day.</p></div></section>
 <section class="wrap prose">
-<h2>What D.S.H. Maintenance includes ($179)</h2>
+<h2>What D.S.H. Maintenance includes (<span data-price="dsh">$179</span>)</h2>
 <ul>
 <li>Calibration and table updates for the Disklavier, Silent or Hybrid system</li>
 <li>Adjustments so playback, recording and silent mode work as they should</li>
@@ -68,5 +68,23 @@
   <a class="btn" href="tel:+16574384984">Call</a>
   <a class="btn primary" href="https://gazelleapp.io/scheduling/p1CPJwKXWzDxfFYGpxzMSb9p">Book online</a>
 </div>
+<script>
+(function () {
+  var S = {"2026-11-02": {"min": 99, "full": 199, "pin": 70, "disc": -40, "prep": 495, "reg": 165, "dsh": 179}, "2026-11-09": {"min": 99, "full": 199, "pin": 70, "disc": -40, "prep": 505, "reg": 165, "dsh": 179}, "2026-11-16": {"min": 99, "full": 209, "pin": 75, "disc": -40, "prep": 515, "reg": 175, "dsh": 189}, "2026-11-23": {"min": 99, "full": 209, "pin": 75, "disc": -40, "prep": 525, "reg": 175, "dsh": 189}, "2026-11-30": {"min": 99, "full": 219, "pin": 75, "disc": -40, "prep": 535, "reg": 175, "dsh": 189}, "2026-12-07": {"min": 99, "full": 219, "pin": 75, "disc": -40, "prep": 545, "reg": 185, "dsh": 199}, "2026-12-14": {"min": 99, "full": 219, "pin": 80, "disc": -40, "prep": 555, "reg": 185, "dsh": 199}, "2026-12-21": {"min": 99, "full": 229, "pin": 80, "disc": -40, "prep": 565, "reg": 185, "dsh": 209}, "2026-12-28": {"min": 99, "full": 199, "pin": 70, "disc": -40, "prep": 495, "reg": 165, "dsh": 179}, "2027-01-04": {"min": 99, "full": 199, "pin": 70, "disc": -40, "prep": 495, "reg": 165, "dsh": 179}, "2027-01-11": {"min": 99, "full": 199, "pin": 70, "disc": -40, "prep": 495, "reg": 165, "dsh": 179}, "2027-01-18": {"min": 99, "full": 199, "pin": 70, "disc": -40, "prep": 495, "reg": 165, "dsh": 179}, "2027-01-25": {"min": 99, "full": 199, "pin": 70, "disc": -40, "prep": 495, "reg": 165, "dsh": 179}, "base": {"min": 99, "full": 199, "pin": 70, "disc": -40, "prep": 495, "reg": 165, "dsh": 179}};
+  var keys = Object.keys(S).filter(function (k) { return k !== 'base'; }).sort();
+  function iso(d) { return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
+  var t = new Date(); t = new Date(t.getFullYear(), t.getMonth(), t.getDate());
+  t.setDate(t.getDate() - ((t.getDay() + 6) % 7));
+  var m = iso(t), cur = null;
+  keys.forEach(function (k) { if (k <= m) cur = k; });
+  var P = cur ? S[cur] : S.base;
+  document.querySelectorAll('[data-price]').forEach(function (el) {
+    var k = el.dataset.price; if (P[k] == null) return;
+    el.textContent = (k === 'pin' ? '+' : '') + '$' + P[k];
+  });
+  var row = cur && document.querySelector('tr[data-week="' + cur + '"]');
+  if (row) row.classList.add('now');
+})();
+</script>
 </body>
 </html>

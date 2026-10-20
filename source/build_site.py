@@ -333,9 +333,9 @@ PAGES["index.html"] = (
 </div>
 <section class="wrap block harmony">
 <h2>88 keys, 88 constellations</h2>
-<p class="big">A piano has 88 keys. The night sky has 88 official constellations. In 1619 Johannes Kepler published <em>Harmonices Mundi</em>, "The Harmony of the World," convinced the planets moved in musical ratios. He never proved the planets sing, but that same book gave us his third law of planetary motion.</p>
+<blockquote class="quote"><p>The 88 piano keys make music.</p><footer>Neil deGrasse Tyson, <a href="https://neildegrassetyson.com/books/1994-05-menagerie/">"Menagerie"</a> (1994)</footer></blockquote>
+<p class="big">A piano has 88 keys. The night sky has 88 official constellations. Tyson sets them side by side in that essay, and jokes that the sky's side is more of a zoo. In 1619 Johannes Kepler tried something more musical. His book <em>Harmonices Mundi</em>, "The Harmony of the World," argued the planets moved in musical ratios. He never proved the planets sing, but that same book gave us his third law of planetary motion.</p>
 <p>I tune pianos for a living, so I like the idea. Every piano I work on is my small attempt at harmony.</p>
-<!-- QUOTE: add the credited Neil deGrasse Tyson quote here once the source is confirmed. -->
 </section>
 <section class="wrap block">
 <h2>What I work on</h2>
@@ -630,6 +630,9 @@ a:hover{color:var(--brass-d)}
 .sky .btn:not(.primary):hover{background:#fff;color:var(--felt)}
 .harmony{padding-top:56px}
 .harmony .big{font-size:1.3rem;line-height:1.6;max-width:56ch}
+.quote{margin:1.2em 0 1.4em;padding:4px 0 4px 20px;border-left:4px solid var(--rule);max-width:56ch}
+.quote p{font:700 clamp(1.5rem,3.4vw,2.1rem)/1.2 var(--display);letter-spacing:-.02em;margin:0 0 .4em}
+.quote footer{color:var(--muted);font-size:1rem}
 .hero{padding:56px 0 44px}
 .hero .lead{font-size:1.3rem;max-width:44ch;margin-top:1.2em}
 .keybed{background:transparent;padding:26px 0 22px;border-bottom:6px solid var(--brass)}

@@ -485,7 +485,6 @@ PAGES["services.html"] = (
         "Services and prices",
         "Flat rates for the services below, updated weekly. Anything else is $99 an hour, with a $99 minimum service call. Payment is due at the time of service.",
         price_table()
-        + schedule_table()
         + '<p>Disklavier, Silent or Hybrid? See <a href="disklavier-silent-hybrid.html">D.S.H. service</a>.</p>',
     )
     + cta(),

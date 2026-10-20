@@ -96,7 +96,7 @@ def layout(fname, title, desc, body, schema=False, script=""):
 <meta property="og:title" content="{e(title)}">
 <meta property="og:description" content="{e(desc)}">
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#21423b">
+<meta name="theme-color" content="#1a2147">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="{FONTS}">
@@ -267,7 +267,13 @@ KEY_JS = """
   }
   var keys = document.querySelectorAll('.keys button');
   var status = document.getElementById('pitch-status');
-  function down(el) { el.classList.add('down'); }
+  var stars = {};
+  document.querySelectorAll('.star').forEach(function (s) { stars[s.dataset.n] = s; });
+  function lit(m) {
+    var s = stars[m - 20]; if (!s) return;
+    s.classList.add('lit'); setTimeout(function () { s.classList.remove('lit'); }, 900);
+  }
+  function down(el) { el.classList.add('down'); lit(+el.dataset.midi); }
   function up(el) { el.classList.remove('down'); }
   keys.forEach(function (k) {
     var m = +k.dataset.midi;
@@ -283,10 +289,25 @@ KEY_JS = """
     note(69, 4.5);
     var key = document.querySelector('.keys [data-midi="69"]');
     if (key) { key.classList.add('down'); setTimeout(function () { key.classList.remove('down'); }, 600); }
+    lit(69);
     if (status) status.textContent = 'Playing concert A at 440 Hz';
   });
 })();
 </script>"""
+
+
+import random
+
+
+def starfield():
+    rnd = random.Random(88)
+    pts = [(rnd.uniform(2, 998), rnd.uniform(6, 494), rnd.choice([1.1, 1.4, 1.8, 2.3, 3.0]), rnd.uniform(.45, 1)) for _ in range(88)]
+    pts.sort(key=lambda t: t[0])
+    circles = "".join(
+        f'<circle class="star" data-n="{i + 1}" cx="{x:.1f}" cy="{y:.1f}" r="{r}" opacity="{o:.2f}"/>'
+        for i, (x, y, r, o) in enumerate(pts)
+    )
+    return f'<svg class="stars" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">{circles}</svg>'
 
 
 PAGES = {}
@@ -295,7 +316,8 @@ PAGES = {}
 PAGES["index.html"] = (
     "Piano Tuner in Orange County and Cerritos",
     "Tuning and service for Bösendorfer, Yamaha, Disklavier, Silent and Hybrid pianos. Book online or call (657) 438-4984.",
-    f"""<section class="hero"><div class="wrap">
+    f"""<div class="sky">{starfield()}
+<section class="hero"><div class="wrap">
 <h1>Piano tuning and service for Bösendorfer, Yamaha, Disklavier, Silent and Hybrid pianos</h1>
 <p class="lead">I'm Ryan Ellison, a Registered Piano Technician. I spent ten years working on Yamaha pianos, and now I tune and care for pianos in homes, schools and churches across Orange County, Riverside and the Gateway Cities.</p>
 <p class="actions"><a class="btn primary" href="{SITE['book']}">Book online</a>
@@ -305,8 +327,15 @@ PAGES["index.html"] = (
 <div class="wrap">
 {keyboard()}
 <p class="keyhint"><button id="play-a" type="button" class="btn ghost small">Hear concert A (440 Hz)</button>
-<span id="pitch-status" role="status">Tap the keys to play.</span></p>
+<span id="pitch-status" role="status">Tap the keys to play. Each key lights its star.</span></p>
 </div>
+</section>
+</div>
+<section class="wrap block harmony">
+<h2>88 keys, 88 constellations</h2>
+<p class="big">A piano has 88 keys. The night sky has 88 official constellations. In 1619 Johannes Kepler published <em>Harmonices Mundi</em>, "The Harmony of the World," convinced the planets moved in musical ratios. He never proved the planets sing, but that same book gave us his third law of planetary motion.</p>
+<p>I tune pianos for a living, so I like the idea. Every piano I work on is my small attempt at harmony.</p>
+<!-- QUOTE: add the credited Neil deGrasse Tyson quote here once the source is confirmed. -->
 </section>
 <section class="wrap block">
 <h2>What I work on</h2>
@@ -546,7 +575,7 @@ PAGES["contact.html"] = (
 
 CSS = """
 :root{
-  --key:#fcfcfa; --ebony:#1b1d22; --felt:#21423b; --felt-d:#17302b; --brass:#b08a3e; --brass-d:#7a5c1e; --steel:#e8ecea; --muted:#555d66;
+  --key:#fcfcfa; --ebony:#1b1d22; --felt:#1a2147; --felt-d:#0f1430; --brass:#e0b95a; --brass-d:#7a5c1e; --rule:#a07f20; --steel:#e9ecf4; --muted:#555d66;
   --display:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
   --body:"Source Serif 4",Charter,"Bitstream Charter",Georgia,serif;
 }
@@ -589,9 +618,21 @@ a:hover{color:var(--brass-d)}
 .actions{margin:1.4em 0 0}
 
 /* hero */
+.sky{position:relative;background:radial-gradient(120% 90% at 70% 0%,#26306b 0%,#1a2147 45%,#0f1430 100%);color:#fff;overflow:hidden}
+.stars{position:absolute;inset:0;width:100%;height:100%;opacity:.55;-webkit-mask-image:linear-gradient(90deg,rgba(0,0,0,.25),#000 70%);mask-image:linear-gradient(90deg,rgba(0,0,0,.25),#000 70%)}
+@media(min-width:900px){.stars{opacity:1;-webkit-mask-image:linear-gradient(90deg,rgba(0,0,0,.12) 0,rgba(0,0,0,.2) 40%,#000 75%);mask-image:linear-gradient(90deg,rgba(0,0,0,.12) 0,rgba(0,0,0,.2) 40%,#000 75%)}}
+.star{fill:#f6efd6;transform-box:fill-box;transform-origin:center;transition:transform .25s,fill .25s}
+.star.lit{fill:#ffe08a;transform:scale(3.4);filter:drop-shadow(0 0 5px #ffd770)}
+.sky .hero,.sky .keybed{position:relative}
+.sky h1{color:#fff}
+.sky .lead{color:#d5daf0}
+.sky .btn:not(.primary){border-color:#fff;color:#fff}
+.sky .btn:not(.primary):hover{background:#fff;color:var(--felt)}
+.harmony{padding-top:56px}
+.harmony .big{font-size:1.3rem;line-height:1.6;max-width:56ch}
 .hero{padding:56px 0 44px}
-.hero .lead{font-size:1.3rem;max-width:44ch;margin-top:1.2em;color:#2b3038}
-.keybed{background:var(--felt);padding:26px 0 22px;border-bottom:6px solid var(--brass)}
+.hero .lead{font-size:1.3rem;max-width:44ch;margin-top:1.2em}
+.keybed{background:transparent;padding:26px 0 22px;border-bottom:6px solid var(--brass)}
 .keys{position:relative;display:flex;height:clamp(120px,22vw,190px);background:var(--ebony);padding:0 2px 3px;border-radius:0 0 8px 8px;user-select:none;-webkit-user-select:none;touch-action:manipulation}
 .wk{flex:1;border:0;border-right:1px solid #9aa09c;background:linear-gradient(#fff,#f3f2ec 85%,#d9d6c8);border-radius:0 0 5px 5px;padding:0;cursor:pointer;margin:0 .5px}
 .wk:last-of-type{border-right:0}
@@ -607,10 +648,10 @@ a:hover{color:var(--brass-d)}
 .work a{display:grid;gap:4px;padding:22px 4px;text-decoration:none;color:var(--ebony)}
 .work .name{font:700 clamp(1.5rem,3.4vw,2.3rem)/1.1 var(--display);letter-spacing:-.02em}
 .work .desc{color:var(--muted);max-width:52ch}
-.work a:hover .name{color:var(--felt);text-decoration:underline;text-decoration-color:var(--brass);text-decoration-thickness:3px;text-underline-offset:6px}
+.work a:hover .name{color:var(--felt);text-decoration:underline;text-decoration-color:var(--rule);text-decoration-thickness:3px;text-underline-offset:6px}
 .reasons{background:var(--steel);margin-top:48px;padding:56px 0 40px}
 .three{display:grid;gap:8px 40px;grid-template-columns:1fr}
-.three h3{margin-top:.9em;padding-top:14px;border-top:4px solid var(--brass)}
+.three h3{margin-top:.9em;padding-top:14px;border-top:4px solid var(--rule)}
 .three p{max-width:36ch}
 .three h3 a{color:var(--ebony)}
 .quick{margin:0 0 1em;max-width:560px}
@@ -620,7 +661,9 @@ a:hover{color:var(--brass-d)}
 .areas{padding-bottom:48px}
 
 /* inner pages */
-.pagehead{position:relative;background:var(--felt);padding:52px 0 76px}
+.pagehead{position:relative;background:radial-gradient(120% 140% at 80% 0%,#26306b 0%,#1a2147 55%,#0f1430 100%);padding:52px 0 76px}
+.pagehead::before{content:"";position:absolute;inset:0;opacity:.8;background:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='260' height='140'%3E%3Cg fill='%23f6efd6'%3E%3Ccircle cx='20' cy='30' r='1.2'/%3E%3Ccircle cx='70' cy='95' r='1.8' opacity='.7'/%3E%3Ccircle cx='120' cy='20' r='1' opacity='.8'/%3E%3Ccircle cx='160' cy='70' r='2.2' opacity='.6'/%3E%3Ccircle cx='210' cy='120' r='1.2'/%3E%3Ccircle cx='235' cy='40' r='1.6' opacity='.7'/%3E%3Ccircle cx='100' cy='125' r='1' opacity='.7'/%3E%3C/g%3E%3C/svg%3E")}
+.pagehead .wrap{position:relative}
 .pagehead h1,.pagehead .lead{color:#fff}
 .pagehead .lead{font-size:1.2rem;max-width:56ch;margin:1em 0 0;color:#dfe8e5}
 .pagehead::after{content:"";position:absolute;left:0;right:0;bottom:0;height:30px;border-top:4px solid var(--brass);

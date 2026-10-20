@@ -534,11 +534,11 @@ PAGES["bellharp.html"] = (
     "My ideas on achieving bell-like tone in the modern grand piano through aural tuning and regulation by ear.",
     inner(
         "The Bellharp",
-        "My ideas on achieving bell-like tone in the modern grand piano. #bellharp #hammerbellharp",
+        "My ideas on achieving bell-like tone in the modern grand piano. #hammerbellharp #bellharp",
         """<h2>A golden age of piano technology</h2>
 <p>Modern grand pianos are in a class of their own compared with those of just a few decades ago: more powerful yet more subtle, with faster keyboards made from better materials. In my opinion, they have moved so far past their predecessors that the instrument is on the verge of being redefined.</p>
 
-<h2>Introducing the Bellharp</h2>
+<h2>My Bellharp concept</h2>
 <p>I believe a bell-like essence is built into the grand piano's design, like a seed lying dormant.</p>
 <blockquote class="quote"><p>To play the piano is to play a chromatic keyed bell.</p></blockquote>
 <p>So how do I draw out that bell tone? By focusing the instrument's energy through tuning and regulation.</p>

@@ -938,9 +938,9 @@ a:hover{color:var(--brass-d)}
 .sky{position:relative;background:radial-gradient(120% 90% at 70% 0%,#26306b 0%,#1a2147 45%,#0f1430 100%);color:#fff;overflow:hidden}
 .stars{position:absolute;inset:0;width:100%;height:100%;opacity:.55;-webkit-mask-image:linear-gradient(90deg,rgba(0,0,0,.25),#000 70%);mask-image:linear-gradient(90deg,rgba(0,0,0,.25),#000 70%)}
 @media(min-width:900px){.stars{opacity:1;-webkit-mask-image:linear-gradient(90deg,rgba(0,0,0,.12) 0,rgba(0,0,0,.2) 40%,#000 75%);mask-image:linear-gradient(90deg,rgba(0,0,0,.12) 0,rgba(0,0,0,.2) 40%,#000 75%)}}
-.skymaps{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0 0;max-width:640px}
+.skymaps{position:relative;z-index:1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px;margin:22px auto 0;max-width:880px}
 .skymap{margin:0;text-align:center}
-.skymap svg{width:100%;height:auto;display:block;background:radial-gradient(circle,#101a40 0%,#0a1030 100%);border-radius:50%}
+.skymap svg{width:100%;height:auto;aspect-ratio:1/1;display:block;background:#0a1030;border-radius:50%;box-shadow:0 0 0 1px #3a4680,0 8px 30px rgba(0,0,0,.45)}
 .skymap figcaption{font-size:.9rem;color:#c9d0ea;margin-top:4px}
 .skymap .bg{fill:#aab6e0;opacity:.55}
 .skymap .rim{fill:none;stroke:#3a4680;stroke-width:1}
@@ -950,7 +950,7 @@ a:hover{color:var(--brass-d)}
 .con.lit path{stroke:#ffe08a;stroke-width:1.9;opacity:1;filter:drop-shadow(0 0 3px #ffd770)}
 .con.lit circle{fill:#fff3c4;opacity:1;filter:drop-shadow(0 0 3px #ffd770)}
 .skycredit{margin:10px 0 0;font-size:.8rem;color:#98a2cc;max-width:46rem}
-@media(max-width:520px){.skymaps{gap:6px}}
+@media(max-width:700px){.skymaps{gap:8px}}
 .star{fill:#f6efd6;transform-box:fill-box;transform-origin:center;transition:transform .25s,fill .25s}
 .star.n{fill:#dbe6ff}
 .star.lit{fill:#ffe08a;transform:scale(3.4);filter:drop-shadow(0 0 5px #ffd770)}

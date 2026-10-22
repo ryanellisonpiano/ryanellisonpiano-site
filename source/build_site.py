@@ -114,7 +114,7 @@ def layout(fname, title, desc, body, schema=False, script=""):
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="wrap bar">
-    <a class="brand" href="index.html"><img class="brand-mark" src="emblem.svg" alt="" width="44" height="44"><span>{e(SITE['short'])}<small>{e(SITE['owner'])}</small></span></a>
+    <a class="brand" href="index.html"><img class="brand-mark" src="emblem.svg" alt="" width="72" height="72"><span>{e(SITE['short'])}<small>{e(SITE['owner'])}</small></span></a>
     <input type="checkbox" id="menu" class="menu-toggle" aria-label="Open menu">
     <label for="menu" class="menu-btn">Menu</label>
     <nav class="nav" aria-label="Main">{nav}</nav>
@@ -972,7 +972,7 @@ a:hover{color:var(--brass-d)}
 .site-header{background:var(--key);border-bottom:1px solid #dfe3e0}
 .bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-top:12px;padding-bottom:12px}
 .brand{font-family:var(--head);font-weight:700;font-size:1.35rem;letter-spacing:-.02em;color:var(--ebony);text-decoration:none;margin-right:auto;line-height:1.1}
-.brand{display:flex;align-items:center;gap:10px}.brand-mark{flex:none;width:44px;height:44px}
+.brand{display:flex;align-items:center;gap:14px}.brand-mark{flex:none;width:72px;height:72px}@media(max-width:640px){.brand-mark{width:56px;height:56px}}
 .brand small{display:block;font:500 .78rem var(--display);letter-spacing:0;color:var(--muted);margin-top:2px}
 .nav{display:none;width:100%;flex-direction:column;order:5;padding:6px 0 10px}
 .nav a{font-family:var(--display);font-weight:500;color:var(--ebony);text-decoration:none;padding:10px 0;border-top:1px solid #e3e6e4}

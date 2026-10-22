@@ -33,10 +33,7 @@ NAV = [
     ("services.html", "Services"),
     ("disklavier-silent-hybrid.html", "Disklavier, Silent, Hybrid"),
     ("bosendorfer.html", "Bösendorfer"),
-    ("bellharp.html", "Bellharp"),
-    ("yamaha-upright-rental.html", "Rentals"),
     ("service-area.html", "Service area"),
-    ("about.html", "About"),
     ("faq.html", "FAQ"),
     ("contact.html", "Contact"),
 ]

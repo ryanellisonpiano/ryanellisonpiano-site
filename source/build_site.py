@@ -899,7 +899,7 @@ PAGES["bellharp.html"] = (
 FAQ = [
     ("How often should I tune my piano?", "Twice a year for most pianos, and at least once a year. New or recently moved pianos need it more often in the first year."),
     ("How long does a tuning take?", "A Full Ear Tuning usually takes about two hours. A Minimum Ear Tuning takes about an hour."),
-    ("Can I tune my piano myself?", "I tried it with a guitar tuner and a YouTube video, and made my family's piano worse. Tuning takes training and the right tools. Call me instead."),
+    ("Can I repair my piano myself?", "I tried it with a guitar tuner and a YouTube video, and made my family's piano worse. Tuning takes training and the right tools. Call me instead."),
     ("What is the difference between Minimum and Full Ear Tuning?", "Full brings your piano to concert pitch. Minimum is a basic tuning for everyday playing, or for older pianos that can't safely be brought up to pitch."),
     ("What if my piano has not been tuned in years?", "It has probably gone flat and may need the pin setting add-on to hold a tuning. I'll tell you what I find before I start."),
     ("Can tuning damage an old piano?", "Pianos are under very high string tension, and old parts can fail during tuning. I explain the risks first and repair what I can on the spot. The service form has the full terms."),

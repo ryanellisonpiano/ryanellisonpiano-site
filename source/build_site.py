@@ -104,6 +104,10 @@ def layout(fname, title, desc, body, schema=False, script=""):
 <meta property="og:description" content="{e(desc)}">
 <meta property="og:type" content="website">
 <meta name="theme-color" content="#1a2147">
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:image" content="https://ryanellisonpiano.github.io/ryanellisonpiano-site/favicon-192.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="{FONTS}">
@@ -113,7 +117,7 @@ def layout(fname, title, desc, body, schema=False, script=""):
 <a class="skip" href="#main">Skip to content</a>
 <header class="site-header">
   <div class="wrap bar">
-    <a class="brand" href="index.html">{e(SITE['short'])}<small>{e(SITE['owner'])}</small></a>
+    <a class="brand" href="index.html"><img class="brand-mark" src="emblem.svg" alt="" width="44" height="44"><span>{e(SITE['short'])}<small>{e(SITE['owner'])}</small></span></a>
     <input type="checkbox" id="menu" class="menu-toggle" aria-label="Open menu">
     <label for="menu" class="menu-btn">Menu</label>
     <nav class="nav" aria-label="Main">{nav}</nav>
@@ -953,6 +957,7 @@ a:hover{color:var(--brass-d)}
 .site-header{background:var(--key);border-bottom:1px solid #dfe3e0}
 .bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-top:12px;padding-bottom:12px}
 .brand{font-family:var(--head);font-weight:700;font-size:1.35rem;letter-spacing:-.02em;color:var(--ebony);text-decoration:none;margin-right:auto;line-height:1.1}
+.brand{display:flex;align-items:center;gap:10px}.brand-mark{flex:none;width:44px;height:44px}
 .brand small{display:block;font:500 .78rem var(--display);letter-spacing:0;color:var(--muted);margin-top:2px}
 .nav{display:none;width:100%;flex-direction:column;order:5;padding:6px 0 10px}
 .nav a{font-family:var(--display);font-weight:500;color:var(--ebony);text-decoration:none;padding:10px 0;border-top:1px solid #e3e6e4}
@@ -1130,6 +1135,8 @@ def main():
         with open(os.path.join(OUT, fname), "w", encoding="utf-8") as f:
             f.write(layout(fname, title, desc, body, schema, script))
     shutil.copytree(os.path.join(HERE, "audio_src"), os.path.join(OUT, "audio"))
+    for f in os.listdir(os.path.join(HERE, "brand_src")):
+        shutil.copy(os.path.join(HERE, "brand_src", f), os.path.join(OUT, f))
     shutil.copy(os.path.join(HERE, "data", "d3-celestial-LICENSE.txt"), os.path.join(OUT, "d3-celestial-LICENSE.txt"))
     with open(os.path.join(OUT, "style.css"), "w", encoding="utf-8") as f:
         f.write(CSS.strip() + "\n")

@@ -78,9 +78,14 @@ def layout(fname, title, desc, body, schema=False, script=""):
   }},
   "openingHoursSpecification": [{{
     "@type": "OpeningHoursSpecification",
-    "dayOfWeek": ["Monday", "Tuesday", "Thursday", "Friday", "Saturday"],
+    "dayOfWeek": ["Saturday"],
     "opens": "09:00",
     "closes": "17:00"
+  }}, {{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+    "opens": "18:00",
+    "closes": "20:00"
   }}],
   "areaServed": ["Orange County, CA", "Riverside County, CA", "Los Angeles County, CA"],
   "priceRange": "$99-$495"
@@ -127,7 +132,7 @@ def layout(fname, title, desc, body, schema=False, script=""):
     </div>
     <div>
       <strong>Hours</strong>
-      Monday, Tuesday, Thursday, Friday, Saturday<br>9:00 am to 5:00 pm<br>Closed Wednesday and Sunday
+      Saturday 9:00 am to 5:00 pm<br>Weekday evenings by appointment<br>Closed Sunday
     </div>
     <div>
       <strong>Book</strong>
@@ -270,13 +275,13 @@ def price_table():
 CAL_HTML = """
 <section id="cal-section" hidden>
 <h2>Pick your day</h2>
-<p>Choose your area. Green days are when I am already working near you, so they are the easiest to book. Tap a day to see its price.</p>
+<p>Saturdays are my main service days. Weekday evenings, around 6 pm, are available near Cerritos, Los Angeles and Orange County by appointment. Tap a day to see its price.</p>
 <div class="cal-tabs" id="cal-tabs" role="tablist">
 <button type="button" data-a="la" class="on">Cerritos &amp; LA</button>
 <button type="button" data-a="oc">Irvine &amp; Orange County</button>
 <button type="button" data-a="far">Riverside &amp; beyond</button>
 </div>
-<div class="cal-key"><span><i class="gr"></i>Best day</span><span><i class="ye"></i>Open</span><span><i class="or"></i>Limited</span><span><i class="na"></i>Closed</span></div>
+<div class="cal-key"><span><i class="gr"></i>Saturday</span><span><i class="ye"></i>Evening (about 6 pm)</span><span><i class="or"></i>Limited</span><span><i class="na"></i>Closed</span></div>
 <div id="cal"></div>
 <div id="cal-info" aria-live="polite">Select a day.</div>
 <p><a class="btn primary" href="__BOOK__">Book online</a></p>
@@ -284,13 +289,13 @@ CAL_HTML = """
 <script>
 (function () {
   var S = __SCHEDULE__, keys = Object.keys(S).filter(function (k) { return k !== 'base'; }).sort();
-  var area = 'la', NEAR = [4, 5, 6], FAR = [1, 2], END = new Date(2026, 11, 24);
+  var area = 'la', END = new Date(2026, 11, 24);
   var now = new Date(), today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   if (today > END) return;
   document.getElementById('cal-section').hidden = false;
   function iso(d) { return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
   function wk(d) { var t = new Date(d); t.setDate(t.getDate() - ((t.getDay() + 6) % 7)); var m = iso(t), c = null; keys.forEach(function (k) { if (k <= m) c = k; }); return c; }
-  function cls(d) { var w = d.getDay(); if (w === 0) return 'na'; if (w === 3) return 'ye'; return (area === 'far' ? FAR : NEAR).indexOf(w) > -1 ? 'gr' : 'or'; }
+  function cls(d) { var w = d.getDay(); if (w === 0) return 'na'; if (w === 6) return area === 'far' ? 'ye' : 'gr'; return area === 'far' ? 'or' : 'ye'; }
   function draw() {
     var out = '', y = today.getFullYear(), m = today.getMonth();
     while (new Date(y, m, 1) <= END) {
@@ -314,7 +319,7 @@ CAL_HTML = """
     document.querySelectorAll('.cd.sel').forEach(function (x) { x.classList.remove('sel'); });
     t.classList.add('sel');
     var d = new Date(t.dataset.d + 'T12:00'), k = wk(d), P = k ? S[k] : S.base;
-    var msg = { gr: 'Best day for your area.', ye: 'Open.', or: 'Limited in your area. Call or text to ask.' }[t.dataset.c];
+    var msg = { gr: 'Saturday appointment.', ye: area === 'far' ? 'Saturday trip. Call or text to confirm.' : 'Evening appointment, about 6 pm.', or: 'Limited in your area. Call or text to ask.' }[t.dataset.c];
     document.getElementById('cal-info').innerHTML = '<b>' + d.toLocaleDateString('en', { weekday: 'long', month: 'long', day: 'numeric' }) + '</b><br>' + msg + '<br>Full Ear Tuning $' + P.full + ' &middot; Pin setting +$' + P.pin;
   }
   document.getElementById('cal-tabs').addEventListener('click', function (e) {
@@ -756,7 +761,7 @@ PAGES["contact.html"] = (
 <ul class="plain">
 <li><strong>Call or text:</strong> <a href="tel:{SITE['tel']}">{e(SITE['phone'])}</a></li>
 <li><strong>Business:</strong> {e(SITE['name'])} ({e(SITE['legal'])}), {e(SITE['street'])}, {e(SITE['city'])}, {e(SITE['state'])} {e(SITE['zip'])}</li>
-<li><strong>Hours:</strong> Monday, Tuesday, Thursday, Friday and Saturday, 9:00 am to 5:00 pm. Closed Wednesday and Sunday.</li>
+<li><strong>Hours:</strong> Saturday, 9:00 am to 5:00 pm. Weekday evening appointments (about 6 pm) by arrangement. Closed Sunday.</li>
 </ul>""",
     ),
 )

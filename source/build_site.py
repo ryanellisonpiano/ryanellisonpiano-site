@@ -294,7 +294,7 @@ CAL_HTML = """
 <script>
 (function () {
   var S = __SCHEDULE__, keys = Object.keys(S).filter(function (k) { return k !== 'base'; }).sort();
-  var area = 'la', END = new Date(2026, 11, 24);
+  var area = 'la', END = new Date(2026, 11, 31);
   var now = new Date(), today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
   if (today > END) return;
   document.getElementById('cal-section').hidden = false;

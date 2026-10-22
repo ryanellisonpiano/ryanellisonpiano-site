@@ -34,6 +34,7 @@ NAV = [
     ("disklavier-silent-hybrid.html", "Disklavier, Silent, Hybrid"),
     ("bosendorfer.html", "Bösendorfer"),
     ("bellharp.html", "Bellharp"),
+    ("yamaha-upright-rental.html", "Rentals"),
     ("service-area.html", "Service area"),
     ("about.html", "About"),
     ("faq.html", "FAQ"),
@@ -592,6 +593,27 @@ PAGES["bosendorfer.html"] = (
 <!-- TODO (Ryan): add the Bösendorfer models and the kinds of work you have done on them, if you want to name them. -->""",
     )
     + cta(),
+)
+
+# ---------------- Yamaha upright rental ----------------
+PAGES["yamaha-upright-rental.html"] = (
+    "Rent a Yamaha Upright Piano with Muffler Pedal | Southern California",
+    "Rent a Yamaha B-series upright with a muffler (practice) pedal, delivered, tuned and ready to record. Home studios in Los Angeles, Orange County and the Inland Empire.",
+    inner(
+        "Rent a Yamaha upright with a muffler pedal",
+        "Built for home studios. Want that soft, muted, felt-piano sound without buying a piano? Rent a real Yamaha B-series upright with a muffler (practice) pedal, delivered, tuned and ready to record.",
+        """<ul>
+<li><strong>Quiet, intimate tone.</strong> The muffler pedal softens and mutes the piano for close-mic'd recording, late-night writing and practice. It is much quieter, not silent.</li>
+<li><strong>Mic-ready tuning included.</strong> Every piano is tuned at delivery by a professional piano technician.</li>
+<li><strong>Delivery and setup.</strong> I deliver, level and set up the piano in your space.</li>
+<li><strong>Flexible terms.</strong> Rent for as long as your project runs. Studio terms start at 3 to 4 months.</li>
+<li><strong>Simple pricing.</strong> Call or text for current monthly pricing, plus delivery and pickup. No hidden fees.</li>
+<li><strong>I maintain it.</strong> Normal tuning and wear are on me. Ask about a tuning plan.</li>
+</ul>
+<p>Serving Los Angeles, Orange County and the Inland Empire. Ask about availability.</p>
+""",
+    )
+    + cta("Ask about availability: call or text " + SITE["phone"] + "."),
 )
 
 # ---------------- Service area ----------------

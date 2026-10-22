@@ -497,6 +497,7 @@ KEY_JS = """
   var QK = 'r5t6y7u' + 'zsxdcvgbhnjm,l.;/';
   var qmap = {};
   for (var qi = 0; qi < QK.length; qi++) qmap[QK[qi]] = 53 + qi;
+  qmap['d'] = 57; qmap['h'] = 50;  // D plays A3, H plays D3
   keys.forEach(function (k) {
     for (var q in qmap) if (qmap[q] === +k.dataset.midi) k.setAttribute('data-k', q === ',' || q === '.' || q === ';' || q === '/' ? q : q.toUpperCase());
   });
@@ -505,8 +506,10 @@ KEY_JS = """
     if (ev.ctrlKey || ev.metaKey || ev.altKey || ev.repeat) return;
     var t = ev.target; if (t && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
     var m = qmap[ev.key.toLowerCase()]; if (m === undefined || held[ev.key]) return;
-    var el = document.querySelector('.keys [data-midi="' + m + '"]'); if (!el) return;
-    ev.preventDefault(); held[ev.key] = el; down(el); note(m);
+    var el = document.querySelector('.keys [data-midi="' + m + '"]');
+    ev.preventDefault();
+    if (!el) { held[ev.key] = {classList: {remove: function () {}}}; lit(m); note(m); return; }
+    held[ev.key] = el; down(el); note(m);
   });
   document.addEventListener('keyup', function (ev) {
     var el = held[ev.key]; if (el) { up(el); delete held[ev.key]; }

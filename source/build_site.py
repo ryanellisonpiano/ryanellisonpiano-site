@@ -180,7 +180,8 @@ import math
 
 BASE = {"min": 99, "full": 199, "pin": 70, "disc": -40, "prep": 495, "reg": 165, "dsh": 179}
 ADJ = ["full", "pin", "prep", "reg", "dsh"]          # prices that move with the holiday ramp and demand
-RAMP_START, RAMP_END = dt.date(2026, 11, 1), dt.date(2026, 12, 24)
+RAMP_START, RAMP_END = dt.date(2026, 11, 1), dt.date(2026, 12, 31)
+RAMP_SPAN = (dt.date(2026, 12, 24) - RAMP_START).days   # slope stays at 15% per 53 days; the rise now runs to Dec 31
 RAMP_PCT, POST_PCT, ROUND_TO = 0.15, 0.0, 5          # keep in sync with the Pricing_Tracker_2026 Settings tab
 MAX_CHANGE, MIN_CHANGE = 0.25, -0.15
 # Weekly demand overrides, keyed by the Monday of the week: {dt.date(2026, 11, 9): -0.10}
@@ -206,7 +207,7 @@ def mround(x, style):
 def ramp_pct(d):
     if d > RAMP_END:
         return POST_PCT
-    return max(0.0, min(1.0, (d - RAMP_START).days / (RAMP_END - RAMP_START).days)) * RAMP_PCT
+    return max(0.0, min(1.0, (d - RAMP_START).days / RAMP_SPAN)) * RAMP_PCT
 
 
 def week_prices(monday):
@@ -352,7 +353,7 @@ def schedule_table():
     after = SCHEDULE[dt.date(2026, 12, 28).isoformat()]
     rows += '<tr data-week="2026-12-28"><td>Dec 28 onward</td>' + "".join(f"<td>{money(k, after[k])}</td>" for k, _ in cols) + "</tr>"
     return f"""<h2>Book early, pay less</h2>
-<p>Holiday prices rise a little each week until Dec 24, then return to standard. The price I confirm when you book is the price you pay.</p>
+<p>Holiday prices rise a little each week until Dec 31, then return to standard. The price I confirm when you book is the price you pay.</p>
 <div class="sched-wrap"><table class="sched"><thead><tr><th>Week</th>{head}</tr></thead><tbody>{rows}</tbody></table></div>
 <p>The Minimum Ear Tuning stays $99 all season.</p>"""
 

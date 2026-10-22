@@ -627,7 +627,7 @@ PAGES["index.html"] = (
     f"""<div class="sky">{starfield()}
 <section class="hero"><div class="wrap">
 <h1>Piano tuning and service for Bösendorfer, Yamaha, Disklavier, Silent and Hybrid pianos</h1>
-<p class="lead">I'm Ryan Ellison, a Registered Piano Technician. After ten years with Yamaha pianos, I now tune and care for pianos in homes, schools and churches across Orange County, Riverside and the Gateway Cities.</p>
+<p class="lead">I'm Ryan Ellison, a Registered Piano Technician with ten years of hands-on experience, including Yamaha, Disklavier and Bösendorfer pianos. I tune and care for pianos in homes, schools, studios and churches across Orange County, Riverside and the Gateway Cities.</p>
 <p class="actions"><a class="btn primary" href="{SITE['book']}">Book online</a>
 <a class="btn" href="tel:{SITE['tel']}">Call or text {e(SITE['phone'])}</a></p>
 </div></section>
@@ -711,7 +711,7 @@ PAGES["disklavier-silent-hybrid.html"] = (
     "Calibration and repair for Disklavier, Silent and Hybrid pianos by a registered piano technician.",
     inner(
         "Service for Disklavier, Silent and Hybrid pianos",
-        "These pianos add sensors, solenoids and electronics to an acoustic piano, and many tuners avoid them. After ten years with Yamaha pianos, this is what I do every day.",
+        "These pianos add sensors, solenoids and electronics to an acoustic piano, and many tuners avoid them. With ten years of daily experience on these pianos, this is the work I know best.",
         "<h2>What D.S.H. Maintenance includes (" + ps("dsh") + """)</h2>
 <ul>
 <li>Calibration and table updates for the Disklavier, Silent or Hybrid system</li>
@@ -845,7 +845,7 @@ PAGES["about.html"] = (
 <h2>West to Los Angeles, and Yamaha</h2>
 <p>By late 2015 I was heading west. After three hard-fought years building my own business, the LA competition intimidated me, so I looked for a job at a piano store. Two trips later, I had nothing. My last appointment on my last trip was with a Yamaha dealer in Van Nuys, who told me Yamaha was hiring. That was another call I'm glad I made. In December 2015, I started at Yamaha in Buena Park.</p>
 <p>There I had to start over, un-learning old habits and learning the Yamaha method from the beginning: unison, octave, fifth, fourth, and a slow-beating temperament. A marvelous technician from Osaka brought projection tuning to the US, and his pianos sounded calm and powerful at once. It changed how I hear a piano.</p>
-<p>It all comes full circle. I started with nothing but a tuning lever in my pocket, and now I'm taking everything I've learned back to where it began: just me, my tools and your piano. There's more to come.</p>
+<p>It all comes full circle. I started with nothing but a tuning lever in my pocket, and now I'm taking everything I've learned back to where it began: just me, my tools and your piano.</p>
 
 <h2>Credentials</h2>
 <ul>

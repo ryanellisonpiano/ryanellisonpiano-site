@@ -353,8 +353,8 @@ def schedule_table():
 
 
 # ---------- Playable keyboard (hero) ----------
-# Keyboard range: F3 to E5 (MIDI 53 to 76)
-FIRST, LAST = 53, 76
+# Keyboard range: F3 to B4 (MIDI 53 to 71)
+FIRST, LAST = 53, 71
 NOTE_NAMES = ["C", "C sharp", "D", "D sharp", "E", "F", "F sharp", "G", "G sharp", "A", "A sharp", "B"]
 BLACK_PCS = {1, 3, 6, 8, 10}
 
@@ -394,6 +394,7 @@ KEYSTAR = key_stars()
 
 QK_BASE = "r5t6y7u" + "zsxdcvgbhnjm,l.;/"
 QMAP = {ch: 53 + i for i, ch in enumerate(QK_BASE)}
+QMAP = {k: v for k, v in QMAP.items() if v <= LAST}
 QMAP.update({"d": 57, "h": 62, "s": 55, "g": 60, "a": 53, "r": 58, "u": 63, "e": 56, "y": 61, "w": 54, "f": 59, "j": 64, "8": 66, "9": 68, "0": 70})
 
 
@@ -426,7 +427,7 @@ def keyboard():
                 f'<button class="bk" type="button" data-midi="{bm}" aria-label="{bname}, {KEYSTAR[bm][0]}, northern sky" title="{KEYSTAR[bm][0]}" '
                 f'style="left:{left:.3f}%;width:{w * 0.6:.3f}%"></button>'
             )
-    return f'<div class="keys" role="group" aria-label="Piano keyboard from F3 to E5, tap to play">{"".join(keys)}{"".join(blacks)}</div>'
+    return f'<div class="keys" role="group" aria-label="Piano keyboard from F3 to B4, tap to play">{"".join(keys)}{"".join(blacks)}</div>'
 
 
 KEY_JS = """
@@ -627,7 +628,7 @@ PAGES["index.html"] = (
 <div class="wrap">
 {keyboard()}
 <p class="keyhint"><button id="play-a" type="button" class="btn ghost small">Hear concert A (440 Hz)</button>
-<span id="pitch-status" role="status">Tap the keys, or use your computer keyboard (Z to / and R to U). Each key lights its constellation.</span></p>
+<span id="pitch-status" role="status">Tap the keys, or use your computer keyboard (see the chart). Each key lights its constellation.</span></p>
 {qchart()}
 {skymaps()}
 <p class="skycredit">Constellation figures: d3-celestial by Olaf Frohn (BSD 3-Clause); stars from the Hipparcos catalogue. The inner ring is the celestial equator; each map reaches 30 degrees past it.</p>

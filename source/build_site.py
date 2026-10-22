@@ -394,7 +394,7 @@ KEYSTAR = key_stars()
 
 QK_BASE = "r5t6y7u" + "zsxdcvgbhnjm,l.;/"
 QMAP = {ch: 53 + i for i, ch in enumerate(QK_BASE)}
-QMAP.update({"d": 57, "h": 62, "s": 55, "g": 60, "a": 53, "r": 58, "u": 63, "e": 56, "y": 61, "w": 54, "f": 59, "j": 64})
+QMAP.update({"d": 57, "h": 62, "s": 55, "g": 60, "a": 53, "r": 58, "u": 63, "e": 56, "y": 61, "w": 54, "f": 59, "j": 64, "8": 66, "9": 68, "0": 70})
 
 
 def qchart():

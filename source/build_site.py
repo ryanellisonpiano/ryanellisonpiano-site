@@ -493,6 +493,24 @@ KEY_JS = """
     });
     k.addEventListener('keyup', function () { up(k); });
   });
+  // Computer keyboard: lower row C4 to E5, number row F3 to B3.
+  var QK = 'r5t6y7u' + 'zsxdcvgbhnjm,l.;/';
+  var qmap = {};
+  for (var qi = 0; qi < QK.length; qi++) qmap[QK[qi]] = 53 + qi;
+  keys.forEach(function (k) {
+    for (var q in qmap) if (qmap[q] === +k.dataset.midi) k.setAttribute('data-k', q === ',' || q === '.' || q === ';' || q === '/' ? q : q.toUpperCase());
+  });
+  var held = {};
+  document.addEventListener('keydown', function (ev) {
+    if (ev.ctrlKey || ev.metaKey || ev.altKey || ev.repeat) return;
+    var t = ev.target; if (t && /^(INPUT|TEXTAREA|SELECT)$/.test(t.tagName)) return;
+    var m = qmap[ev.key.toLowerCase()]; if (m === undefined || held[ev.key]) return;
+    var el = document.querySelector('.keys [data-midi="' + m + '"]'); if (!el) return;
+    ev.preventDefault(); held[ev.key] = el; down(el); note(m);
+  });
+  document.addEventListener('keyup', function (ev) {
+    var el = held[ev.key]; if (el) { up(el); delete held[ev.key]; }
+  });
   var a = document.getElementById('play-a');
   if (a) a.addEventListener('click', function () {
     note(69, 4.5);
@@ -592,7 +610,7 @@ PAGES["index.html"] = (
 <div class="wrap">
 {keyboard()}
 <p class="keyhint"><button id="play-a" type="button" class="btn ghost small">Hear concert A (440 Hz)</button>
-<span id="pitch-status" role="status">Tap the keys to play. Each key lights its constellation.</span></p>
+<span id="pitch-status" role="status">Tap the keys, or use your computer keyboard (Z to / and R to U). Each key lights its constellation.</span></p>
 {skymaps()}
 <p class="skycredit">Constellation figures: d3-celestial by Olaf Frohn (BSD 3-Clause); stars from the Hipparcos catalogue. The inner ring is the celestial equator; each map reaches 30 degrees past it.</p>
 <p class="skynote"><b>36 and 52.</b> A piano has 36 black keys and 52 white keys. The sky has 88 modern constellations, 36 in the northern sky and 52 in the southern. Here every black key is a northern constellation and every white key a southern one, ordered by declination: the lowest white key is Octans at the south pole, and the highest black key is Ursa Minor, home of Polaris. Tap a key and its constellation lights up in the sky map.</p>
@@ -938,6 +956,9 @@ a:hover{color:var(--brass-d)}
 .sky{position:relative;background:radial-gradient(120% 90% at 70% 0%,#26306b 0%,#1a2147 45%,#0f1430 100%);color:#fff;overflow:hidden}
 .stars{position:absolute;inset:0;width:100%;height:100%;opacity:.55;-webkit-mask-image:linear-gradient(90deg,rgba(0,0,0,.25),#000 70%);mask-image:linear-gradient(90deg,rgba(0,0,0,.25),#000 70%)}
 @media(min-width:900px){.stars{opacity:1;-webkit-mask-image:linear-gradient(90deg,rgba(0,0,0,.12) 0,rgba(0,0,0,.2) 40%,#000 75%);mask-image:linear-gradient(90deg,rgba(0,0,0,.12) 0,rgba(0,0,0,.2) 40%,#000 75%)}}
+.keys button[data-k]::after{content:attr(data-k);position:absolute;left:0;right:0;bottom:6px;text-align:center;font:600 .75rem var(--display,sans-serif);color:#6b6f80;pointer-events:none;display:none}
+.bk[data-k]::after{color:#aab}
+@media(hover:hover) and (min-width:900px){.keys button[data-k]::after{display:block}}
 .skymaps{position:relative;z-index:1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px;margin:22px auto 0;max-width:880px}
 .skymap{margin:0;text-align:center}
 .skymap svg{width:100%;height:auto;aspect-ratio:1/1;display:block;background:#0a1030;border-radius:50%;box-shadow:0 0 0 1px #3a4680,0 8px 30px rgba(0,0,0,.45)}
@@ -970,7 +991,7 @@ a:hover{color:var(--brass-d)}
 .hero .lead{font-size:1.3rem;max-width:44ch;margin-top:1.2em}
 .keybed{background:transparent;padding:26px 0 22px;border-bottom:6px solid var(--brass)}
 .keys{position:relative;display:flex;height:clamp(120px,22vw,190px);background:var(--ebony);padding:0 2px 3px;border-radius:0 0 8px 8px;user-select:none;-webkit-user-select:none;touch-action:manipulation}
-.wk{flex:1;border:0;border-right:1px solid #9aa09c;background:linear-gradient(#fff,#f3f2ec 85%,#d9d6c8);border-radius:0 0 5px 5px;padding:0;cursor:pointer;margin:0 .5px}
+.wk{position:relative;flex:1;border:0;border-right:1px solid #9aa09c;background:linear-gradient(#fff,#f3f2ec 85%,#d9d6c8);border-radius:0 0 5px 5px;padding:0;cursor:pointer;margin:0 .5px}
 .wk:last-of-type{border-right:0}
 .bk{position:absolute;top:0;height:62%;border:0;border-radius:0 0 4px 4px;background:linear-gradient(#34373d,#0f1013);cursor:pointer;padding:0;z-index:2;box-shadow:0 2px 3px rgba(0,0,0,.5)}
 .wk.down{background:linear-gradient(#e9e6d6,#d5d1bd);transform:translateY(2px)}

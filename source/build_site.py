@@ -928,7 +928,8 @@ PAGES["contact.html"] = (
         "",
         f"""<p><a class="btn primary" href="{SITE['book']}">Book online</a></p>
 <ul class="plain">
-<li><strong>Call or text:</strong> <a href="tel:{SITE['tel']}">{e(SITE['phone'])}</a></li>
+<li><strong>Call or text:</strong> <a href="tel:{SITE['tel']}">{e(SITE['phone'])}</a> (fastest for same-day questions)</li>
+<li><strong>Prefer email?</strong> <a href="mailto:{SITE['email']}?subject=Piano%20tuning%20question">{e(SITE['email'])}</a>. Include your city, the piano make and model if you know them, and a photo if you can.</li>
 <li><strong>Business:</strong> {e(SITE['name'])} ({e(SITE['legal'])}), {e(SITE['street'])}, {e(SITE['city'])}, {e(SITE['state'])} {e(SITE['zip'])}</li>
 <li><strong>Hours:</strong> Saturday, 9:00 am to 5:00 pm. Monday and Wednesday evening appointments (about 6 pm) by arrangement; some Mondays are open all day. Closed Sunday.</li>
 </ul>""",

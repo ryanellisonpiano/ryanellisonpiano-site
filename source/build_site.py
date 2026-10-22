@@ -143,7 +143,7 @@ def layout(fname, title, desc, body, schema=False, script=""):
       <a href="faq.html">Questions</a><br>
       <a href="bellharp.html">Bellharp</a><br>
       <a href="yamaha-upright-rental.html">Rentals</a><br>
-      <a href="service-area.html">Service area</a>
+      <a href="about.html">About</a>
     </div>
   </div>
   <div class="wrap fine">&copy; 2026 {e(SITE['name'])}, a service of {e(SITE['legal'])}. Registered Piano Technician, Piano Technicians Guild.<br>Piano sounds: Salamander Grand Piano by Alexander Holm, <a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>. Sky data: <a href="d3-celestial-LICENSE.txt">d3-celestial</a> by Olaf Frohn.</div>

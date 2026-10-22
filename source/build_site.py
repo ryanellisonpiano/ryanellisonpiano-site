@@ -889,7 +889,7 @@ PAGES["bellharp.html"] = (
 <h3>The temperament, the heart of the piano</h3>
 <p>I tune the 12-note temperament in a circular pattern so every note relates to its neighbors, then tune the octaves above and below by ear. This brings out the bell characteristics already in the frame.</p>
 
-<h2>Tensioning the bell frame</h2>
+<h2>Tensioning the bellframe</h2>
 <p>I tension the frame firmly. If a tuning pin is lax, the string doesn't pull on the frame as it should, and the sound suffers.</p>
 
 <h2>How I picture the piano</h2>

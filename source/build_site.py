@@ -142,7 +142,7 @@ def layout(fname, title, desc, body, schema=False, script=""):
       <a href="faq.html">Questions</a>
     </div>
   </div>
-  <div class="wrap fine">&copy; 2026 {e(SITE['name'])}, a service of {e(SITE['legal'])}. Registered Piano Technician, Piano Technicians Guild.<br>Piano sounds: Salamander Grand Piano by Alexander Holm, <a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>.</div>
+  <div class="wrap fine">&copy; 2026 {e(SITE['name'])}, a service of {e(SITE['legal'])}. Registered Piano Technician, Piano Technicians Guild.<br>Piano sounds: Salamander Grand Piano by Alexander Holm, <a href="https://creativecommons.org/licenses/by/3.0/">CC BY 3.0</a>. Sky data: <a href="d3-celestial-LICENSE.txt">d3-celestial</a> by Olaf Frohn.</div>
 </footer>
 <div class="mobilebar">
   <a class="btn" href="tel:{SITE['tel']}">Call</a>
@@ -469,9 +469,17 @@ KEY_JS = """
   var status = document.getElementById('pitch-status');
   var stars = {};
   document.querySelectorAll('.star').forEach(function (s) { stars[s.dataset.n] = s; });
+  var CONS = __CONMAP__;
+  var figs = {};
+  document.querySelectorAll('.con').forEach(function (g) { (figs[g.dataset.id] = figs[g.dataset.id] || []).push(g); });
   function lit(m) {
     var s = stars[m - 20]; if (!s) return;
     s.classList.add('lit'); setTimeout(function () { s.classList.remove('lit'); }, 900);
+    (CONS[s.dataset.c] || CONS[s.dataset.c.replace('\u00f6', 'o')] || []).forEach(function (id) {
+      (figs[id] || []).forEach(function (g) {
+        g.classList.add('lit'); clearTimeout(g._t); g._t = setTimeout(function () { g.classList.remove('lit'); }, 2200);
+      });
+    });
     if (status) status.textContent = (s.dataset.h === 'N' ? 'Black key' : 'White key') + ': ' + s.dataset.c + ', ' + (s.dataset.h === 'N' ? 'northern' : 'southern') + ' sky';
   }
   function down(el) { el.classList.add('down'); lit(+el.dataset.midi); }
@@ -513,6 +521,60 @@ def starfield():
     return f'<svg class="stars" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">{circles}</svg>'
 
 
+import json, math, os
+
+CON_ID = None
+
+
+def skymaps():
+    """Two polar charts (north, south) with all 88 constellation figures. Real data: d3-celestial (BSD 3-Clause)."""
+    global CON_ID
+    d = json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "sky.json")))
+    CON_ID = {}
+    for i, n in d["names"].items():
+        CON_ID.setdefault(n, []).append(i)
+    CON_ID["Corona Australis"] = ["CrA"]
+    CON_ID["Serpens"] = ["Ser"]
+    R, C = 120.0, 130.0
+
+    def proj(lon, lat, hemi):
+        r = (90 - lat) if hemi == "N" else (90 + lat)
+        if r > R:
+            return None
+        a = math.radians(lon)
+        sgn = -1 if hemi == "N" else 1
+        return (C + sgn * r * math.sin(a), C + r * math.cos(a) * (1 if hemi == "N" else 1))
+
+    out = ""
+    for hemi, label in (("N", "Northern sky"), ("S", "Southern sky")):
+        g = ""
+        for t in d["stars"]:
+            p = proj(t[0], t[1], hemi)
+            if p:
+                g += f'<circle cx="{p[0]:.1f}" cy="{p[1]:.1f}" r="{max(.5, 1.7 - t[2] * .28):.2f}" class="bg"/>'
+        for cid, segs in d["lines"].items():
+            paths, dots = "", ""
+            for seg in segs:
+                pts = [proj(a, b, hemi) for a, b in seg]
+                for i in range(len(pts) - 1):
+                    if pts[i] and pts[i + 1]:
+                        paths += f"M{pts[i][0]:.1f} {pts[i][1]:.1f}L{pts[i + 1][0]:.1f} {pts[i + 1][1]:.1f}"
+                for p in pts:
+                    if p:
+                        dots += f'<circle cx="{p[0]:.1f}" cy="{p[1]:.1f}" r="1.6"/>'
+            if paths:
+                g += f'<g class="con" data-id="{cid}"><path d="{paths}"/>{dots}</g>'
+        ring = f'<circle cx="{C}" cy="{C}" r="{R}" class="rim"/><circle cx="{C}" cy="{C}" r="90" class="eq"/>'
+        out += (f'<figure class="skymap" data-h="{hemi}"><svg viewBox="0 0 260 260" role="img" aria-label="{label} with constellation figures">{ring}{g}</svg>'
+                f'<figcaption>{label}</figcaption></figure>')
+    return f'<div class="skymaps">{out}</div>'
+
+
+def con_map():
+    """Constellation name -> list of figure ids, for the page script."""
+    return json.dumps(CON_ID, ensure_ascii=False)
+
+
 PAGES = {}
 
 # ---------------- Home ----------------
@@ -530,8 +592,10 @@ PAGES["index.html"] = (
 <div class="wrap">
 {keyboard()}
 <p class="keyhint"><button id="play-a" type="button" class="btn ghost small">Hear concert A (440 Hz)</button>
-<span id="pitch-status" role="status">Tap the keys to play. Each key lights its star.</span></p>
-<p class="skynote"><b>36 and 52.</b> A piano has 36 black keys and 52 white keys. The sky has 88 modern constellations, 36 in the northern sky and 52 in the southern. Here every black key is a northern constellation and every white key a southern one, ordered by declination: the lowest white key is Octans at the south pole, and the highest black key is Ursa Minor, home of Polaris. Tap a key to see its star.</p>
+<span id="pitch-status" role="status">Tap the keys to play. Each key lights its constellation.</span></p>
+{skymaps()}
+<p class="skycredit">Constellation figures: d3-celestial by Olaf Frohn (BSD 3-Clause); stars from the Hipparcos catalogue. The inner ring is the celestial equator; each map reaches 30 degrees past it.</p>
+<p class="skynote"><b>36 and 52.</b> A piano has 36 black keys and 52 white keys. The sky has 88 modern constellations, 36 in the northern sky and 52 in the southern. Here every black key is a northern constellation and every white key a southern one, ordered by declination: the lowest white key is Octans at the south pole, and the highest black key is Ursa Minor, home of Polaris. Tap a key and its constellation lights up in the sky map.</p>
 </div>
 </section>
 </div>
@@ -580,7 +644,7 @@ PAGES["index.html"] = (
 </section>
 {cta()}""",
     True,
-    KEY_JS,
+    KEY_JS.replace('__CONMAP__', con_map()),
 )
 
 # ---------------- Services ----------------
@@ -874,6 +938,19 @@ a:hover{color:var(--brass-d)}
 .sky{position:relative;background:radial-gradient(120% 90% at 70% 0%,#26306b 0%,#1a2147 45%,#0f1430 100%);color:#fff;overflow:hidden}
 .stars{position:absolute;inset:0;width:100%;height:100%;opacity:.55;-webkit-mask-image:linear-gradient(90deg,rgba(0,0,0,.25),#000 70%);mask-image:linear-gradient(90deg,rgba(0,0,0,.25),#000 70%)}
 @media(min-width:900px){.stars{opacity:1;-webkit-mask-image:linear-gradient(90deg,rgba(0,0,0,.12) 0,rgba(0,0,0,.2) 40%,#000 75%);mask-image:linear-gradient(90deg,rgba(0,0,0,.12) 0,rgba(0,0,0,.2) 40%,#000 75%)}}
+.skymaps{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:18px 0 0;max-width:640px}
+.skymap{margin:0;text-align:center}
+.skymap svg{width:100%;height:auto;display:block;background:radial-gradient(circle,#101a40 0%,#0a1030 100%);border-radius:50%}
+.skymap figcaption{font-size:.9rem;color:#c9d0ea;margin-top:4px}
+.skymap .bg{fill:#aab6e0;opacity:.55}
+.skymap .rim{fill:none;stroke:#3a4680;stroke-width:1}
+.skymap .eq{fill:none;stroke:#2c376e;stroke-width:.7;stroke-dasharray:2 3}
+.con path{fill:none;stroke:#6c7bbd;stroke-width:.7;opacity:.55;transition:stroke .3s,opacity .3s,stroke-width .3s}
+.con circle{fill:#9fb0ee;opacity:.6;transition:fill .3s,opacity .3s}
+.con.lit path{stroke:#ffe08a;stroke-width:1.9;opacity:1;filter:drop-shadow(0 0 3px #ffd770)}
+.con.lit circle{fill:#fff3c4;opacity:1;filter:drop-shadow(0 0 3px #ffd770)}
+.skycredit{margin:10px 0 0;font-size:.8rem;color:#98a2cc;max-width:46rem}
+@media(max-width:520px){.skymaps{gap:6px}}
 .star{fill:#f6efd6;transform-box:fill-box;transform-origin:center;transition:transform .25s,fill .25s}
 .star.n{fill:#dbe6ff}
 .star.lit{fill:#ffe08a;transform:scale(3.4);filter:drop-shadow(0 0 5px #ffd770)}
@@ -1004,6 +1081,7 @@ def main():
         with open(os.path.join(OUT, fname), "w", encoding="utf-8") as f:
             f.write(layout(fname, title, desc, body, schema, script))
     shutil.copytree(os.path.join(HERE, "audio_src"), os.path.join(OUT, "audio"))
+    shutil.copy(os.path.join(HERE, "data", "d3-celestial-LICENSE.txt"), os.path.join(OUT, "d3-celestial-LICENSE.txt"))
     with open(os.path.join(OUT, "style.css"), "w", encoding="utf-8") as f:
         f.write(CSS.strip() + "\n")
     urls = "".join(

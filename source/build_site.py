@@ -45,7 +45,7 @@ e = html.escape
 
 FONTS = (
     "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700"
-    "&family=Source+Serif+4:ital,wght@0,400;0,600;1,400&display=swap"
+    "&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap"
 )
 
 
@@ -932,12 +932,13 @@ CSS = """
 :root{
   --key:#fcfcfa; --ebony:#1b1d22; --felt:#1a2147; --felt-d:#0f1430; --brass:#e0b95a; --brass-d:#7a5c1e; --rule:#a07f20; --steel:#e9ecf4; --muted:#555d66;
   --display:"Bricolage Grotesque","Avenir Next","Segoe UI",system-ui,sans-serif;
+  --head:"Source Serif 4",Charter,"Bitstream Charter",Georgia,serif;
   --body:"Source Serif 4",Charter,"Bitstream Charter",Georgia,serif;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
 body{margin:0;font:1.125rem/1.7 var(--body);color:var(--ebony);background:var(--key);padding-bottom:64px}
-h1,h2,h3{font-family:var(--display);color:var(--ebony);line-height:1.1;letter-spacing:-.02em;margin:0}
+h1,h2,h3{font-family:var(--head);font-weight:700;color:var(--ebony);line-height:1.15;letter-spacing:-.01em;margin:0}
 h1{font-size:clamp(2.1rem,5.2vw,3.9rem);font-weight:700;max-width:22ch}
 h2{font-size:clamp(1.6rem,3.4vw,2.2rem);font-weight:700;margin:0 0 .7em}
 h3{font-size:1.25rem;font-weight:700;letter-spacing:-.01em;margin:1.6em 0 .3em}
@@ -951,7 +952,7 @@ a:hover{color:var(--brass-d)}
 /* header */
 .site-header{background:var(--key);border-bottom:1px solid #dfe3e0}
 .bar{display:flex;align-items:center;gap:14px;flex-wrap:wrap;padding-top:12px;padding-bottom:12px}
-.brand{font-family:var(--display);font-weight:700;font-size:1.35rem;letter-spacing:-.02em;color:var(--ebony);text-decoration:none;margin-right:auto;line-height:1.1}
+.brand{font-family:var(--head);font-weight:700;font-size:1.35rem;letter-spacing:-.02em;color:var(--ebony);text-decoration:none;margin-right:auto;line-height:1.1}
 .brand small{display:block;font:500 .78rem var(--display);letter-spacing:0;color:var(--muted);margin-top:2px}
 .nav{display:none;width:100%;flex-direction:column;order:5;padding:6px 0 10px}
 .nav a{font-family:var(--display);font-weight:500;color:var(--ebony);text-decoration:none;padding:10px 0;border-top:1px solid #e3e6e4}
@@ -1012,7 +1013,7 @@ a:hover{color:var(--brass-d)}
 .harmony{padding-top:56px}
 .harmony .big{font-size:1.3rem;line-height:1.6;max-width:56ch}
 .quote{margin:1.2em 0 1.4em;padding:4px 0 4px 20px;border-left:4px solid var(--rule);max-width:56ch}
-.quote p{font:700 clamp(1.5rem,3.4vw,2.1rem)/1.2 var(--display);letter-spacing:-.02em;margin:0 0 .4em}
+.quote p{font:700 clamp(1.5rem,3.4vw,2.1rem)/1.2 var(--head);letter-spacing:-.01em;margin:0 0 .4em}
 .quote footer{color:var(--muted);font-size:1rem}
 .hero{padding:56px 0 44px}
 .hero .lead{font-size:1.3rem;max-width:44ch;margin-top:1.2em}
@@ -1030,7 +1031,7 @@ a:hover{color:var(--brass-d)}
 .work{list-style:none;margin:0;padding:0;border-top:3px solid var(--ebony)}
 .work li{border-bottom:1px solid #cfd4d1}
 .work a{display:grid;gap:4px;padding:22px 4px;text-decoration:none;color:var(--ebony)}
-.work .name{font:700 clamp(1.5rem,3.4vw,2.3rem)/1.1 var(--display);letter-spacing:-.02em}
+.work .name{font:700 clamp(1.5rem,3.4vw,2.3rem)/1.1 var(--head);letter-spacing:-.01em}
 .work .desc{color:var(--muted);max-width:52ch}
 .work a:hover .name{color:var(--felt);text-decoration:underline;text-decoration-color:var(--rule);text-decoration-thickness:3px;text-underline-offset:6px}
 .reasons{background:var(--steel);margin-top:48px;padding:56px 0 40px}
@@ -1077,7 +1078,7 @@ table.prices{width:100%;border-collapse:collapse;margin:8px 0 24px}
 table.prices thead{position:absolute;left:-9999px}
 table.prices tr{display:grid;grid-template-columns:1fr auto;gap:0 16px;padding:16px 0;border-bottom:1px solid #cfd4d1}
 table.prices th,table.prices td{display:block;text-align:left;padding:0;font-weight:400}
-table.prices th{font:700 1.2rem var(--display);letter-spacing:-.01em}
+table.prices th{font:700 1.2rem var(--head);letter-spacing:0}
 table.prices .what{grid-column:1/2;grid-row:2;color:var(--muted);max-width:56ch}
 table.prices .price{grid-column:2;grid-row:1/3;align-self:center;font:700 1.5rem var(--display);white-space:nowrap}
 

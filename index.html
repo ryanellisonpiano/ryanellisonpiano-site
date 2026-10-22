@@ -238,6 +238,7 @@
   var qmap = {};
   for (var qi = 0; qi < QK.length; qi++) qmap[QK[qi]] = 53 + qi;
   qmap['d'] = 57; qmap['h'] = 50;  // D plays A3, H plays D3
+  qmap['s'] = 55; qmap['g'] = 60; qmap['a'] = 53; qmap['r'] = 58; qmap['u'] = 51; qmap['e'] = 56; qmap['y'] = 49;
   keys.forEach(function (k) {
     for (var q in qmap) if (qmap[q] === +k.dataset.midi) k.setAttribute('data-k', q === ',' || q === '.' || q === ';' || q === '/' ? q : q.toUpperCase());
   });

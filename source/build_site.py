@@ -84,7 +84,7 @@ def layout(fname, title, desc, body, schema=False, script=""):
     "closes": "17:00"
   }}, {{
     "@type": "OpeningHoursSpecification",
-    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+    "dayOfWeek": ["Monday", "Wednesday"],
     "opens": "18:00",
     "closes": "20:00"
   }}],
@@ -137,7 +137,7 @@ def layout(fname, title, desc, body, schema=False, script=""):
     </div>
     <div>
       <strong>Hours</strong>
-      Saturday 9:00 am to 5:00 pm<br>Weekday evenings by appointment<br>Closed Sunday
+      Saturday 9:00 am to 5:00 pm<br>Monday and Wednesday evenings by appointment<br>Closed Sunday
     </div>
     <div>
       <strong>Book</strong>
@@ -280,13 +280,13 @@ def price_table():
 CAL_HTML = """
 <section id="cal-section" hidden>
 <h2>Pick your day</h2>
-<p>Saturdays are my main service days. Weekday evenings, around 6 pm, are available near Cerritos, Los Angeles and Orange County by appointment. Tap a day to see its price.</p>
+<p>Saturdays are my main service days. Wednesday evenings and every Monday evening, around 6 pm, are available near Cerritos, Los Angeles and Orange County by appointment. Every other Monday is open all day. Tap a day to see its price.</p>
 <div class="cal-tabs" id="cal-tabs" role="tablist">
 <button type="button" data-a="la" class="on">Cerritos &amp; LA</button>
 <button type="button" data-a="oc">Irvine &amp; Orange County</button>
 <button type="button" data-a="far">Riverside &amp; beyond</button>
 </div>
-<div class="cal-key"><span><i class="gr"></i>Saturday</span><span><i class="ye"></i>Evening (about 6 pm)</span><span><i class="or"></i>Limited</span><span><i class="na"></i>Closed</span></div>
+<div class="cal-key"><span><i class="gr"></i>Saturday or open Monday</span><span><i class="ye"></i>Evening (about 6 pm)</span><span><i class="or"></i>Limited</span><span><i class="na"></i>Not available</span></div>
 <div id="cal"></div>
 <div id="cal-info" aria-live="polite">Select a day.</div>
 <p><a class="btn primary" href="__BOOK__">Book online</a></p>
@@ -300,7 +300,8 @@ CAL_HTML = """
   document.getElementById('cal-section').hidden = false;
   function iso(d) { return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
   function wk(d) { var t = new Date(d); t.setDate(t.getDate() - ((t.getDay() + 6) % 7)); var m = iso(t), c = null; keys.forEach(function (k) { if (k <= m) c = k; }); return c; }
-  function cls(d) { var w = d.getDay(); if (w === 0) return 'na'; if (w === 6) return area === 'far' ? 'ye' : 'gr'; return area === 'far' ? 'or' : 'ye'; }
+  function off(d) { return d.getDay() === 1 && Math.round((d - new Date(2026, 10, 16)) / 864e5) % 14 === 0; }
+  function cls(d) { var w = d.getDay(); if (w === 6) return area === 'far' ? 'ye' : 'gr'; if (w === 1) return off(d) ? (area === 'far' ? 'ye' : 'gr') : (area === 'far' ? 'or' : 'ye'); if (w === 3) return area === 'far' ? 'or' : 'ye'; return 'na'; }
   function draw() {
     var out = '', y = today.getFullYear(), m = today.getMonth();
     while (new Date(y, m, 1) <= END) {
@@ -324,7 +325,7 @@ CAL_HTML = """
     document.querySelectorAll('.cd.sel').forEach(function (x) { x.classList.remove('sel'); });
     t.classList.add('sel');
     var d = new Date(t.dataset.d + 'T12:00'), k = wk(d), P = k ? S[k] : S.base;
-    var msg = { gr: 'Saturday appointment.', ye: area === 'far' ? 'Saturday trip. Call or text to confirm.' : 'Evening appointment, about 6 pm.', or: 'Limited in your area. Call or text to ask.' }[t.dataset.c];
+    var msg = { gr: d.getDay() === 1 ? 'Open Monday, daytime appointment.' : 'Saturday appointment.', ye: area === 'far' ? (d.getDay() === 1 ? 'Open Monday trip. Call or text to confirm.' : 'Saturday trip. Call or text to confirm.') : 'Evening appointment, about 6 pm.', or: 'Limited in your area. Call or text to ask.' }[t.dataset.c];
     document.getElementById('cal-info').innerHTML = '<b>' + d.toLocaleDateString('en', { weekday: 'long', month: 'long', day: 'numeric' }) + '</b><br>' + msg + '<br>Full Ear Tuning $' + P.full + ' &middot; Pin setting +$' + P.pin;
   }
   document.getElementById('cal-tabs').addEventListener('click', function (e) {
@@ -927,7 +928,7 @@ PAGES["contact.html"] = (
 <ul class="plain">
 <li><strong>Call or text:</strong> <a href="tel:{SITE['tel']}">{e(SITE['phone'])}</a></li>
 <li><strong>Business:</strong> {e(SITE['name'])} ({e(SITE['legal'])}), {e(SITE['street'])}, {e(SITE['city'])}, {e(SITE['state'])} {e(SITE['zip'])}</li>
-<li><strong>Hours:</strong> Saturday, 9:00 am to 5:00 pm. Weekday evening appointments (about 6 pm) by arrangement. Closed Sunday.</li>
+<li><strong>Hours:</strong> Saturday, 9:00 am to 5:00 pm. Monday and Wednesday evening appointments (about 6 pm) by arrangement; some Mondays are open all day. Closed Sunday.</li>
 </ul>""",
     ),
 )

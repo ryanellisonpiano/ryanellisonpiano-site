@@ -744,7 +744,7 @@ PAGES["bosendorfer.html"] = (
 # ---------------- Yamaha upright rental ----------------
 PAGES["yamaha-upright-rental.html"] = (
     "Rent a Yamaha Upright Piano with Muffler Pedal | Southern California",
-    "Rent a Yamaha B-series upright with a muffler (practice) pedal, delivered, tuned and ready to record. Home studios in Los Angeles, Orange County and the Inland Empire.",
+    "Rent a Yamaha B-series upright with a muffler (practice) pedal, delivered, tuned and ready to record. Short-term rentals for studios. Home studios in Los Angeles, Orange County and the Inland Empire.",
     inner(
         "Rent a Yamaha upright with a muffler pedal",
         "Built for home studios. Want that soft, muted, felt-piano sound without buying a piano? Rent a real Yamaha B-series upright with a muffler (practice) pedal, delivered, tuned and ready to record.",
@@ -752,7 +752,8 @@ PAGES["yamaha-upright-rental.html"] = (
 <li><strong>Quiet, intimate tone.</strong> The muffler pedal softens and mutes the piano for close-mic'd recording, late-night writing and practice. It is much quieter, not silent.</li>
 <li><strong>Mic-ready tuning included.</strong> Every piano is tuned at delivery by a professional piano technician.</li>
 <li><strong>Delivery and setup.</strong> I deliver, level and set up the piano in your space.</li>
-<li><strong>Flexible terms.</strong> Rent for as long as your project runs. Studio terms start at 3 to 4 months.</li>
+<li><strong>Flexible terms.</strong> Rent for as long as your project runs. Standard studio terms start at 3 to 4 months.</li>
+<li><strong>Short-term studio rental.</strong> Recording a single album, EP or scoring project? Ask about a short-term rental for studios: a Yamaha upright delivered, tuned and picked up when your sessions wrap. Call or text for availability and terms.</li>
 <li><strong>Simple pricing.</strong> Call or text for current monthly pricing, plus delivery and pickup. No hidden fees.</li>
 <li><strong>I maintain it.</strong> Normal tuning and wear are on me. Ask about a tuning plan.</li>
 </ul>
@@ -827,7 +828,7 @@ PAGES["about.html"] = (
         "",
         """<!-- PHOTO: add a clear photo of yourself at work. -->
 <h2>A musical family</h2>
-<p class="big">I like to think my journey into piano technology started at birth. Both my parents were high-school orchestra directors and conductors, so practicing music was a requirement from about age eight. I sang in a children's choir, took piano lessons, and at twelve picked up the string bass like my dad. I played it through college, in orchestras, jazz bands and every kind of ensemble under the sun.</p>
+<p class="big">I like to think my journey into piano technology started at birth. Both my parents were high-school orchestra directors and conductors, so practicing music was a requirement from about age six. I sang in a children's choir, took piano lessons, and at twelve picked up the string bass like my dad. I played it through college, in orchestras, jazz bands and every kind of ensemble under the sun.</p>
 <p>After fifteen years of studying and performing, I decided to go in a different direction.</p>
 
 <h2>Finding piano tuning</h2>

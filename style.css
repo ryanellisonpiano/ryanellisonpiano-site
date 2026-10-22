@@ -46,8 +46,11 @@ a:hover{color:var(--brass-d)}
 .stars{position:absolute;inset:0;width:100%;height:100%;opacity:.55;-webkit-mask-image:linear-gradient(90deg,rgba(0,0,0,.25),#000 70%);mask-image:linear-gradient(90deg,rgba(0,0,0,.25),#000 70%)}
 @media(min-width:900px){.stars{opacity:1;-webkit-mask-image:linear-gradient(90deg,rgba(0,0,0,.12) 0,rgba(0,0,0,.2) 40%,#000 75%);mask-image:linear-gradient(90deg,rgba(0,0,0,.12) 0,rgba(0,0,0,.2) 40%,#000 75%)}}
 .star{fill:#f6efd6;transform-box:fill-box;transform-origin:center;transition:transform .25s,fill .25s}
+.star.n{fill:#dbe6ff}
 .star.lit{fill:#ffe08a;transform:scale(3.4);filter:drop-shadow(0 0 5px #ffd770)}
 .sky .hero,.sky .keybed{position:relative}
+.skynote{margin:14px 0 0;font-size:.95rem;line-height:1.55;color:#c9d0ea;max-width:46rem}
+.skynote b{color:#fff}
 .sky h1{color:#fff}
 .sky .lead{color:#d5daf0}
 .sky .btn:not(.primary){border-color:#fff;color:#fff}

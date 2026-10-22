@@ -359,6 +359,39 @@ NOTE_NAMES = ["C", "C sharp", "D", "D sharp", "E", "F", "F sharp", "G", "G sharp
 BLACK_PCS = {1, 3, 6, 8, 10}
 
 
+
+# ---------- The 88 keys and the 88 constellations ----------
+# IAU: 88 modern constellations, 36 in the northern sky and 52 in the southern (Wikipedia, IAU designated constellations by area).
+# Piano: 88 keys, 36 black and 52 white. Black keys carry northern constellations, white keys southern ones.
+# Each list is ordered by approximate central declination (degrees), low to high pitch.
+NORTH = [("Monoceros", -3), ("Aquila", 3), ("Orion", 5), ("Canis Minor", 6), ("Serpens", 8), ("Equuleus", 8), ("Pisces", 10), ("Delphinus", 11),
+         ("Leo", 15), ("Taurus", 16), ("Sagitta", 18), ("Cancer", 20), ("Aries", 20), ("Pegasus", 20), ("Gemini", 22), ("Coma Berenices", 23),
+         ("Vulpecula", 24), ("Bootes", 30), ("Hercules", 30), ("Triangulum", 31), ("Corona Borealis", 32), ("Leo Minor", 32), ("Lyra", 36),
+         ("Andromeda", 37), ("Canes Venatici", 40), ("Auriga", 42), ("Cygnus", 42), ("Lacerta", 45), ("Perseus", 45), ("Lynx", 45),
+         ("Ursa Major", 55), ("Cassiopeia", 60), ("Draco", 65), ("Camelopardalis", 70), ("Cepheus", 70), ("Ursa Minor", 77)]
+SOUTH = [("Octans", -85), ("Chamaeleon", -79), ("Mensa", -77), ("Apus", -75), ("Hydrus", -70), ("Volans", -70), ("Musca", -70), ("Pavo", -65),
+         ("Tucana", -65), ("Triangulum Australe", -65), ("Circinus", -63), ("Reticulum", -60), ("Dorado", -60), ("Crux", -60), ("Carina", -60),
+         ("Indus", -55), ("Ara", -55), ("Pictor", -53), ("Horologium", -53), ("Norma", -52), ("Telescopium", -51), ("Phoenix", -48), ("Vela", -47),
+         ("Centaurus", -47), ("Grus", -45), ("Lupus", -42), ("Caelum", -40), ("Corona Australis", -40), ("Antlia", -35), ("Columba", -35),
+         ("Microscopium", -35), ("Puppis", -32), ("Sculptor", -32), ("Piscis Austrinus", -30), ("Fornax", -30), ("Eridanus", -30), ("Pyxis", -27),
+         ("Scorpius", -27), ("Sagittarius", -25), ("Canis Major", -22), ("Lepus", -20), ("Capricornus", -18), ("Corvus", -18), ("Crater", -15),
+         ("Hydra", -15), ("Libra", -15), ("Scutum", -10), ("Aquarius", -10), ("Cetus", -8), ("Ophiuchus", -8), ("Virgo", -4), ("Sextans", -2)]
+assert len(NORTH) == 36 and len(SOUTH) == 52
+
+
+def key_stars():
+    """MIDI 21..108 -> (constellation, 'N' or 'S', declination). Black keys north, white keys south."""
+    out, n, so = {}, iter(NORTH), iter(SOUTH)
+    for m in range(21, 109):
+        if m % 12 in BLACK_PCS:
+            c, d = next(n); out[m] = (c.replace("Bootes", "Boötes"), "N", d)
+        else:
+            c, d = next(so); out[m] = (c, "S", d)
+    return out
+
+
+KEYSTAR = key_stars()
+
 def keyboard():
     whites = [m for m in range(FIRST, LAST + 1) if m % 12 not in BLACK_PCS]
     n = len(whites)
@@ -366,13 +399,14 @@ def keyboard():
     keys, blacks = [], []
     for i, m in enumerate(whites):
         name = f"{NOTE_NAMES[m % 12]} {m // 12 - 1}"
-        keys.append(f'<button class="wk" type="button" data-midi="{m}" aria-label="{name}"></button>')
+        cn = KEYSTAR[m][0]
+        keys.append(f'<button class="wk" type="button" data-midi="{m}" aria-label="{name}, {cn}, southern sky" title="{cn}"></button>')
         if (m + 1) % 12 in BLACK_PCS and m + 1 <= LAST:
             bm = m + 1
             left = (i + 1) * w - w * 0.3
             bname = f"{NOTE_NAMES[bm % 12]} {bm // 12 - 1}"
             blacks.append(
-                f'<button class="bk" type="button" data-midi="{bm}" aria-label="{bname}" '
+                f'<button class="bk" type="button" data-midi="{bm}" aria-label="{bname}, {KEYSTAR[bm][0]}, northern sky" title="{KEYSTAR[bm][0]}" '
                 f'style="left:{left:.3f}%;width:{w * 0.6:.3f}%"></button>'
             )
     return f'<div class="keys" role="group" aria-label="Piano keyboard from F3 to E5, tap to play">{"".join(keys)}{"".join(blacks)}</div>'
@@ -438,6 +472,7 @@ KEY_JS = """
   function lit(m) {
     var s = stars[m - 20]; if (!s) return;
     s.classList.add('lit'); setTimeout(function () { s.classList.remove('lit'); }, 900);
+    if (status) status.textContent = (s.dataset.h === 'N' ? 'Black key' : 'White key') + ': ' + s.dataset.c + ', ' + (s.dataset.h === 'N' ? 'northern' : 'southern') + ' sky';
   }
   function down(el) { el.classList.add('down'); lit(+el.dataset.midi); }
   function up(el) { el.classList.remove('down'); }
@@ -456,7 +491,6 @@ KEY_JS = """
     var key = document.querySelector('.keys [data-midi="69"]');
     if (key) { key.classList.add('down'); setTimeout(function () { key.classList.remove('down'); }, 600); }
     lit(69);
-    if (status) status.textContent = 'Playing concert A at 440 Hz';
   });
 })();
 </script>"""
@@ -466,13 +500,16 @@ import random
 
 
 def starfield():
+    """88 stars, one per key. Left to right is pitch, top to bottom is north to south (declination).
+    Black keys are northern constellations, white keys southern."""
     rnd = random.Random(88)
-    pts = [(rnd.uniform(2, 998), rnd.uniform(6, 494), rnd.choice([1.1, 1.4, 1.8, 2.3, 3.0]), rnd.uniform(.45, 1)) for _ in range(88)]
-    pts.sort(key=lambda t: t[0])
-    circles = "".join(
-        f'<circle class="star" data-n="{i + 1}" cx="{x:.1f}" cy="{y:.1f}" r="{r}" opacity="{o:.2f}"/>'
-        for i, (x, y, r, o) in enumerate(pts)
-    )
+    circles = ""
+    for m in range(21, 109):
+        c, h, d = KEYSTAR[m]
+        x = 24 + (m - 21) * (952 / 87) + rnd.uniform(-5, 5)
+        y = max(10, min(490, 250 - d * 2.6 + rnd.uniform(-12, 12)))
+        r = rnd.choice([1.1, 1.4, 1.8, 2.3, 3.0]); o = rnd.uniform(.5, 1)
+        circles += f'<circle class="star {h.lower()}" data-n="{m - 20}" data-c="{c}" data-h="{h}" cx="{x:.1f}" cy="{y:.1f}" r="{r}" opacity="{o:.2f}"/>'
     return f'<svg class="stars" viewBox="0 0 1000 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true" focusable="false">{circles}</svg>'
 
 
@@ -494,6 +531,7 @@ PAGES["index.html"] = (
 {keyboard()}
 <p class="keyhint"><button id="play-a" type="button" class="btn ghost small">Hear concert A (440 Hz)</button>
 <span id="pitch-status" role="status">Tap the keys to play. Each key lights its star.</span></p>
+<p class="skynote"><b>36 and 52.</b> A piano has 36 black keys and 52 white keys. The sky has 88 modern constellations, 36 in the northern sky and 52 in the southern. Here every black key is a northern constellation and every white key a southern one, ordered by declination: the lowest white key is Octans at the south pole, and the highest black key is Ursa Minor, home of Polaris. Tap a key to see its star.</p>
 </div>
 </section>
 </div>
@@ -837,8 +875,11 @@ a:hover{color:var(--brass-d)}
 .stars{position:absolute;inset:0;width:100%;height:100%;opacity:.55;-webkit-mask-image:linear-gradient(90deg,rgba(0,0,0,.25),#000 70%);mask-image:linear-gradient(90deg,rgba(0,0,0,.25),#000 70%)}
 @media(min-width:900px){.stars{opacity:1;-webkit-mask-image:linear-gradient(90deg,rgba(0,0,0,.12) 0,rgba(0,0,0,.2) 40%,#000 75%);mask-image:linear-gradient(90deg,rgba(0,0,0,.12) 0,rgba(0,0,0,.2) 40%,#000 75%)}}
 .star{fill:#f6efd6;transform-box:fill-box;transform-origin:center;transition:transform .25s,fill .25s}
+.star.n{fill:#dbe6ff}
 .star.lit{fill:#ffe08a;transform:scale(3.4);filter:drop-shadow(0 0 5px #ffd770)}
 .sky .hero,.sky .keybed{position:relative}
+.skynote{margin:14px 0 0;font-size:.95rem;line-height:1.55;color:#c9d0ea;max-width:46rem}
+.skynote b{color:#fff}
 .sky h1{color:#fff}
 .sky .lead{color:#d5daf0}
 .sky .btn:not(.primary){border-color:#fff;color:#fff}

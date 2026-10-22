@@ -287,7 +287,7 @@ CAL_HTML = """
 <button type="button" data-a="oc">Irvine &amp; Orange County</button>
 <button type="button" data-a="far">Riverside &amp; beyond</button>
 </div>
-<div class="cal-key"><span><i class="gr"></i>Saturday or open Monday</span><span><i class="ye"></i>Evening (about 6 pm)</span><span><i class="or"></i>Limited</span><span><i class="na"></i>Not available</span></div>
+<div class="cal-key"><span><i class="gr"></i>Open in your area</span><span><i class="ye"></i>Evening or nearby area</span><span><i class="or"></i>Limited or other area</span><span><i class="na"></i>Not available</span></div>
 <div id="cal"></div>
 <div id="cal-info" aria-live="polite">Select a day.</div>
 <p><a class="btn primary" href="__BOOK__">Book online</a></p>
@@ -302,7 +302,15 @@ CAL_HTML = """
   function iso(d) { return d.getFullYear() + '-' + ('0' + (d.getMonth() + 1)).slice(-2) + '-' + ('0' + d.getDate()).slice(-2); }
   function wk(d) { var t = new Date(d); t.setDate(t.getDate() - ((t.getDay() + 6) % 7)); var m = iso(t), c = null; keys.forEach(function (k) { if (k <= m) c = k; }); return c; }
   function off(d) { return d.getDay() === 1 && Math.round((d - new Date(2026, 10, 16)) / 864e5) % 14 === 0; }
-  function cls(d) { var w = d.getDay(); if (w === 6) return area === 'far' ? 'ye' : 'gr'; if (w === 1) return off(d) ? (area === 'far' ? 'ye' : 'gr') : (area === 'far' ? 'or' : 'ye'); if (w === 3) return area === 'far' ? 'or' : 'ye'; return 'na'; }
+  var CL = __CLAIMS__, NAMES = { la: 'Cerritos & LA', oc: 'Irvine & Orange County', far: 'Riverside & beyond' };
+  function kind(d) { var w = d.getDay(); if (w === 6 || (w === 1 && off(d))) return 'day'; if (w === 1 || w === 3) return 'eve'; return null; }
+  function cls(d) {
+    var k = kind(d); if (!k) return 'na';
+    var c = CL[iso(d)];
+    if (!c) return k === 'day' ? 'gr' : (area === 'far' ? 'or' : 'ye');
+    if (c === area) return k === 'day' ? 'gr' : 'ye';
+    return (c === 'far' || area === 'far') ? 'or' : 'ye';
+  }
   function draw() {
     var out = '', y = today.getFullYear(), m = today.getMonth();
     while (new Date(y, m, 1) <= END) {
@@ -326,7 +334,10 @@ CAL_HTML = """
     document.querySelectorAll('.cd.sel').forEach(function (x) { x.classList.remove('sel'); });
     t.classList.add('sel');
     var d = new Date(t.dataset.d + 'T12:00'), k = wk(d), P = k ? S[k] : S.base;
-    var msg = { gr: d.getDay() === 1 ? 'Open Monday, daytime appointment.' : 'Saturday appointment.', ye: area === 'far' ? (d.getDay() === 1 ? 'Open Monday trip. Call or text to confirm.' : 'Saturday trip. Call or text to confirm.') : 'Evening appointment, about 6 pm.', or: 'Limited in your area. Call or text to ask.' }[t.dataset.c];
+    var kd = kind(d), cl = CL[t.dataset.d], dayLabel = d.getDay() === 1 ? 'Open Monday, daytime appointment.' : 'Saturday appointment.';
+    var msg = !cl ? (kd === 'day' ? 'Open day. ' + dayLabel + (area === 'far' ? ' Call or text to confirm for your area.' : '') : (area === 'far' ? 'Limited in your area. Call or text to ask.' : 'Evening appointment, about 6 pm.'))
+      : cl === area ? (kd === 'day' ? dayLabel : 'Evening appointment, about 6 pm.')
+      : 'I am working in ' + NAMES[cl] + ' that day. Call or text to ask about your area.';
     document.getElementById('cal-info').innerHTML = '<b>' + d.toLocaleDateString('en', { weekday: 'long', month: 'long', day: 'numeric' }) + '</b><br>' + msg + '<br>Full Ear Tuning $' + P.full + ' &middot; Pin setting +$' + P.pin;
   }
   document.getElementById('cal-tabs').addEventListener('click', function (e) {
@@ -338,7 +349,7 @@ CAL_HTML = """
   document.getElementById('cal').addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); pick(e.target.closest('.cd')); } });
   draw();
 })();
-</script>""".replace("__SCHEDULE__", json.dumps(SCHEDULE)).replace("__BOOK__", SITE["book"])
+</script>""".replace("__SCHEDULE__", json.dumps(SCHEDULE)).replace("__CLAIMS__", json.dumps(json.load(open(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "day_claims.json"))))).replace("__BOOK__", SITE["book"])
 
 
 def schedule_table():

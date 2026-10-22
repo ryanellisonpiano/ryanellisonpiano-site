@@ -392,6 +392,23 @@ def key_stars():
 
 KEYSTAR = key_stars()
 
+QK_BASE = "r5t6y7u" + "zsxdcvgbhnjm,l.;/"
+QMAP = {ch: 53 + i for i, ch in enumerate(QK_BASE)}
+QMAP.update({"d": 57, "h": 62, "s": 55, "g": 60, "a": 53, "r": 58, "u": 63, "e": 56, "y": 61, "w": 54, "f": 59, "j": 64})
+
+
+def qchart():
+    by = {}
+    for ch, m in QMAP.items():
+        by.setdefault(m, []).append(ch.upper() if ch.isalnum() else ch)
+    rows = ""
+    for m in sorted(by):
+        nm = (NOTE_NAMES[m % 12].replace(" sharp", "\u266f") + str(m // 12 - 1))
+        cls = "b" if m % 12 in BLACK_PCS else "w"
+        rows += f'<li class="{cls}"><b>{" / ".join(by[m])}</b><span>{nm}</span></li>'
+    return f'<details class="qchart"><summary>Computer keyboard chart</summary><ul>{rows}</ul></details>'
+
+
 def keyboard():
     whites = [m for m in range(FIRST, LAST + 1) if m % 12 not in BLACK_PCS]
     n = len(whites)
@@ -494,11 +511,7 @@ KEY_JS = """
     k.addEventListener('keyup', function () { up(k); });
   });
   // Computer keyboard: lower row C4 to E5, number row F3 to B3.
-  var QK = 'r5t6y7u' + 'zsxdcvgbhnjm,l.;/';
-  var qmap = {};
-  for (var qi = 0; qi < QK.length; qi++) qmap[QK[qi]] = 53 + qi;
-  qmap['d'] = 57; qmap['h'] = 62;  // D plays A3, H plays D3
-  qmap['s'] = 55; qmap['g'] = 60; qmap['a'] = 53; qmap['r'] = 58; qmap['u'] = 63; qmap['e'] = 56; qmap['y'] = 61; qmap['w'] = 54; qmap['f'] = 59; qmap['j'] = 64;
+  var qmap = __QMAP__;
   keys.forEach(function (k) {
     for (var q in qmap) if (qmap[q] === +k.dataset.midi) k.setAttribute('data-k', q === ',' || q === '.' || q === ';' || q === '/' ? q : q.toUpperCase());
   });
@@ -615,6 +628,7 @@ PAGES["index.html"] = (
 {keyboard()}
 <p class="keyhint"><button id="play-a" type="button" class="btn ghost small">Hear concert A (440 Hz)</button>
 <span id="pitch-status" role="status">Tap the keys, or use your computer keyboard (Z to / and R to U). Each key lights its constellation.</span></p>
+{qchart()}
 {skymaps()}
 <p class="skycredit">Constellation figures: d3-celestial by Olaf Frohn (BSD 3-Clause); stars from the Hipparcos catalogue. The inner ring is the celestial equator; each map reaches 30 degrees past it.</p>
 <p class="skynote"><b>36 and 52.</b> A piano has 36 black keys and 52 white keys. The sky has 88 modern constellations, 36 in the northern sky and 52 in the southern. Here every black key is a northern constellation and every white key a southern one, ordered by declination: the lowest white key is Octans at the south pole, and the highest black key is Ursa Minor, home of Polaris. Tap a key and its constellation lights up in the sky map.</p>
@@ -666,7 +680,7 @@ PAGES["index.html"] = (
 </section>
 {cta()}""",
     True,
-    KEY_JS.replace('__CONMAP__', con_map()),
+    KEY_JS.replace('__CONMAP__', con_map()).replace('__QMAP__', json.dumps(QMAP)),
 )
 
 # ---------------- Services ----------------
@@ -963,6 +977,13 @@ a:hover{color:var(--brass-d)}
 .keys button[data-k]::after{content:attr(data-k);position:absolute;left:0;right:0;bottom:6px;text-align:center;font:600 .75rem var(--display,sans-serif);color:#6b6f80;pointer-events:none;display:none}
 .bk[data-k]::after{color:#aab}
 @media(hover:hover) and (min-width:900px){.keys button[data-k]::after{display:block}}
+.qchart{display:none;margin:14px 0 0;color:#c9d0ea;font-size:.9rem}
+.qchart summary{cursor:pointer;color:#fff}
+.qchart ul{list-style:none;margin:10px 0 0;padding:0;display:flex;flex-wrap:wrap;gap:6px}
+.qchart li{background:#1b2350;border:1px solid #3a4680;border-radius:6px;padding:3px 8px;display:flex;gap:8px}
+.qchart li.b{background:#0b0e22}
+.qchart li b{color:#ffe08a;min-width:1.2em}
+@media(hover:hover) and (min-width:900px){.qchart{display:block}}
 .skymaps{position:relative;z-index:1;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:32px;margin:22px auto 0;max-width:880px}
 .skymap{margin:0;text-align:center}
 .skymap svg{width:100%;height:auto;aspect-ratio:1/1;display:block;background:#0a1030;border-radius:50%;box-shadow:0 0 0 1px #3a4680,0 8px 30px rgba(0,0,0,.45)}

@@ -41,11 +41,11 @@ NAV = [
 e = html.escape
 
 JOKE_SUBS = [
-    ("$99-$495", "$1199.99-$5995"),
-    ("Anything else is $99 an hour, with a $99 minimum service call.", "Anything else is $1199.99 an hour, with a $1199.99 minimum service call."),
-    ("stays $99 all season", "stays $1199.99 all season"),
-    ("<dd>$99</dd>", "<dd>$1199.99</dd>"),
-    ("from $99", "from $1199.99"),
+    ("$99-$495", "$1199-$5995"),
+    ("Anything else is $99 an hour, with a $99 minimum service call.", "Anything else is $1199 an hour, with a $1199 minimum service call."),
+    ("stays $99 all season", "stays $1199 all season"),
+    ("<dd>$99</dd>", "<dd>$1199</dd>"),
+    ("from $99", "from $1199"),
     ("from $79", "from $999"),
     ("start at $79", "start at $999"),
 ]
@@ -236,9 +236,9 @@ def week_prices(monday):
 
 
 if JOKE:
-    _f = 1199.99 / 99
+    _f = 1199 / 99
     STYLE = {"full": "n99", "dsh": "n99", "prep": "n95", "reg": "n95", "pin": "n49"}   # joke prices end in 99, 95 or 49
-    BASE = {k: (1199.99 if k == "min" else (-485 if k == "disc" else mround(v * _f, STYLE[k]))) for k, v in BASE.items()}
+    BASE = {k: (1199 if k == "min" else (-485 if k == "disc" else mround(v * _f, STYLE[k]))) for k, v in BASE.items()}
 
 
 def monday_of(d):

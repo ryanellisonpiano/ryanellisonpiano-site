@@ -41,13 +41,13 @@ NAV = [
 e = html.escape
 
 JOKE_SUBS = [
-    ("$99-$495", "$1199.99-$5999"),
+    ("$99-$495", "$1199.99-$5995"),
     ("Anything else is $99 an hour, with a $99 minimum service call.", "Anything else is $1199.99 an hour, with a $1199.99 minimum service call."),
     ("stays $99 all season", "stays $1199.99 all season"),
     ("<dd>$99</dd>", "<dd>$1199.99</dd>"),
     ("from $99", "from $1199.99"),
-    ("from $79", "from $958"),
-    ("start at $79", "start at $958"),
+    ("from $79", "from $999"),
+    ("start at $79", "start at $999"),
 ]
 
 FONTS = (
@@ -189,11 +189,6 @@ import datetime as dt
 import math
 
 BASE = {"min": 99, "full": 199, "pin": 70, "disc": -40, "prep": 495, "reg": 165, "dsh": 179}
-# TEMPORARY JOKE PRICING: present while data/joke_prices.flag exists (delete that file and rebuild to restore real prices).
-JOKE = os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "joke_prices.flag"))
-if JOKE:
-    _f = 1199.99 / 99
-    BASE = {k: (1199.99 if k == "min" else int(math.floor(v * _f + 0.5))) for k, v in BASE.items()}
 ADJ = ["full", "pin", "prep", "reg", "dsh"]          # prices that move with the holiday ramp and demand
 RAMP_START, RAMP_END = dt.date(2026, 11, 1), dt.date(2026, 12, 31)
 RAMP_SPAN = (dt.date(2026, 12, 24) - RAMP_START).days   # slope stays at 15% per 53 days; the rise now runs to Dec 31
@@ -211,7 +206,17 @@ def rnd(x):
     return int(math.floor(x + 0.5))
 
 
+# TEMPORARY JOKE PRICING: present while data/joke_prices.flag exists (delete that file and rebuild to restore real prices).
+JOKE = os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "joke_prices.flag"))
+
+
 def mround(x, style):
+    if style == "n99":
+        return rnd((x - 99) / 100) * 100 + 99
+    if style == "n95":
+        return rnd((x - 95) / 100) * 100 + 95
+    if style == "n49":
+        return rnd((x - 49) / 50) * 50 + 49
     if style == "nine":
         return rnd((x - 9) / 10) * 10 + 9
     if style == "five":
@@ -228,6 +233,12 @@ def ramp_pct(d):
 def week_prices(monday):
     total = min(MAX_CHANGE, max(MIN_CHANGE, ramp_pct(monday) + DEMAND.get(monday, 0.0)))
     return {k: (mround(BASE[k] * (1 + total), STYLE[k]) if k in ADJ else BASE[k]) for k in BASE}
+
+
+if JOKE:
+    _f = 1199.99 / 99
+    STYLE = {"full": "n99", "dsh": "n99", "prep": "n95", "reg": "n95", "pin": "n49"}   # joke prices end in 99, 95 or 49
+    BASE = {k: (1199.99 if k == "min" else (-485 if k == "disc" else mround(v * _f, STYLE[k]))) for k, v in BASE.items()}
 
 
 def monday_of(d):

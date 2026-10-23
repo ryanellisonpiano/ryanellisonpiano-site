@@ -40,6 +40,16 @@ NAV = [
 
 e = html.escape
 
+JOKE_SUBS = [
+    ("$99-$495", "$1199.99-$5999"),
+    ("Anything else is $99 an hour, with a $99 minimum service call.", "Anything else is $1199.99 an hour, with a $1199.99 minimum service call."),
+    ("stays $99 all season", "stays $1199.99 all season"),
+    ("<dd>$99</dd>", "<dd>$1199.99</dd>"),
+    ("from $99", "from $1199.99"),
+    ("from $79", "from $958"),
+    ("start at $79", "start at $958"),
+]
+
 FONTS = (
     "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700"
     "&family=Source+Serif+4:ital,wght@0,400;0,600;0,700;1,400&display=swap"
@@ -179,6 +189,11 @@ import datetime as dt
 import math
 
 BASE = {"min": 99, "full": 199, "pin": 70, "disc": -40, "prep": 495, "reg": 165, "dsh": 179}
+# TEMPORARY JOKE PRICING: present while data/joke_prices.flag exists (delete that file and rebuild to restore real prices).
+JOKE = os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "joke_prices.flag"))
+if JOKE:
+    _f = 1199.99 / 99
+    BASE = {k: (1199.99 if k == "min" else int(math.floor(v * _f + 0.5))) for k, v in BASE.items()}
 ADJ = ["full", "pin", "prep", "reg", "dsh"]          # prices that move with the holiday ramp and demand
 RAMP_START, RAMP_END = dt.date(2026, 11, 1), dt.date(2026, 12, 31)
 RAMP_SPAN = (dt.date(2026, 12, 24) - RAMP_START).days   # slope stays at 15% per 53 days; the rise now runs to Dec 31
@@ -227,7 +242,8 @@ NOW = week_prices(monday_of(dt.date.today()))               # static fallback; t
 
 
 def money(k, v):
-    return ("+" if k == "pin" and v >= 0 else "") + ("\u2212$%d" % abs(v) if v < 0 else "$%d" % v)
+    fmt = "%.2f" if isinstance(v, float) else "%d"
+    return ("+" if k == "pin" and v >= 0 else "") + (("\u2212$" + fmt) % abs(v) if v < 0 else ("$" + fmt) % v)
 
 
 def ps(key):
@@ -1148,7 +1164,11 @@ def main():
         schema = len(page) > 3 and page[3]
         script = page[4] if len(page) > 4 else ""
         with open(os.path.join(OUT, fname), "w", encoding="utf-8") as f:
-            f.write(layout(fname, title, desc, body, schema, script))
+            _html = layout(fname, title, desc, body, schema, script)
+            if JOKE:
+                for _a, _b in JOKE_SUBS:
+                    _html = _html.replace(_a, _b)
+            f.write(_html)
     shutil.copytree(os.path.join(HERE, "audio_src"), os.path.join(OUT, "audio"))
     for f in os.listdir(os.path.join(HERE, "brand_src")):
         shutil.copy(os.path.join(HERE, "brand_src", f), os.path.join(OUT, f))

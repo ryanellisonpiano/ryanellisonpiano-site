@@ -195,7 +195,7 @@ def inner(h1, lead, body):
 import datetime as dt
 import math
 
-BASE = {"min": 97, "full": 199, "pin": 71, "disc": -41, "prep": 491, "reg": 163, "dsh": 179}   # prime prices (Oct 25, 2026)
+BASE = {"min": 97, "full": 199, "pin": 71, "disc": -42, "prep": 491, "reg": 163, "dsh": 179}   # prime prices (Oct 25, 2026)
 ADJ = ["full", "pin", "prep", "reg", "dsh"]          # prices that move with the holiday ramp and demand
 RAMP_START, RAMP_END = dt.date(2026, 11, 1), dt.date(2026, 12, 31)
 RAMP_SPAN = (dt.date(2026, 12, 24) - RAMP_START).days   # slope stays at 15% per 53 days; the rise now runs to Dec 31

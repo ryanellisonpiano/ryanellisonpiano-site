@@ -26,7 +26,7 @@ SITE = {
     "zip": "90703",
     "book": "https://gazelleapp.io/scheduling/p1CPJwKXWzDxfFYGpxzMSb9p",
     # Set this when the domain is connected (no trailing slash). Used for canonical URLs and sitemap.
-    "domain": "https://www.ryanellisonpiano.com",
+    "domain": "https://ryanellisonpiano.com",
 }
 
 NAV = [
@@ -169,6 +169,7 @@ def layout(fname, title, desc, body, schema=False, script=""):
   <a class="btn" href="tel:{SITE['tel']}">Call</a>
   <a class="btn primary" href="{SITE['book']}">Book online</a>
 </div>{script}{PRICE_JS}
+<!-- Cloudflare Web Analytics --><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{{"token": "b7674cbf812a4aaca558720b802ae25d"}}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>
 """

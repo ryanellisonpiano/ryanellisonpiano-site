@@ -1202,6 +1202,12 @@ def main():
             for _a, _b in (JOKE_SUBS if JOKE else REAL_SUBS):
                 _html = _html.replace(_a, _b)
             f.write(_html)
+    # Landing copies for old-domain redirects (/n/ = pianotunernorwalk.com, /c/ = cerritospianotuner.com); canonical stays the home page.
+    _home = open(os.path.join(OUT, "index.html"), encoding="utf-8").read()
+    for _d in ("n", "c"):
+        os.makedirs(os.path.join(OUT, _d), exist_ok=True)
+        with open(os.path.join(OUT, _d, "index.html"), "w", encoding="utf-8") as f:
+            f.write(_home.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n<base href="/">', 1).replace('href="#', 'href="/' + _d + '/#'))
     shutil.copytree(os.path.join(HERE, "audio_src"), os.path.join(OUT, "audio"))
     for f in os.listdir(os.path.join(HERE, "brand_src")):
         shutil.copy(os.path.join(HERE, "brand_src", f), os.path.join(OUT, f))

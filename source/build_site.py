@@ -40,6 +40,13 @@ NAV = [
 
 e = html.escape
 
+REAL_SUBS = [
+    ("$99-$495", "$97-$491"),
+    ("Anything else is $99 an hour, with a $99 minimum service call.", "Anything else is $97 an hour, with a $97 minimum service call."),
+    ("stays $99 all season", "stays $97 all season"),
+    ("<dd>$99</dd>", "<dd>$97</dd>"),
+    ("from $99", "from $97"),
+]
 JOKE_SUBS = [
     ("$99-$495", "$1199-$5995"),
     ("Anything else is $99 an hour, with a $99 minimum service call.", "Anything else is $1199 an hour, with a $1199 minimum service call."),
@@ -188,7 +195,7 @@ def inner(h1, lead, body):
 import datetime as dt
 import math
 
-BASE = {"min": 99, "full": 199, "pin": 70, "disc": -40, "prep": 495, "reg": 165, "dsh": 179}
+BASE = {"min": 97, "full": 199, "pin": 71, "disc": -41, "prep": 491, "reg": 163, "dsh": 179}   # prime prices (Oct 25, 2026)
 ADJ = ["full", "pin", "prep", "reg", "dsh"]          # prices that move with the holiday ramp and demand
 RAMP_START, RAMP_END = dt.date(2026, 11, 1), dt.date(2026, 12, 31)
 RAMP_SPAN = (dt.date(2026, 12, 24) - RAMP_START).days   # slope stays at 15% per 53 days; the rise now runs to Dec 31
@@ -199,7 +206,7 @@ DEMAND = {}
 
 
 # Rounding style per service: "nine" ends in 9 ($199, $209), "five" ends in 5 ($495, $505), "step" is a multiple of $5.
-STYLE = {"full": "nine", "dsh": "nine", "prep": "five", "reg": "five", "pin": "step"}
+STYLE = {"full": "prime", "dsh": "prime", "prep": "prime", "reg": "prime", "pin": "prime"}
 
 
 def rnd(x):
@@ -210,7 +217,19 @@ def rnd(x):
 JOKE = os.path.exists(os.path.join(os.path.dirname(os.path.abspath(__file__)), "data", "joke_prices.flag"))
 
 
+def _isprime(n):
+    return n > 1 and all(n % i for i in range(2, int(n ** 0.5) + 1))
+
+
 def mround(x, style):
+    if style == "prime":
+        n = rnd(x)
+        d = 0
+        while True:
+            for c in (n - d, n + d):          # tie goes to the lower prime
+                if _isprime(c):
+                    return c
+            d += 1
     if style == "n99":
         return rnd((x - 99) / 100) * 100 + 99
     if style == "n95":
@@ -1176,9 +1195,8 @@ def main():
         script = page[4] if len(page) > 4 else ""
         with open(os.path.join(OUT, fname), "w", encoding="utf-8") as f:
             _html = layout(fname, title, desc, body, schema, script)
-            if JOKE:
-                for _a, _b in JOKE_SUBS:
-                    _html = _html.replace(_a, _b)
+            for _a, _b in (JOKE_SUBS if JOKE else REAL_SUBS):
+                _html = _html.replace(_a, _b)
             f.write(_html)
     shutil.copytree(os.path.join(HERE, "audio_src"), os.path.join(OUT, "audio"))
     for f in os.listdir(os.path.join(HERE, "brand_src")):

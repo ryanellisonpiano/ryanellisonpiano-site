@@ -195,7 +195,7 @@ def inner(h1, lead, body):
 import datetime as dt
 import math
 
-BASE = {"min": 97, "full": 199, "pin": 71, "disc": -42, "prep": 491, "reg": 163, "dsh": 179}   # prime prices (Oct 25, 2026)
+BASE = {"min": 97, "full": 199, "pin": 71, "disc": -42, "prep": 491, "reg": 163, "dsh": 179, "rep": 157}   # prime prices (Oct 25, 2026)
 ADJ = ["full", "pin", "prep", "reg", "dsh"]          # prices that move with the holiday ramp and demand
 RAMP_START, RAMP_END = dt.date(2026, 11, 1), dt.date(2026, 12, 31)
 RAMP_SPAN = (dt.date(2026, 12, 24) - RAMP_START).days   # slope stays at 15% per 53 days; the rise now runs to Dec 31
@@ -251,13 +251,16 @@ def ramp_pct(d):
 
 def week_prices(monday):
     total = min(MAX_CHANGE, max(MIN_CHANGE, ramp_pct(monday) + DEMAND.get(monday, 0.0)))
-    return {k: (mround(BASE[k] * (1 + total), STYLE[k]) if k in ADJ else BASE[k]) for k in BASE}
+    out = {k: (mround(BASE[k] * (1 + total), STYLE[k]) if k in ADJ else BASE[k]) for k in BASE if k != "rep"}
+    # repeat-customer tuning: Full Ear Tuning minus about $42 (joke mode: minus $485), rounded to the pricing style
+    out["rep"] = mround(out["full"] + BASE["disc"], STYLE["full"])
+    return out
 
 
 if JOKE:
     _f = 1199 / 99
     STYLE = {"full": "n99", "dsh": "n99", "prep": "n95", "reg": "n95", "pin": "n49"}   # joke prices end in 99, 95 or 49
-    BASE = {k: (1199 if k == "min" else (-485 if k == "disc" else mround(v * _f, STYLE[k]))) for k, v in BASE.items()}
+    BASE = {k: (1199 if k == "min" else (-485 if k == "disc" else (v if k == "rep" else mround(v * _f, STYLE[k])))) for k, v in BASE.items()}
 
 
 def monday_of(d):
@@ -305,7 +308,7 @@ PRICES = [
     ("Minimum Ear Tuning", "Basic tuning for everyday playing, or pianos that can't hold concert pitch", "min"),
     ("Full Ear Tuning", "Fine tuning at concert pitch", "full"),
     ("Pin setting add-on", "Re-tensions loose or low tuning pins", "pin"),
-    ("Repeat customer discount", "Full Ear Tuning within 18 months of your last tuning", "disc"),
+    ("Repeat customer tuning", "Full Ear Tuning within 18 months of your last tuning", "rep"),
     ("New Piano Initial Prep", "Pin setting, fine tuning and minimum regulation for a new piano", "prep"),
     ("Minimum Regulation", "Action regulation to performance level", "reg"),
     ("D.S.H. Maintenance", "Calibration and adjustments. Paid in full by credit card when you book", "dsh"),

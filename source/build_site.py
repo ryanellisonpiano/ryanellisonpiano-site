@@ -158,6 +158,7 @@ def layout(fname, title, desc, body, schema=False, script=""):
       <a href="{SITE['book']}">Book online</a><br>
       <a href="services.html">Prices</a><br>
       <a href="faq.html">Questions</a><br>
+      <a href="terms.html">Terms</a><br>
       <a href="yamaha-upright-rental.html">Rentals</a><br>
       <a href="about.html">About</a><br>
       <a href="bellharp.html">Bellharp</a>
@@ -978,6 +979,29 @@ PAGES["faq.html"] = (
     inner("Frequently asked questions", "", faq_html)
     + f'<script type="application/ld+json">{{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{faq_ld}]}}</script>'
     + cta(),
+)
+
+# ---------------- Terms ----------------
+PAGES["terms.html"] = (
+    "Service Terms",
+    "Payment, cancellation, touch-up and refund terms for piano service by Ryan Ellison Piano.",
+    inner(
+        "Service terms",
+        "",
+        f"""<h2>Payment</h2>
+<p>Payment is due at the time of service. I accept cash, check, Zelle, Venmo or card, all at the same price.</p>
+<h2>Cancelling or rescheduling</h2>
+<p>Please give me at least 24 hours' notice if you need to cancel or reschedule. There is no cancellation fee. If you cancel or miss an appointment with less than 24 hours' notice, a rebooking fee is added to the cost of your next service.</p>
+<h2>Touch-up tuning</h2>
+<p>If you need a touch-up within 30 days of a tuning, contact me. Whether a touch-up is offered at no charge is my call, based on what happened to the piano. Weather, moves, repairs and heavy playing can all affect tuning stability.</p>
+<h2>No minimum tuning guarantee</h2>
+<p>I tune each piano as well as its condition allows. I do not guarantee a specific pitch, tuning stability or result, and a piano that is far below pitch or in poor repair may need more than one visit.</p>
+<h2>Refunds</h2>
+<p>If you are not happy with the service, please contact me. I handle each request individually and have no fixed refund rule.</p>
+<h2>Contact</h2>
+<p>Call or text <a href="tel:{SITE['tel']}">{e(SITE['phone'])}</a> or email <a href="mailto:{SITE['email']}">{e(SITE['email'])}</a>.</p>
+<p><small>{e(SITE['name'])}, a service of {e(SITE['legal'])}. Last updated October 25, 2026.</small></p>""",
+    ),
 )
 
 # ---------------- Contact ----------------

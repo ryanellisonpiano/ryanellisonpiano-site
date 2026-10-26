@@ -159,6 +159,7 @@ def layout(fname, title, desc, body, schema=False, script=""):
       <a href="services.html">Prices</a><br>
       <a href="faq.html">Questions</a><br>
       <a href="terms.html">Terms</a><br>
+      <a href="privacy.html">Privacy</a><br>
       <a href="yamaha-upright-rental.html">Rentals</a><br>
       <a href="about.html">About</a><br>
       <a href="bellharp.html">Bellharp</a>
@@ -998,6 +999,29 @@ PAGES["terms.html"] = (
 <p>I tune each piano as well as its condition allows. I do not guarantee a specific pitch, tuning stability or result, and a piano that is far below pitch or in poor repair may need more than one visit.</p>
 <h2>Refunds</h2>
 <p>If you are not happy with the service, please contact me. I handle each request individually and have no fixed refund rule.</p>
+<h2>Contact</h2>
+<p>Call or text <a href="tel:{SITE['tel']}">{e(SITE['phone'])}</a> or email <a href="mailto:{SITE['email']}">{e(SITE['email'])}</a>.</p>
+<p><small>{e(SITE['name'])}, a service of {e(SITE['legal'])}. Last updated October 25, 2026.</small></p>""",
+    ),
+)
+
+# ---------------- Privacy ----------------
+PAGES["privacy.html"] = (
+    "Privacy Policy",
+    "What information Ryan Ellison Piano collects when you book, call, text or pay, and how it is used.",
+    inner(
+        "Privacy policy",
+        "",
+        f"""<h2>What I collect</h2>
+<p>When you book or contact me, I collect your name, phone number, email, service address, and details about your piano and the work requested. If you pay by card through Stripe, Stripe handles your card details. I do not see or store your full card number.</p>
+<h2>How I use it</h2>
+<p>I use this information to schedule and perform service, send appointment reminders and invoices, take payment, and keep service records for your piano. I do not sell your information or share it for advertising.</p>
+<h2>Who else handles it</h2>
+<p>Online booking, invoices and appointment texts run through Gazelle, a piano-service scheduling system. Card payments run through Stripe. Calls and texts use my business phone number. These providers handle your information under their own privacy policies, only to provide those services.</p>
+<h2>Website visits</h2>
+<p>This website uses Cloudflare Web Analytics to count page views and visits. It does not use cookies or track you across other sites. The site loads fonts from Google Fonts, which may receive your IP address when a page loads.</p>
+<h2>Keeping records</h2>
+<p>I keep service records for as long as I am your piano technician and as needed for taxes and accounting. To see, correct or delete your information, call or email me and I will handle it.</p>
 <h2>Contact</h2>
 <p>Call or text <a href="tel:{SITE['tel']}">{e(SITE['phone'])}</a> or email <a href="mailto:{SITE['email']}">{e(SITE['email'])}</a>.</p>
 <p><small>{e(SITE['name'])}, a service of {e(SITE['legal'])}. Last updated October 25, 2026.</small></p>""",

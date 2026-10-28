@@ -26,7 +26,7 @@ SITE = {
     "zip": "90703",
     "book": "https://gazelleapp.io/scheduling/p1CPJwKXWzDxfFYGpxzMSb9p",
     # Set this when the domain is connected (no trailing slash). Used for canonical URLs and sitemap.
-    "domain": "https://ryanellisonpiano.com",
+    "domain": "https://www.ryanellisonpiano.com",
 }
 
 NAV = [
@@ -158,8 +158,6 @@ def layout(fname, title, desc, body, schema=False, script=""):
       <a href="{SITE['book']}">Book online</a><br>
       <a href="services.html">Prices</a><br>
       <a href="faq.html">Questions</a><br>
-      <a href="terms.html">Terms</a><br>
-      <a href="privacy.html">Privacy</a><br>
       <a href="yamaha-upright-rental.html">Rentals</a><br>
       <a href="about.html">About</a><br>
       <a href="bellharp.html">Bellharp</a>
@@ -171,7 +169,6 @@ def layout(fname, title, desc, body, schema=False, script=""):
   <a class="btn" href="tel:{SITE['tel']}">Call</a>
   <a class="btn primary" href="{SITE['book']}">Book online</a>
 </div>{script}{PRICE_JS}
-<!-- Cloudflare Web Analytics --><script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{{"token": "b7674cbf812a4aaca558720b802ae25d"}}'></script><!-- End Cloudflare Web Analytics -->
 </body>
 </html>
 """
@@ -889,7 +886,7 @@ PAGES["about.html"] = (
     inner(
         "Meet Ryan Ellison, RPT",
         "",
-        """<!-- PHOTO: add a clear photo of yourself at work. -->
+        """<figure class="about-photo"><img src="ryan-ellison.jpg" width="900" height="900" alt="Ryan Ellison, Registered Piano Technician, seated at a grand piano holding a tuning lever and tuning fork" loading="eager"></figure>
 <h2>A musical family</h2>
 <p class="big">I like to think my journey into piano technology started at birth. Both my parents were high-school orchestra directors and conductors, so practicing music was a requirement from about age six. I sang in a children's choir, took piano lessons, and at twelve picked up the string bass like my dad. I played it through college, in orchestras, jazz bands and every kind of ensemble under the sun.</p>
 <p>After fifteen years of studying and performing, I decided to go in a different direction.</p>
@@ -980,52 +977,6 @@ PAGES["faq.html"] = (
     inner("Frequently asked questions", "", faq_html)
     + f'<script type="application/ld+json">{{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{faq_ld}]}}</script>'
     + cta(),
-)
-
-# ---------------- Terms ----------------
-PAGES["terms.html"] = (
-    "Service Terms",
-    "Payment, cancellation, touch-up and refund terms for piano service by Ryan Ellison Piano.",
-    inner(
-        "Service terms",
-        "",
-        f"""<h2>Payment</h2>
-<p>Payment is due at the time of service. I accept cash, check, Zelle, Venmo or card, all at the same price.</p>
-<h2>Cancelling or rescheduling</h2>
-<p>Please give me at least 24 hours' notice if you need to cancel or reschedule. There is no cancellation fee. If you cancel or miss an appointment with less than 24 hours' notice, a rebooking fee is added to the cost of your next service.</p>
-<h2>Touch-up tuning</h2>
-<p>If you need a touch-up within 30 days of a tuning, contact me. Whether a touch-up is offered at no charge is my call, based on what happened to the piano. Weather, moves, repairs and heavy playing can all affect tuning stability.</p>
-<h2>No minimum tuning guarantee</h2>
-<p>I tune each piano as well as its condition allows. I do not guarantee a specific pitch, tuning stability or result, and a piano that is far below pitch or in poor repair may need more than one visit.</p>
-<h2>Refunds</h2>
-<p>If you are not happy with the service, please contact me. I handle each request individually and have no fixed refund rule.</p>
-<h2>Contact</h2>
-<p>Call or text <a href="tel:{SITE['tel']}">{e(SITE['phone'])}</a> or email <a href="mailto:{SITE['email']}">{e(SITE['email'])}</a>.</p>
-<p><small>{e(SITE['name'])}, a service of {e(SITE['legal'])}. Last updated October 25, 2026.</small></p>""",
-    ),
-)
-
-# ---------------- Privacy ----------------
-PAGES["privacy.html"] = (
-    "Privacy Policy",
-    "What information Ryan Ellison Piano collects when you book, call, text or pay, and how it is used.",
-    inner(
-        "Privacy policy",
-        "",
-        f"""<h2>What I collect</h2>
-<p>When you book or contact me, I collect your name, phone number, email, service address, and details about your piano and the work requested. If you pay by card through Stripe, Stripe handles your card details. I do not see or store your full card number.</p>
-<h2>How I use it</h2>
-<p>I use this information to schedule and perform service, send appointment reminders and invoices, take payment, and keep service records for your piano. I do not sell your information or share it for advertising.</p>
-<h2>Who else handles it</h2>
-<p>Online booking, invoices and appointment texts run through Gazelle, a piano-service scheduling system. Card payments run through Stripe. Calls and texts use my business phone number. These providers handle your information under their own privacy policies, only to provide those services.</p>
-<h2>Website visits</h2>
-<p>This website uses Cloudflare Web Analytics to count page views and visits. It does not use cookies or track you across other sites. The site loads fonts from Google Fonts, which may receive your IP address when a page loads.</p>
-<h2>Keeping records</h2>
-<p>I keep service records for as long as I am your piano technician and as needed for taxes and accounting. To see, correct or delete your information, call or email me and I will handle it.</p>
-<h2>Contact</h2>
-<p>Call or text <a href="tel:{SITE['tel']}">{e(SITE['phone'])}</a> or email <a href="mailto:{SITE['email']}">{e(SITE['email'])}</a>.</p>
-<p><small>{e(SITE['name'])}, a service of {e(SITE['legal'])}. Last updated October 25, 2026.</small></p>""",
-    ),
 )
 
 # ---------------- Contact ----------------
@@ -1175,6 +1126,7 @@ a:hover{color:var(--brass-d)}
 .prose h2{margin-top:1.6em}
 .prose ul{max-width:62ch;padding-left:1.2em}
 .prose li{margin:.4em 0}
+.about-photo{margin:0 0 1.5rem;max-width:420px}.about-photo img{width:100%;height:auto;border-radius:14px;display:block}
 .prose .big{font-size:1.3rem;line-height:1.6;max-width:56ch}
 .prose h3+p{margin-top:0}
 ul.plain{list-style:none;padding:0}ul.plain li{margin:.8em 0}
@@ -1250,12 +1202,6 @@ def main():
             for _a, _b in (JOKE_SUBS if JOKE else REAL_SUBS):
                 _html = _html.replace(_a, _b)
             f.write(_html)
-    # Landing copies for old-domain redirects (/n/ = pianotunernorwalk.com, /c/ = cerritospianotuner.com); canonical stays the home page.
-    _home = open(os.path.join(OUT, "index.html"), encoding="utf-8").read()
-    for _d in ("n", "c"):
-        os.makedirs(os.path.join(OUT, _d), exist_ok=True)
-        with open(os.path.join(OUT, _d, "index.html"), "w", encoding="utf-8") as f:
-            f.write(_home.replace('<meta charset="utf-8">', '<meta charset="utf-8">\n<base href="/">', 1).replace('href="#', 'href="/' + _d + '/#'))
     shutil.copytree(os.path.join(HERE, "audio_src"), os.path.join(OUT, "audio"))
     for f in os.listdir(os.path.join(HERE, "brand_src")):
         shutil.copy(os.path.join(HERE, "brand_src", f), os.path.join(OUT, f))
